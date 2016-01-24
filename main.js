@@ -60,7 +60,7 @@ cc.game.onStart = function(){
     // Adjust viewport meta
     cc.view.adjustViewPort(true);
     // Setup the resolution policy and design resolution size
-    cc.view.setDesignResolutionSize(450, 800, cc.ResolutionPolicy.SHOW_ALL);
+    cc.view.setDesignResolutionSize(640, 1136, cc.ResolutionPolicy.FIXED_WIDTH);
     // Instead of set design resolution, you can also set the real pixel resolution size
     // Uncomment the following line and delete the previous line.
     // cc.view.setRealPixelResolution(960, 640, cc.ResolutionPolicy.SHOW_ALL);
@@ -68,7 +68,7 @@ cc.game.onStart = function(){
     cc.view.resizeWithBrowserSize(true);
     //load resources
     cc.LoaderScene.preload(g_resources, function () {
-        cc.director.runScene(new HelloWorldScene());
+        cc.director.runScene(new GameScene());
     }, this);
 };
 cc.game.run();
