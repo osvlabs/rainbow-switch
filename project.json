@@ -15,6 +15,7 @@
         "src/util.js",
         "src/resource.js",
         "src/sprite/slogan.js",
-        "src/scene/game.scene.js"
+        "src/sprite/ball.js",
+        "src/scene/game.js"
     ]
 }

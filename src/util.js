@@ -3,7 +3,8 @@ var util = {
     COLOR_DARK: cc.color(51, 51, 51),
 
     // Icons
-    ICON_HAND: '',
+    ICON_HAND_O_UP: '',
+    ICON_CIRCLE: '',
 
     // Others
     center: null,
