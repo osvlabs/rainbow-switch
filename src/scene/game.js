@@ -9,12 +9,34 @@ var GameScene = cc.Scene.extend({
         hand.setPosition(util.center.x + 8, 100);
         this.addChild(hand);
 
-        var ball = new Ball();
-        ball.setPosition(util.center.x, 200);
-        this.addChild(ball);
-
         var slogan = new Slogan();
         slogan.setPosition(util.center.x, 400);
         this.addChild(slogan);
+
+        var ball = new Ball();
+        ball.setPosition(util.center.x, 200);
+        this.addChild(ball);
+    },
+    onEnter: function () {
+        this._super();
+
+        cc.eventManager.addListener(cc.EventListener.create({
+            event: cc.EventListener.TOUCH_ONE_BY_ONE,
+            swallowTouches: true,
+            onTouchBegan: function (touch) {
+                cc.eventManager.dispatchEvent(
+                    new cc.EventCustom(util.EVENT_JUMP)
+                );
+                return true;
+            },
+            onTouchEnded: function (touch, event) {
+                cc.eventManager.dispatchEvent(
+                    new cc.EventCustom(util.EVENT_JUMP_END)
+                );
+            },
+            onTouchCancelled: function (touch, event) {
+                this.onTouchEnded(touch, event);
+            }
+        }), this);
     }
 });

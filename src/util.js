@@ -6,6 +6,10 @@ var util = {
     ICON_HAND_O_UP: '',
     ICON_CIRCLE: '',
 
+    // Events
+    EVENT_JUMP: 'jump',
+    EVENT_JUMP_END: 'jump_end',
+
     // Others
     center: null,
     init: function () {
