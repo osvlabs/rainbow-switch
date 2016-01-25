@@ -24,14 +24,30 @@ var Ball = cc.PhysicsSprite.extend({
     onEnter: function () {
         this._super();
 
-        cc.eventManager.addListener(new cc.EventListener.create({
+        cc.eventManager.addListener(cc.EventListener.create({
             event: cc.EventListener.CUSTOM,
             eventName: util.EVENT_JUMP,
             callback: this.jump.bind(this)
         }), this);
+
+        this.scheduleUpdate();
     },
     jump: function (event) {
         var v = this.getBody().getVel().y;
         this.getBody().applyImpulse(cp.v(0, Math.abs(500 - v)), cp.vzero);
+    },
+    update: function () {
+        this._super();
+
+        if (Math.abs(this.getBody().getVel().y) <= 10) {
+            var _pos = this.label.getPosition(),
+                pos = this.convertToWorldSpace(_pos);
+            if (pos.y > util.center.y) {
+                cc.eventManager.dispatchCustomEvent(
+                    util.EVENT_MOVE_GAME_LAYER,
+                    cc.p(0, util.center.y - pos.y)
+                );
+            }
+        }
     }
 });

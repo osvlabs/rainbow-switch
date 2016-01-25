@@ -16,6 +16,7 @@
         "src/resource.js",
         "src/sprite/slogan.js",
         "src/sprite/ball.js",
+        "src/layer/game.js",
         "src/scene/game.js"
     ]
 }

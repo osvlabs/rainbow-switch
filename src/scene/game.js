@@ -3,23 +3,6 @@ var GameScene = cc.Scene.extend({
         this._super();
 
         this.initPhysics();
-
-        var bgLayer = new cc.LayerColor(util.COLOR_DARK);
-        this.addChild(bgLayer);
-
-        var hand = util.icon(util.ICON_HAND_O_UP, 100);
-        hand.setPosition(util.center.x + 8, 100);
-        this.addChild(hand);
-
-        var slogan = new Slogan();
-        slogan.setPosition(util.center.x, 400);
-        this.addChild(slogan);
-
-        var ball = new Ball();
-        ball.setPosition(util.center.x, 217);
-        this.addChild(ball);
-
-        //util.addDebugNode.apply(this);
     },
     initPhysics: function () {
         var space = new cp.Space();
@@ -41,6 +24,9 @@ var GameScene = cc.Scene.extend({
 
         this.scheduleUpdate();
 
+        var gameLayer = new GameLayer();
+        this.addChild(gameLayer);
+
         cc.eventManager.addListener(cc.EventListener.create({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             swallowTouches: true,
@@ -51,6 +37,8 @@ var GameScene = cc.Scene.extend({
                 return true;
             }
         }), this);
+
+        //util.addDebugNode.apply(this);
     },
     update: function (dt) {
         this._super(dt);
