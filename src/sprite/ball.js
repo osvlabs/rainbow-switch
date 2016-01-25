@@ -39,9 +39,12 @@ var Ball = cc.PhysicsSprite.extend({
     update: function () {
         this._super();
 
-        if (Math.abs(this.getBody().getVel().y) <= 10) {
-            var _pos = this.label.getPosition(),
-                pos = this.convertToWorldSpace(_pos);
+        var _pos = this.label.getPosition(),
+            pos = this.convertToWorldSpace(_pos);
+        if (pos.y <= 0) {
+            cc.eventManager.dispatchCustomEvent(util.EVENT_GAME_OVER);
+            this.gameOver();
+        } else if (Math.abs(this.getBody().getVel().y) <= 10) {
             if (pos.y > util.center.y) {
                 cc.eventManager.dispatchCustomEvent(
                     util.EVENT_MOVE_GAME_LAYER,
@@ -49,5 +52,8 @@ var Ball = cc.PhysicsSprite.extend({
                 );
             }
         }
+    },
+    gameOver: function () {
+
     }
 });

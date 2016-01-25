@@ -9,6 +9,7 @@ var util = {
     // Events
     EVENT_JUMP: 'jump',
     EVENT_MOVE_GAME_LAYER: 'move_game_layer',
+    EVENT_GAME_OVER: 'game_over',
 
     // Others
     center: null,
