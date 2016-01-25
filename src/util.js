@@ -8,10 +8,10 @@ var util = {
 
     // Events
     EVENT_JUMP: 'jump',
-    EVENT_JUMP_END: 'jump_end',
 
     // Others
     center: null,
+    space: null,
     init: function () {
         var size = cc.winSize;
         this.center = cc.p(size.width * 0.5, size.height * 0.5);
@@ -21,5 +21,19 @@ var util = {
             size = 50;
         }
         return new cc.LabelTTF(text, 'FontAwesome', size);
+    },
+    animate: function (prefix, count, interval) {
+        var frames = [];
+        for(var i = 1; i <= count; i++) {
+            var frame = cc.spriteFrameCache.getSpriteFrame(prefix + i + '.png');
+            frames.push(frame);
+        }
+        var ani = new cc.Animation(frames, interval);
+        return cc.animate(ani);
+    },
+    addDebugNode: function () {
+        this._debugNode = new cc.PhysicsDebugNode(util.space);
+        this._debugNode.visible = true;
+        this.addChild(this._debugNode);
     }
 };

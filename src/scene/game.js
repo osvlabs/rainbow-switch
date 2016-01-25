@@ -2,6 +2,8 @@ var GameScene = cc.Scene.extend({
     ctor: function () {
         this._super();
 
+        this.initPhysics();
+
         var bgLayer = new cc.LayerColor(util.COLOR_DARK);
         this.addChild(bgLayer);
 
@@ -14,11 +16,30 @@ var GameScene = cc.Scene.extend({
         this.addChild(slogan);
 
         var ball = new Ball();
-        ball.setPosition(util.center.x, 200);
+        ball.setPosition(util.center.x, 217);
         this.addChild(ball);
+
+        //util.addDebugNode.apply(this);
+    },
+    initPhysics: function () {
+        var space = new cp.Space();
+        space.gravity = cp.v(0, -1000);
+
+        var wall = new cp.SegmentShape(space.staticBody, cp.v(0, 200),
+            cp.v(cc.winSize.width, 200), 0);
+        space.addStaticShape(wall);
+
+        space.setDefaultCollisionHandler(function (arb, space) {
+            //cc.log(arb);
+            return true;
+        }, null, null, null);
+
+        util.space = space;
     },
     onEnter: function () {
         this._super();
+
+        this.scheduleUpdate();
 
         cc.eventManager.addListener(cc.EventListener.create({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
@@ -28,15 +49,11 @@ var GameScene = cc.Scene.extend({
                     new cc.EventCustom(util.EVENT_JUMP)
                 );
                 return true;
-            },
-            onTouchEnded: function (touch, event) {
-                cc.eventManager.dispatchEvent(
-                    new cc.EventCustom(util.EVENT_JUMP_END)
-                );
-            },
-            onTouchCancelled: function (touch, event) {
-                this.onTouchEnded(touch, event);
             }
         }), this);
+    },
+    update: function (dt) {
+        this._super(dt);
+        util.space.step(dt);
     }
 });
