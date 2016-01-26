@@ -15,6 +15,7 @@ var util = {
     // Icons
     ICON_HAND_O_UP: '',
     ICON_CIRCLE: '',
+    ICON_PLAY: '',
 
     // Events
     EVENT_JUMP: 'jump',

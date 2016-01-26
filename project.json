@@ -17,9 +17,11 @@
         "src/resource.js",
         "src/sprite/slogan.js",
         "src/sprite/physics.sprite.js",
+        "src/sprite/scale.sprite.js",
         "src/sprite/debris.js",
         "src/sprite/ball.js",
         "src/layer/game.js",
-        "src/scene/game.js"
+        "src/scene/game.js",
+        "src/scene/over.js"
     ]
 }

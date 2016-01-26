@@ -54,6 +54,9 @@ var GameScene = cc.Scene.extend({
         this.flash();
         this.setupPhysics();
         this.layer.explode(event.getUserData());
+        this.scheduleOnce(function () {
+            cc.director.runScene(cc.TransitionFade.create(0.5, new GameOverScene()));
+        }, 1.5);
     },
     flash: function () {
         var layer = new cc.LayerColor(cc.color.WHITE);
