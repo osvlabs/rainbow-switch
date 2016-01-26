@@ -62,7 +62,7 @@ var GameScene = cc.Scene.extend({
         layer.runAction(cc.fadeOut(1).easing(cc.easeSineOut()));
     },
     setupPhysics: function () {
-        util.space.gravity = cp.vzero;
+        util.space.gravity = cp.v(0, -500);
         util.space.removeStaticShape(this.earth);
 
         var staticBody = util.space.staticBody,

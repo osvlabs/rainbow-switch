@@ -31,10 +31,10 @@ var Debris = PhysicsSprite.extend({
         ), cp.vzero);
     },
     getRandomNumber: function () {
-        var min = 4,
+        var min = 3,
             max = 8,
-            a = _.random(-max, -min),
-            b = _.random(min, max);
+            a = _.random(-max, -min, true),
+            b = _.random(min, max, true);
         return _.random(1) ? a : b;
     }
 });
