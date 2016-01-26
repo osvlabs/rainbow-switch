@@ -1,6 +1,7 @@
 var Ball = cc.PhysicsSprite.extend({
     TIME: 0.3,
     label: null,
+    die: false,
     ctor: function () {
         this._super();
 
@@ -16,6 +17,7 @@ var Ball = cc.PhysicsSprite.extend({
         util.space.addBody(body);
 
         var shape = new cp.CircleShape(body, size.width / 2, cp.vzero);
+        shape.setCollisionType(util.COLLISION_BALL);
         util.space.addShape(shape);
 
         this.setBody(body);
@@ -36,14 +38,18 @@ var Ball = cc.PhysicsSprite.extend({
         var v = this.getBody().getVel().y;
         this.getBody().applyImpulse(cp.v(0, Math.abs(500 - v)), cp.vzero);
     },
-    update: function () {
-        this._super();
+    update: function (dt) {
+        this._super(dt);
+
+        if (this.die) {
+            return;
+        }
 
         var _pos = this.label.getPosition(),
             pos = this.convertToWorldSpace(_pos);
         if (pos.y <= 0) {
-            cc.eventManager.dispatchCustomEvent(util.EVENT_GAME_OVER);
             this.gameOver();
+            cc.eventManager.dispatchCustomEvent(util.EVENT_GAME_OVER);
         } else if (Math.abs(this.getBody().getVel().y) <= 10) {
             if (pos.y > util.center.y) {
                 cc.eventManager.dispatchCustomEvent(
@@ -54,6 +60,6 @@ var Ball = cc.PhysicsSprite.extend({
         }
     },
     gameOver: function () {
-
+        this.die = true;
     }
 });

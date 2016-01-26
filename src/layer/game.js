@@ -1,14 +1,11 @@
-var GameLayer = cc.Layer.extend({
+var GameLayer = cc.LayerColor.extend({
     ctor: function () {
-        this._super();
+        this._super(util.COLOR_DARK);
 
         this.setContentSize(cc.winSize.width, 10000);
     },
     onEnter: function () {
         this._super();
-
-        var bgLayer = new cc.LayerColor(util.COLOR_DARK);
-        this.addChild(bgLayer);
 
         var hand = util.icon(util.ICON_HAND_O_UP, 100);
         hand.setPosition(util.center.x + 8, 100);
@@ -27,6 +24,8 @@ var GameLayer = cc.Layer.extend({
             eventName: util.EVENT_MOVE_GAME_LAYER,
             callback: this.move.bind(this)
         }), this);
+
+        util.addDebugNode.apply(this);
     },
     move: function(event) {
         var dis = event.getUserData();

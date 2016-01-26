@@ -11,6 +11,10 @@ var util = {
     EVENT_MOVE_GAME_LAYER: 'move_game_layer',
     EVENT_GAME_OVER: 'game_over',
 
+    // Collisions
+    COLLISION_BALL: 'ball',
+    COLLISION_GAME_OVER_WALL: 'game_over_wall',
+
     // Others
     center: null,
     space: null,
