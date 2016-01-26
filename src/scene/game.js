@@ -1,5 +1,6 @@
 var GameScene = cc.Scene.extend({
     layer: null,
+    earth: null,
     ctor: function () {
         this._super();
 
@@ -9,9 +10,9 @@ var GameScene = cc.Scene.extend({
         var space = new cp.Space();
         space.gravity = cp.v(0, -1000);
 
-        var wall = new cp.SegmentShape(space.staticBody, cp.v(0, 200),
+        this.earth = new cp.SegmentShape(space.staticBody, cp.v(0, 200),
             cp.v(cc.winSize.width, 200), 0);
-        space.addStaticShape(wall);
+        space.addStaticShape(this.earth);
 
         space.setDefaultCollisionHandler(function (arb, space) {
             //cc.log(arb);
@@ -49,17 +50,30 @@ var GameScene = cc.Scene.extend({
         this._super(dt);
         util.space.step(dt);
     },
-    gameOver: function () {
+    gameOver: function (event) {
         this.flash();
+        this.setupPhysics();
+        this.layer.explode(event.getUserData());
+    },
+    flash: function () {
+        var layer = new cc.LayerColor(cc.color.WHITE);
+        layer.setPosition(cc.p(0, 0));
+        this.addChild(layer);
+        layer.runAction(cc.fadeOut(1).easing(cc.easeSineOut()));
+    },
+    setupPhysics: function () {
+        util.space.gravity = cp.vzero;
+        util.space.removeStaticShape(this.earth);
 
         var staticBody = util.space.staticBody,
             width = cc.winSize.width,
             height = cc.winSize.height,
             delta = - this.layer.getPositionY(),
-            tl = cp.v(10, height - 10 + delta),
-            tr = cp.v(width - 10, height - 10 + delta),
-            bl = cp.v(10, 10 + delta),
-            br = cp.v(width - 10, 10 + delta);
+            thick = 0,
+            tl = cp.v(thick, height - thick + delta),
+            tr = cp.v(width - thick, height - thick + delta),
+            bl = cp.v(thick, thick + delta),
+            br = cp.v(width - thick, thick + delta);
         var walls = [
             new cp.SegmentShape(staticBody, bl, br, 0), // Bottom
             new cp.SegmentShape(staticBody, tl, tr, 0), // Top
@@ -69,13 +83,8 @@ var GameScene = cc.Scene.extend({
         for (var i = 0; i < walls.length; i++) {
             var shape = walls[i];
             shape.setCollisionType(util.COLLISION_GAME_OVER_WALL);
+            shape.setElasticity(1);
             util.space.addStaticShape(shape);
         }
-    },
-    flash: function () {
-        var layer = new cc.LayerColor(cc.color(255, 255, 255, 200));
-        layer.setPosition(cc.p(0, 0));
-        this.addChild(layer);
-        layer.runAction(cc.fadeOut(0.8).easing(cc.easeSineOut()));
     }
 });

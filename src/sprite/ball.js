@@ -1,7 +1,6 @@
-var Ball = cc.PhysicsSprite.extend({
+var Ball = PhysicsSprite.extend({
     TIME: 0.3,
     label: null,
-    die: false,
     ctor: function () {
         this._super();
 
@@ -32,6 +31,12 @@ var Ball = cc.PhysicsSprite.extend({
             callback: this.jump.bind(this)
         }), this);
 
+        cc.eventManager.addListener(cc.EventListener.create({
+            event: cc.EventListener.CUSTOM,
+            eventName: util.EVENT_GAME_OVER,
+            callback: this.gameOver.bind(this)
+        }), this);
+
         this.scheduleUpdate();
     },
     jump: function (event) {
@@ -41,15 +46,10 @@ var Ball = cc.PhysicsSprite.extend({
     update: function (dt) {
         this._super(dt);
 
-        if (this.die) {
-            return;
-        }
-
         var _pos = this.label.getPosition(),
             pos = this.convertToWorldSpace(_pos);
         if (pos.y <= 0) {
-            this.gameOver();
-            cc.eventManager.dispatchCustomEvent(util.EVENT_GAME_OVER);
+            cc.eventManager.dispatchCustomEvent(util.EVENT_GAME_OVER, this.getPosition());
         } else if (Math.abs(this.getBody().getVel().y) <= 10) {
             if (pos.y > util.center.y) {
                 cc.eventManager.dispatchCustomEvent(
@@ -60,6 +60,7 @@ var Ball = cc.PhysicsSprite.extend({
         }
     },
     gameOver: function () {
-        this.die = true;
+        this.unscheduleUpdate();
+        this.removeFromParent(true);
     }
 });

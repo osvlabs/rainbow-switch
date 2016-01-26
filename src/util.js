@@ -1,6 +1,16 @@
 var util = {
     // Colors
     COLOR_DARK: cc.color(51, 51, 51),
+    EXPLODE_COLORS: [
+        cc.color.WHITE,
+        cc.color.RED,
+        cc.color.ORANGE,
+        cc.color.YELLOW,
+        cc.color.BLUE,
+        cc.color.GREEN,
+        cc.color.MAGENTA,
+        cc.color.GRAY
+    ],
 
     // Icons
     ICON_HAND_O_UP: '',
@@ -14,6 +24,7 @@ var util = {
     // Collisions
     COLLISION_BALL: 'ball',
     COLLISION_GAME_OVER_WALL: 'game_over_wall',
+    COLLISION_DEBRIS: 'debris',
 
     // Others
     center: null,

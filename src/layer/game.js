@@ -33,5 +33,12 @@ var GameLayer = cc.LayerColor.extend({
             return;
         }
         this.runAction(cc.moveBy(0.2, dis).easing(cc.easeSineInOut()));
+    },
+    explode: function (pos) {
+        pos.y += 15;
+        for(var i = 0; i < 50; i++) {
+            var debris = new Debris(pos);
+            this.addChild(debris);
+        }
     }
 });
