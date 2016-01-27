@@ -7,6 +7,8 @@ var GameLayer = cc.LayerColor.extend({
     onEnter: function () {
         this._super();
 
+        this.addObstacles();
+
         var hand = util.icon(util.ICON_HAND_O_UP, 100);
         hand.setPosition(util.center.x + 8, 100);
         this.addChild(hand);
@@ -26,6 +28,11 @@ var GameLayer = cc.LayerColor.extend({
         }), this);
 
         util.addDebugNode.apply(this);
+    },
+    addObstacles: function () {
+        var circle = new ObstacleCircle(100, 30);
+        circle.setPosition(util.center.x, 600);
+        this.addChild(circle);
     },
     move: function(event) {
         var dis = event.getUserData();
