@@ -9,17 +9,18 @@ var Obstacle = cc.DrawNode.extend({
     },
     drawSector: function (origin, radius, start_degree, angle_degree, fillColor) {
         var num_of_points = 100,
-            angle_step = 2 * Math.PI * angle_degree / 360 / num_of_points,
+            angle_start = cc.degreesToRadians(start_degree),
+            angle_step = cc.degreesToRadians(angle_degree) / num_of_points,
             verts = [
                 origin
             ];
         for (var i = 0; i <= num_of_points; i++)
         {
-            var rads = angle_step * i;
+            var rads = angle_start + angle_step * i;
             var x = origin.x + radius * Math.cos(rads);
             var y = origin.y + radius * Math.sin(rads);
             verts.push(cc.p(x, y));
         }
-        this.drawPoly(verts, fillColor);
+        this.drawPoly(verts, fillColor, 0, fillColor);
     }
 });

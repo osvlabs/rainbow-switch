@@ -9,7 +9,7 @@ var ObstacleCircle = Obstacle.extend({
         this.setContentSize(cc.size(radius * 2, radius * 2));
         var degree = 360 / colors.length;
         for(var i = 0; i < colors.length; i++) {
-            this.drawSector(this.center(), radius, 60, colors[3]);
+            this.drawSector(this.center(), radius, i * degree, degree, colors[i]);
         }
     }
 });
