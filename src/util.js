@@ -85,5 +85,14 @@ var util = {
         this._debugNode = new cc.PhysicsDebugNode(util.space);
         this._debugNode.visible = true;
         this.addChild(this._debugNode);
+    },
+    logColors: function (colors) {
+        var result = [];
+        _.forEach(colors, function (v, k) {
+            result.push(cc.colorToHex(v));
+        });
+        cc.log(result);
+
+        return result;
     }
 };

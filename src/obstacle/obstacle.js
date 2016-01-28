@@ -1,4 +1,5 @@
 var Obstacle = cc.DrawNode.extend({
+    VERT_COUNT: 100,
     ctor: function () {
         this._super();
         this.setAnchorPoint(0.5, 0.5);
@@ -7,15 +8,14 @@ var Obstacle = cc.DrawNode.extend({
         var size = this.getContentSize();
         return cc.p(size.width / 2, size.height / 2);
     },
-    drawSector: function (origin, radius, thick, start_degree, angle_degree, fillColor) {
-        var num_of_points = 100,
-            angle_start = cc.degreesToRadians(start_degree),
-            angle_step = cc.degreesToRadians(angle_degree) / num_of_points,
+    drawSector: function (origin, radius, thick, startDegree, angleDegree, fillColor) {
+        var angleStart = cc.degreesToRadians(startDegree),
+            angleStep = cc.degreesToRadians(angleDegree) / this.VERT_COUNT,
             verts = [],
             vertsReversed = [];
-        for (var i = 0; i <= num_of_points; i++)
+        for (var i = 0; i <= this.VERT_COUNT; i++)
         {
-            var rads = angle_start + angle_step * i,
+            var rads = angleStart + angleStep * i,
                 cos = Math.cos(rads),
                 sin = Math.sin(rads),
                 x = origin.x + radius * cos,
