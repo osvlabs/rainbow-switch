@@ -30,7 +30,7 @@ var GameLayer = cc.LayerColor.extend({
         util.addDebugNode.apply(this);
     },
     addObstacles: function () {
-        var circle = new ObstacleCircle(100, 30);
+        var circle = new ObstacleSector(100, 30);
         circle.setPosition(util.center.x, 600);
         this.addChild(circle);
     },

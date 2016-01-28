@@ -1,3 +1,3 @@
-var ObstacleSector = Obstacle.extend({
+var ObstacleSector = ObstacleCircle.extend({
 
 });
