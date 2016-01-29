@@ -1,4 +1,6 @@
 var GameLayer = cc.LayerColor.extend({
+    ball: null,
+    obstacles: [],
     ctor: function () {
         this._super(util.COLOR_DARK);
 
@@ -17,17 +19,26 @@ var GameLayer = cc.LayerColor.extend({
         slogan.setPosition(util.center.x, 400);
         this.addChild(slogan);
 
-        var ball = new Ball();
-        ball.setPosition(util.center.x, 217);
-        this.addChild(ball);
+        this.ball = new Ball();
+        this.ball.setPosition(util.center.x, 217);
+        this.addChild(this.ball);
 
-        cc.eventManager.addListener(cc.EventListener.create({
-            event: cc.EventListener.CUSTOM,
-            eventName: util.EVENT_MOVE_GAME_LAYER,
-            callback: this.move.bind(this)
-        }), this);
+        //util.addDebugNode.apply(this);
 
-        util.addDebugNode.apply(this);
+        this.scheduleUpdate();
+    },
+    update: function (dt) {
+        this._super(dt);
+
+        var pos = this.ball.getWorldPosition();
+        if (pos.y <= 0) {
+            cc.eventManager.dispatchCustomEvent(util.EVENT_GAME_OVER, this.ball.getPosition());
+            this.unscheduleUpdate();
+        } else {
+            if (pos.y > util.center.y) {
+                this.move(util.center.y - pos.y);
+            }
+        }
     },
     addObstacles: function () {
         var circle = new ObstacleSector(200, 30, 30, 120, [
@@ -37,13 +48,10 @@ var GameLayer = cc.LayerColor.extend({
         ], 10);
         circle.setPosition(util.center.x, 600);
         this.addChild(circle);
+        this.obstacles.push(circle);
     },
-    move: function(event) {
-        var dis = event.getUserData();
-        if (!dis) {
-            return;
-        }
-        this.setPositionY(this.getPositionY() + dis.y);
+    move: function(y) {
+        this.setPositionY(this.getPositionY() + y);
     },
     explode: function (pos) {
         pos.y += 15;

@@ -1,13 +1,14 @@
 var Ball = PhysicsSprite.extend({
     TIME: 0.3,
     label: null,
+    currentColor: util.COLOR_YELLOW,
     ctor: function () {
         this._super();
 
         this.setAnchorPoint(0.5, 0.5);
 
         this.label = util.icon(util.ICON_CIRCLE, 35);
-        this.label.setColor(cc.color.WHITE);
+        this.label.setColor(this.currentColor);
         this.addChild(this.label);
 
         var size = cc.size(35, 35);
@@ -36,28 +37,14 @@ var Ball = PhysicsSprite.extend({
             eventName: util.EVENT_GAME_OVER,
             callback: this.gameOver.bind(this)
         }), this);
-
-        this.scheduleUpdate();
+    },
+    getWorldPosition: function () {
+        var _pos = this.label.getPosition();
+        return this.convertToWorldSpace(_pos)
     },
     jump: function (event) {
         var v = this.getBody().getVel().y;
         this.getBody().applyImpulse(cp.v(0, Math.abs(500 - v)), cp.vzero);
-    },
-    update: function (dt) {
-        this._super(dt);
-
-        var _pos = this.label.getPosition(),
-            pos = this.convertToWorldSpace(_pos);
-        if (pos.y <= 0) {
-            cc.eventManager.dispatchCustomEvent(util.EVENT_GAME_OVER, this.getPosition());
-        } else {
-            if (pos.y > util.center.y) {
-                cc.eventManager.dispatchCustomEvent(
-                    util.EVENT_MOVE_GAME_LAYER,
-                    cc.p(0, util.center.y - pos.y)
-                );
-            }
-        }
     },
     gameOver: function () {
         this.unscheduleUpdate();
