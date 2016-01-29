@@ -50,7 +50,7 @@ var Ball = PhysicsSprite.extend({
             pos = this.convertToWorldSpace(_pos);
         if (pos.y <= 0) {
             cc.eventManager.dispatchCustomEvent(util.EVENT_GAME_OVER, this.getPosition());
-        } else if (Math.abs(this.getBody().getVel().y) <= 10) {
+        } else {
             if (pos.y > util.center.y) {
                 cc.eventManager.dispatchCustomEvent(
                     util.EVENT_MOVE_GAME_LAYER,

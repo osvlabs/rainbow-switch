@@ -43,7 +43,7 @@ var GameLayer = cc.LayerColor.extend({
         if (!dis) {
             return;
         }
-        this.runAction(cc.moveBy(0.2, dis).easing(cc.easeSineInOut()));
+        this.setPositionY(this.getPositionY() + dis.y);
     },
     explode: function (pos) {
         pos.y += 15;
