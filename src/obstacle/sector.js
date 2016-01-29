@@ -17,15 +17,16 @@ var ObstacleSector = Obstacle.extend({
         this.startDegree = startDegree;
         this.degrees = degrees;
 
-        this.schedule(this.rotate.bind(this), 0.5);
+        this.scheduleUpdate();
     },
-    rotate: function () {
-        this.clear();
+    update: function (dt) {
+        this._super(dt);
 
-        this.rotateDegree++;
+        this.clear();
+        this.rotateDegree += 1;
 
         var n = this.colors.length,
-            d = Math.round((this.rotateDegree % this.degrees / this.degrees) * n),
+            d = Math.floor((this.rotateDegree % this.degrees / this.degrees) * n),
             newColors = [],
             i = 0;
         for(; i < n; i++) {
@@ -33,7 +34,6 @@ var ObstacleSector = Obstacle.extend({
             newColors.push(this.colors[j]);
         }
         newColors.push(this.colors[d]);
-        util.logColors(newColors);
 
         this.setContentSize(cc.size(this.radius * 2, this.radius * 2));
         var degreeDefault = this.degrees / n,
