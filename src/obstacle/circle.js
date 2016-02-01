@@ -11,5 +11,8 @@ var ObstacleCircle = Obstacle.extend({
         for(var i = 0; i < colors.length; i++) {
             this.drawSector(this.center(), radius, thick, i * degree, degree, colors[i]);
         }
+    },
+    pass: function (point) {
+        point = this.convertToNodeSpace(point);
     }
 });

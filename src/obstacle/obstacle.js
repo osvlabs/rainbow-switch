@@ -28,5 +28,8 @@ var Obstacle = cc.DrawNode.extend({
         }
         verts = _.concat(verts, _.reverse(vertsReversed));
         this.drawPoly(verts, fillColor, 0, fillColor);
+    },
+    pass: function (point) {
+        return true;
     }
 });

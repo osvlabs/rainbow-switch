@@ -35,6 +35,12 @@ var GameLayer = cc.LayerColor.extend({
             cc.eventManager.dispatchCustomEvent(util.EVENT_GAME_OVER, this.ball.getPosition());
             this.unscheduleUpdate();
         } else {
+            _.forEach(this.obstacles, function (v, k) {
+                if (cc.rectContainsPoint(v.getBoundingBox(), pos) && v.pass(pos)) {
+                    cc.log('die!!!');
+                }
+            });
+
             if (pos.y > util.center.y) {
                 this.move(util.center.y - pos.y);
             }
