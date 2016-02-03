@@ -1,6 +1,6 @@
 var util = {
     // Colors
-    COLOR_DARK: cc.color(51, 51, 51),
+    COLOR_DARK: cc.color(34, 34, 34),
 
     COLOR_NAVY: cc.color('#001f3f'),
     COLOR_BLUE: cc.color('#0074D9'),
@@ -55,6 +55,7 @@ var util = {
     // Others
     center: null,
     space: null,
+    ballColor: null,
     init: function () {
         var size = cc.winSize;
         this.center = cc.p(size.width * 0.5, size.height * 0.5);
@@ -65,6 +66,7 @@ var util = {
                 this.COLORS.push(this[k]);
             }
         }
+        this.ballColor = this.COLOR_YELLOW;
     },
     icon: function (text, size) {
         if (size === undefined) {

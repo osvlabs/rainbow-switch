@@ -1,14 +1,13 @@
 var Ball = PhysicsSprite.extend({
     TIME: 0.3,
     label: null,
-    currentColor: util.COLOR_YELLOW,
     ctor: function () {
         this._super();
 
         this.setAnchorPoint(0.5, 0.5);
 
         this.label = util.icon(util.ICON_CIRCLE, 35);
-        this.label.setColor(this.currentColor);
+        this.label.setColor(util.ballColor);
         this.addChild(this.label);
 
         var size = cc.size(35, 35);

@@ -29,7 +29,7 @@ var GameLayer = cc.LayerColor.extend({
             util.COLLISION_BALL,
             util.COLLISION_OBSTACLE,
             function (arbiter, space) {
-                if (arbiter.b.color != this._ball.currentColor && this._dead == false) {
+                if (arbiter.b.color != util.ballColor && this._dead == false) {
                     this._dead = true;
                     space.addPostStepCallback(function(){
                         this.gameOver();
