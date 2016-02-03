@@ -1,9 +1,23 @@
 var Obstacle = cc.DrawNode.extend({
     VERT_COUNT: 50,
     _shapes: [],
+    _colors: [],
+    _speed: 1,
     ctor: function () {
         this._super();
         this.setAnchorPoint(0.5, 0.5);
+    },
+    setColors: function (colors) {
+        if (_.isNumber(colors)) {
+            colors = _.sampleSize(util.COLORS, colors);
+        } else {
+            colors = colors || util.COLORS;
+        }
+        colors.push(util.ballColor);
+        this._colors = _.shuffle(colors);
+    },
+    setSpeed: function (speed) {
+        this._speed = speed;
     },
     center: function () {
         var size = this.getContentSize();

@@ -29,10 +29,10 @@ var GameLayer = cc.LayerColor.extend({
             util.COLLISION_BALL,
             util.COLLISION_OBSTACLE,
             function (arbiter, space) {
-                if (arbiter.b.color != this._ball.currentColor && this._dead == false) {
+                if (arbiter.b.color != util.ballColor && this._dead == false) {
                     this._dead = true;
                     space.addPostStepCallback(function(){
-                        this.gameOver();
+                        this.startGameOver();
                     }.bind(this));
                 }
                 return true;
@@ -50,7 +50,7 @@ var GameLayer = cc.LayerColor.extend({
 
         var pos = this._ball.getWorldPosition();
         if (pos.y <= 0) {
-            this.gameOver();
+            this.startGameOver();
         } else {
             if (pos.y > util.center.y) {
                 this.move(util.center.y - pos.y);
@@ -58,13 +58,11 @@ var GameLayer = cc.LayerColor.extend({
         }
     },
     addObstacles: function () {
-        var circle = new ObstacleSector(200, 30, 30, 120, [
-            util.COLOR_RED,
-            util.COLOR_GREEN,
-            util.COLOR_YELLOW
-        ], 10);
+        var circle = new ObstacleSector(600, 25, 60, 60);
+        circle.setColors(3);
+        circle.setSpeed(0.5);
         //var circle = new ObstacleCircle(200, 30);
-        circle.setPosition(util.center.x, 600);
+        circle.setPosition(util.center.x, 50);
         this.addChild(circle);
     },
     move: function(y) {
@@ -87,12 +85,17 @@ var GameLayer = cc.LayerColor.extend({
             cc.moveBy(frequency, cc.p(amplitude, -amplitude)).easing(cc.easeBackInOut())
         ]));
     },
-    gameOver: function () {
-        cc.log('gameOver');
+    gameOver: function (pos) {
+        this.explode(pos);
+        this.earthQuake();
+    },
+    startGameOver: function () {
+        var pos = this._ball.getPosition();
         cc.eventManager.dispatchCustomEvent(
             util.EVENT_GAME_OVER,
-            this._ball.getPosition()
+            pos
         );
         this.unscheduleUpdate();
+        this.gameOver(pos);
     }
 });

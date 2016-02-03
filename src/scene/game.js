@@ -52,9 +52,7 @@ var GameScene = cc.Scene.extend({
     },
     gameOver: function (event) {
         this.flash();
-        this.setupPhysics();
-        this.layer.explode(event.getUserData());
-        this.layer.earthQuake();
+        this.setupGameOverPhysics();
         this.scheduleOnce(function () {
             cc.director.runScene(cc.TransitionFade.create(0.5, new GameOverScene()));
         }, 1.5);
@@ -65,7 +63,7 @@ var GameScene = cc.Scene.extend({
         this.addChild(layer);
         layer.runAction(cc.fadeOut(1).easing(cc.easeSineOut()));
     },
-    setupPhysics: function () {
+    setupGameOverPhysics: function () {
         util.space.gravity = cp.v(0, -500);
         if (util.space.containsShape(this.earth)) {
             util.space.removeStaticShape(this.earth);

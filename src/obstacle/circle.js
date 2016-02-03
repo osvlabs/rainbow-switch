@@ -1,12 +1,10 @@
 var ObstacleCircle = Obstacle.extend({
     VERT_COUNT: 5,
-    _colors: [],
     _radius: 0,
     _thick: 0,
-    ctor: function (radius, thick, colors) {
+    ctor: function (radius, thick) {
         this._super();
 
-        this._colors = colors || util.COLORS;
         this._radius = radius;
         this._thick = thick;
     },

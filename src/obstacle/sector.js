@@ -1,22 +1,17 @@
 var ObstacleSector = Obstacle.extend({
     VERT_COUNT: 10,
     _rotateDegree: 0,
-    _colors: [],
     _radius: 0,
     _thick: 0,
     _startDegree: 0,
     _degrees: 0,
-    ctor: function (radius, thick, startDegree, degrees, colors, rotateDegree) {
+    ctor: function (radius, thick, startDegree, degrees, rotateDegree) {
         this._super();
-        if (rotateDegree !== undefined) {
-            this._rotateDegree = rotateDegree;
-        }
 
-        this._colors = colors || util.COLORS;
+        this._rotateDegree = rotateDegree || this._rotateDegree;
         this._radius = radius;
         this._thick = thick;
         this._startDegree = startDegree;
-        this._degrees = degrees;
     },
     onEnter: function () {
         this._super();
@@ -27,7 +22,7 @@ var ObstacleSector = Obstacle.extend({
         this._super(dt);
 
         this.clear();
-        this._rotateDegree += 1;
+        this._rotateDegree += this._speed;
 
         var n = this._colors.length,
             d = Math.floor((this._rotateDegree % this._degrees / this._degrees) * n),
