@@ -15,7 +15,7 @@ var GameScene = cc.Scene.extend({
         space.addStaticShape(this.earth);
 
         space.setDefaultCollisionHandler(function (arb, space) {
-            cc.log(arb);
+            //cc.log(arb);
             return true;
         }, null, null, null);
 
@@ -54,6 +54,7 @@ var GameScene = cc.Scene.extend({
         this.flash();
         this.setupPhysics();
         this.layer.explode(event.getUserData());
+        this.layer.earthQuake();
         this.scheduleOnce(function () {
             cc.director.runScene(cc.TransitionFade.create(0.5, new GameOverScene()));
         }, 1.5);
@@ -66,7 +67,9 @@ var GameScene = cc.Scene.extend({
     },
     setupPhysics: function () {
         util.space.gravity = cp.v(0, -500);
-        util.space.removeStaticShape(this.earth);
+        if (util.space.containsShape(this.earth)) {
+            util.space.removeStaticShape(this.earth);
+        }
 
         var staticBody = util.space.staticBody,
             width = cc.winSize.width,

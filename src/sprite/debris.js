@@ -3,7 +3,7 @@ var Debris = PhysicsSprite.extend({
         this._super();
         this.setAnchorPoint(0.5, 0.5);
 
-        var radius = _.random(5, 30);
+        var radius = _.random(5, 20);
         var label = util.icon(util.ICON_CIRCLE, radius);
         label.setColor(_.sample(util.EXPLODE_COLORS));
         this.addChild(label);

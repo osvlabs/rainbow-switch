@@ -1,6 +1,6 @@
 var GameLayer = cc.LayerColor.extend({
-    ball: null,
-    obstacles: [],
+    _ball: null,
+    _dead: false,
     ctor: function () {
         this._super(util.COLOR_DARK);
 
@@ -19,21 +19,38 @@ var GameLayer = cc.LayerColor.extend({
         slogan.setPosition(util.center.x, 400);
         this.addChild(slogan);
 
-        this.ball = new Ball();
-        this.ball.setPosition(util.center.x, 217);
-        this.addChild(this.ball);
+        this._ball = new Ball();
+        this._ball.setPosition(util.center.x, 217);
+        this.addChild(this._ball);
 
         util.addDebugNode.apply(this);
+
+        util.space.addCollisionHandler(
+            util.COLLISION_BALL,
+            util.COLLISION_OBSTACLE,
+            function (arbiter, space) {
+                if (arbiter.b.color != this._ball.currentColor && this._dead == false) {
+                    this._dead = true;
+                    space.addPostStepCallback(function(){
+                        this.gameOver();
+                    }.bind(this));
+                }
+                return true;
+            }.bind(this),
+            null,
+            null,
+            null
+        );
 
         this.scheduleUpdate();
     },
     update: function (dt) {
         this._super(dt);
+        this._dead = false;
 
-        var pos = this.ball.getWorldPosition();
+        var pos = this._ball.getWorldPosition();
         if (pos.y <= 0) {
-            cc.eventManager.dispatchCustomEvent(util.EVENT_GAME_OVER, this.ball.getPosition());
-            this.unscheduleUpdate();
+            this.gameOver();
         } else {
             if (pos.y > util.center.y) {
                 this.move(util.center.y - pos.y);
@@ -41,24 +58,41 @@ var GameLayer = cc.LayerColor.extend({
         }
     },
     addObstacles: function () {
-        //var circle = new ObstacleSector(200, 30, 30, 120, [
-        //    util.COLOR_RED,
-        //    util.COLOR_GREEN,
-        //    util.COLOR_YELLOW
-        //], 10);
-        var circle = new ObstacleCircle(200, 30);
+        var circle = new ObstacleSector(200, 30, 30, 120, [
+            util.COLOR_RED,
+            util.COLOR_GREEN,
+            util.COLOR_YELLOW
+        ], 10);
+        //var circle = new ObstacleCircle(200, 30);
         circle.setPosition(util.center.x, 600);
         this.addChild(circle);
-        this.obstacles.push(circle);
     },
     move: function(y) {
         this.setPositionY(this.getPositionY() + y);
     },
     explode: function (pos) {
         pos.y += 15;
-        for(var i = 0; i < 50; i++) {
+        for(var i = 0; i < 30; i++) {
             var debris = new Debris(pos);
             this.addChild(debris);
         }
+    },
+    earthQuake: function () {
+        var amplitude = 10,
+            frequency = 0.1;
+        this.runAction(cc.sequence([
+            cc.moveBy(frequency, cc.p(-amplitude, -amplitude)).easing(cc.easeBackInOut()),
+            cc.moveBy(frequency, cc.p(2 * amplitude, 0)).easing(cc.easeBackInOut()),
+            cc.moveBy(frequency, cc.p(-2 * amplitude, 2 * amplitude)).easing(cc.easeBackInOut()),
+            cc.moveBy(frequency, cc.p(amplitude, -amplitude)).easing(cc.easeBackInOut())
+        ]));
+    },
+    gameOver: function () {
+        cc.log('gameOver');
+        cc.eventManager.dispatchCustomEvent(
+            util.EVENT_GAME_OVER,
+            this._ball.getPosition()
+        );
+        this.unscheduleUpdate();
     }
 });

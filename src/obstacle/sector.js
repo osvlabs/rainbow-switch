@@ -1,21 +1,25 @@
 var ObstacleSector = Obstacle.extend({
-    rotateDegree: 0,
-    colors: [],
-    radius: 0,
-    thick: 0,
-    startDegree: 0,
-    degrees: 0,
+    VERT_COUNT: 10,
+    _rotateDegree: 0,
+    _colors: [],
+    _radius: 0,
+    _thick: 0,
+    _startDegree: 0,
+    _degrees: 0,
     ctor: function (radius, thick, startDegree, degrees, colors, rotateDegree) {
         this._super();
         if (rotateDegree !== undefined) {
-            this.rotateDegree = rotateDegree;
+            this._rotateDegree = rotateDegree;
         }
 
-        this.colors = colors || util.COLORS;
-        this.radius = radius;
-        this.thick = thick;
-        this.startDegree = startDegree;
-        this.degrees = degrees;
+        this._colors = colors || util.COLORS;
+        this._radius = radius;
+        this._thick = thick;
+        this._startDegree = startDegree;
+        this._degrees = degrees;
+    },
+    onEnter: function () {
+        this._super();
 
         this.scheduleUpdate();
     },
@@ -23,23 +27,23 @@ var ObstacleSector = Obstacle.extend({
         this._super(dt);
 
         this.clear();
-        this.rotateDegree += 1;
+        this._rotateDegree += 1;
 
-        var n = this.colors.length,
-            d = Math.floor((this.rotateDegree % this.degrees / this.degrees) * n),
+        var n = this._colors.length,
+            d = Math.floor((this._rotateDegree % this._degrees / this._degrees) * n),
             newColors = [],
             i = 0;
         for(; i < n; i++) {
             var j = (d + i) % n;
-            newColors.push(this.colors[j]);
+            newColors.push(this._colors[j]);
         }
-        newColors.push(this.colors[d]);
+        newColors.push(this._colors[d]);
 
-        this.setContentSize(cc.size(this.radius * 2, this.radius * 2));
-        var degreeDefault = this.degrees / n,
-            delta = this.rotateDegree % degreeDefault;
+        this.setContentSize(cc.size(this._radius * 2, this._radius * 2));
+        var degreeDefault = this._degrees / n,
+            delta = this._rotateDegree % degreeDefault;
         for(i = 0; i < n + 1; i++) {
-            var start = this.startDegree + i * degreeDefault - delta,
+            var start = this._startDegree + i * degreeDefault - delta,
                 degree = degreeDefault;
             if (i == 0) {
                 start += delta;
@@ -47,7 +51,7 @@ var ObstacleSector = Obstacle.extend({
             } else if (i == n) {
                 degree -= degreeDefault - delta;
             }
-            this.drawSector(this.center(), this.radius, this.thick, start, degree, newColors[i]);
+            this.drawSector(this.center(), this._radius, this._thick, start, degree, newColors[i]);
         }
     }
 });

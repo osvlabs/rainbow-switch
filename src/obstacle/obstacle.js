@@ -1,6 +1,6 @@
 var Obstacle = cc.DrawNode.extend({
     VERT_COUNT: 50,
-    shapes: [],
+    _shapes: [],
     ctor: function () {
         this._super();
         this.setAnchorPoint(0.5, 0.5);
@@ -8,6 +8,17 @@ var Obstacle = cc.DrawNode.extend({
     center: function () {
         var size = this.getContentSize();
         return cc.p(size.width / 2, size.height / 2);
+    },
+    clear: function () {
+        this._super();
+
+        _.forEach(this._shapes, function (v, k) {
+            util.space.staticBody.removeShape(v);
+            if (util.space.containsShape(v)) {
+                util.space.removeShape(v);
+            }
+        });
+        this._shapes.length = 0;
     },
     drawSector: function (origin, radius, thick, startDegree, angleDegree, fillColor) {
         var angleStart = cc.degreesToRadians(startDegree),
@@ -41,8 +52,10 @@ var Obstacle = cc.DrawNode.extend({
             var shape = new cp.PolyShape(util.space.staticBody, cpVerts, cc.pSub(this.getPosition(), this.center()));
             shape.setSensor(true);
             shape.setCollisionType(util.COLLISION_OBSTACLE);
+            shape.color = fillColor;
+            shape.obstacle = this;
             util.space.addShape(shape);
-            this.shapes.push(shape);
+            this._shapes.push(shape);
         }
     }
 });
