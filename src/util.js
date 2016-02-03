@@ -50,6 +50,7 @@ var util = {
     COLLISION_BALL: 'ball',
     COLLISION_GAME_OVER_WALL: 'game_over_wall',
     COLLISION_DEBRIS: 'debris',
+    COLLISION_OBSTACLE: 'obstacle',
 
     // Others
     center: null,
@@ -91,6 +92,15 @@ var util = {
             result.push(cc.colorToHex(v));
         });
         cc.log(result);
+
+        return result;
+    },
+    cpVerts: function (verts) {
+        var result = [];
+        _.forEach(verts, function (v, k) {
+            result.push(v.x);
+            result.push(v.y);
+        });
 
         return result;
     }

@@ -15,7 +15,7 @@ var GameScene = cc.Scene.extend({
         space.addStaticShape(this.earth);
 
         space.setDefaultCollisionHandler(function (arb, space) {
-            //cc.log(arb);
+            cc.log(arb);
             return true;
         }, null, null, null);
 

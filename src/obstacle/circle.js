@@ -1,18 +1,22 @@
 var ObstacleCircle = Obstacle.extend({
+    VERT_COUNT: 5,
+    _colors: [],
+    _radius: 0,
+    _thick: 0,
     ctor: function (radius, thick, colors) {
         this._super();
 
-        if (colors == undefined) {
-            colors = util.COLORS;
-        }
-
-        this.setContentSize(cc.size(radius * 2, radius * 2));
-        var degree = 360 / colors.length;
-        for(var i = 0; i < colors.length; i++) {
-            this.drawSector(this.center(), radius, thick, i * degree, degree, colors[i]);
-        }
+        this._colors = colors || util.COLORS;
+        this._radius = radius;
+        this._thick = thick;
     },
-    pass: function (point) {
-        point = this.convertToNodeSpace(point);
+    onEnter: function () {
+        this._super();
+
+        this.setContentSize(cc.size(this._radius * 2, this._radius * 2));
+        var degree = 360 / this._colors.length;
+        for(var i = 0; i < this._colors.length; i++) {
+            this.drawSector(this.center(), this._radius, this._thick, i * degree, degree, this._colors[i]);
+        }
     }
 });

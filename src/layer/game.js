@@ -23,7 +23,7 @@ var GameLayer = cc.LayerColor.extend({
         this.ball.setPosition(util.center.x, 217);
         this.addChild(this.ball);
 
-        //util.addDebugNode.apply(this);
+        util.addDebugNode.apply(this);
 
         this.scheduleUpdate();
     },
@@ -35,23 +35,18 @@ var GameLayer = cc.LayerColor.extend({
             cc.eventManager.dispatchCustomEvent(util.EVENT_GAME_OVER, this.ball.getPosition());
             this.unscheduleUpdate();
         } else {
-            _.forEach(this.obstacles, function (v, k) {
-                if (cc.rectContainsPoint(v.getBoundingBox(), pos) && v.pass(pos)) {
-                    cc.log('die!!!');
-                }
-            });
-
             if (pos.y > util.center.y) {
                 this.move(util.center.y - pos.y);
             }
         }
     },
     addObstacles: function () {
-        var circle = new ObstacleSector(200, 30, 30, 120, [
-            util.COLOR_RED,
-            util.COLOR_GREEN,
-            util.COLOR_YELLOW
-        ], 10);
+        //var circle = new ObstacleSector(200, 30, 30, 120, [
+        //    util.COLOR_RED,
+        //    util.COLOR_GREEN,
+        //    util.COLOR_YELLOW
+        //], 10);
+        var circle = new ObstacleCircle(200, 30);
         circle.setPosition(util.center.x, 600);
         this.addChild(circle);
         this.obstacles.push(circle);
