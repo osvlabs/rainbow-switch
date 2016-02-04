@@ -10,14 +10,23 @@ var Obstacle = cc.DrawNode.extend({
     setColors: function (colors) {
         if (_.isNumber(colors)) {
             colors = _.sampleSize(util.COLORS, colors);
+            if (_.indexOf(colors, util.ballColor) < 0) {
+                colors.push(util.ballColor);
+                colors = _.tail(colors);
+            }
         } else {
-            colors = colors || util.COLORS;
+            colors = colors || _.clone(util.COLORS);
         }
-        colors.push(util.ballColor);
         this._colors = _.shuffle(colors);
     },
     setSpeed: function (speed) {
         this._speed = speed;
+    },
+    onEnter: function () {
+        this._super();
+        if (this._colors.length <= 0) {
+            this.setColors(4);
+        }
     },
     center: function () {
         var size = this.getContentSize();
@@ -53,17 +62,17 @@ var Obstacle = cc.DrawNode.extend({
             vertsReversed.push(cc.p(x, y));
         }
         vertsReversed = _.reverse(vertsReversed);
-        var vertsAll = _.concat(verts, vertsReversed);
-        this.drawPoly(vertsAll, fillColor, 0, fillColor);
 
         for (i = 0; i < this.VERT_COUNT - 1; i++) {
             var p1 = vertsReversed[i],
                 p2 = vertsReversed[i + 1],
                 p3 = verts[this.VERT_COUNT - 2 - i],
                 p4 = verts[this.VERT_COUNT - 1 - i],
-                cpVerts = util.cpVerts([p4, p3, p2, p1]);
+                _verts = [p4, p3, p2, p1];
 
-            var shape = new cp.PolyShape(util.space.staticBody, cpVerts, cc.pSub(this.getPosition(), this.center()));
+            this.drawPoly(_verts, fillColor, 0, fillColor);
+
+            var shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(_verts), cc.pSub(this.getPosition(), this.center()));
             shape.setSensor(true);
             shape.setCollisionType(util.COLLISION_OBSTACLE);
             shape.color = fillColor;

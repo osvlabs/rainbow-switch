@@ -1,5 +1,5 @@
 var ObstacleCircle = Obstacle.extend({
-    VERT_COUNT: 5,
+    VERT_COUNT: 20,
     _radius: 0,
     _thick: 0,
     ctor: function (radius, thick) {
