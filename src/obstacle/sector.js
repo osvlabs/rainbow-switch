@@ -1,5 +1,5 @@
 var ObstacleSector = Obstacle.extend({
-    VERT_COUNT: 10,
+    VERT_COUNT: 15,
     _rotateDegree: 0,
     _radius: 0,
     _thick: 0,
@@ -10,6 +10,7 @@ var ObstacleSector = Obstacle.extend({
 
         this._rotateDegree = rotateDegree || this._rotateDegree;
         this._radius = radius;
+        this._degrees = degrees;
         this._thick = thick;
         this._startDegree = startDegree;
     },
