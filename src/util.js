@@ -3,17 +3,17 @@ var util = {
     COLOR_DARK: cc.color(34, 34, 34),
 
     COLOR_NAVY: cc.color('#001f3f'),
-    COLOR_BLUE: cc.color('#0074D9'),
+    COLOR_BLUE: cc.color('#1883F9'),
     COLOR_AQUA: cc.color('#7FDBFF'),
     COLOR_TEAL: cc.color('#39CCCC'),
     COLOR_OLIVE: cc.color('#3D9970'),
     COLOR_GREEN: cc.color('#2ECC40'),
     COLOR_LIME: cc.color('#01FF70'),
-    COLOR_YELLOW: cc.color('#FFDC00'),
+    COLOR_YELLOW: cc.color('#FFFC39'),
     COLOR_ORANGE: cc.color('#FF851B'),
     COLOR_RED: cc.color('#FF4136'),
     COLOR_MAROON: cc.color('#85144b'),
-    COLOR_FUCHSIA: cc.color('#F012BE'),
+    COLOR_FUCHSIA: cc.color('#FB29FB'),
     COLOR_PURPLE: cc.color('#B10DC9'),
 
     COLOR_BLACK: cc.color('#111111'),
@@ -28,12 +28,6 @@ var util = {
         cc.color.BLUE,
         cc.color.GREEN,
         cc.color.MAGENTA
-    ],
-    SILVER_COLORS: [
-        'COLOR_DARK',
-        'COLOR_BLACK',
-        'COLOR_GRAY',
-        'COLOR_SILVER'
     ],
     COLORS: [],
 
@@ -60,12 +54,12 @@ var util = {
         var size = cc.winSize;
         this.center = cc.p(size.width * 0.5, size.height * 0.5);
 
-        this.COLORS.length = 0;
-        for (var k in this) {
-            if (this.hasOwnProperty(k) && k.indexOf('COLOR_') == 0 && !_.includes(this.SILVER_COLORS, k)) {
-                this.COLORS.push(this[k]);
-            }
-        }
+        this.COLORS = [
+            util.COLOR_YELLOW,
+            util.COLOR_FUCHSIA,
+            util.COLOR_BLUE,
+            util.COLOR_LIME
+        ];
         this.ballColor = this.COLOR_YELLOW;
     },
     icon: function (text, size) {
