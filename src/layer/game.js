@@ -65,15 +65,24 @@ var GameLayer = cc.LayerColor.extend({
         ];
         var circle = new ObstacleSector(600, 25, 60, 60, 70);
         circle.setColors(colors);
-        circle.setSpeed(0.3);
         circle.setPosition(util.center.x, 50);
         this.addChild(circle);
 
-        circle = new ObstacleSector(600, 25, 60, 60, -10);
+        circle = new ObstacleSector(600, 25, 60, 60);
         circle.setColors(colors);
-        circle.setSpeed(-0.3);
+        circle.setSpeed(-1);
         circle.setPosition(util.center.x, 150);
         this.addChild(circle);
+
+        //circle = new ObstacleCircle(300, 25);
+        //circle.setPosition(util.center.x, 300);
+        //circle._interval = 5;
+        //circle.VERT_COUNT = 2;
+        //this.addChild(circle);
+
+        //circle = new ObstacleCircle(300, 25);
+        //circle.setPosition(util.center.x, 600);
+        //this.addChild(circle);
     },
     move: function(y) {
         this.setPositionY(this.getPositionY() + y);

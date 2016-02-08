@@ -19,19 +19,17 @@ var ObstacleSector = Obstacle.extend({
 
         this.scheduleUpdate();
     },
-    update: function (dt) {
-        this._super(dt);
-
+    move: function () {
         this.clear();
         this._rotateDegree += this._speed;
 
         if (this._rotateDegree >= 0) {
-            this.updateClockwise();
+            this.moveClockwise();
         } else {
-            this.updateCounterclockwise();
+            this.moveCounterclockwise();
         }
     },
-    updateClockwise: function () {
+    moveClockwise: function () {
         var n = this._colors.length,
             newColors = [],
             i = 0,
@@ -56,7 +54,7 @@ var ObstacleSector = Obstacle.extend({
             this.drawSector(this.center(), this._radius, this._thick, start, degree, newColors[i]);
         }
     },
-    updateCounterclockwise: function () {
+    moveCounterclockwise: function () {
         var n = this._colors.length,
             newColors = [],
             i = 0,

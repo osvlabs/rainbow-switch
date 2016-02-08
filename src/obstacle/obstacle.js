@@ -1,11 +1,14 @@
 var Obstacle = cc.DrawNode.extend({
     VERT_COUNT: 50,
-    _shapes: [],
-    _colors: [],
+    _shapes: null,
+    _colors: null,
     _speed: 1,
+    _interval: 0.04,
     ctor: function () {
         this._super();
         this.setAnchorPoint(0.5, 0.5);
+        this._colors = [];
+        this._shapes = [];
     },
     setColors: function (colors) {
         if (_.isNumber(colors)) {
@@ -27,16 +30,21 @@ var Obstacle = cc.DrawNode.extend({
         if (this._colors.length <= 0) {
             this.setColors(4);
         }
+
+        this.schedule(this.move, this._interval);
+        this.move();
     },
     center: function () {
         var size = this.getContentSize();
         return cc.p(size.width / 2, size.height / 2);
     },
+    move: function () {
+        // Do nothing here
+    },
     clear: function () {
         this._super();
 
         _.forEach(this._shapes, function (v, k) {
-            util.space.staticBody.removeShape(v);
             if (util.space.containsShape(v)) {
                 util.space.removeShape(v);
             }
