@@ -1,5 +1,5 @@
 var ObstacleCircle = Obstacle.extend({
-    VERT_COUNT: 20,
+    _vertCount: 20,
     _radius: 0,
     _thick: 0,
     _rotateDegree: 0,

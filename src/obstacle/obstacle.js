@@ -1,5 +1,5 @@
 var Obstacle = cc.DrawNode.extend({
-    VERT_COUNT: 50,
+    _vertCount: 50,
     _shapes: null,
     _colors: null,
     _speed: 1,
@@ -53,10 +53,10 @@ var Obstacle = cc.DrawNode.extend({
     },
     drawSector: function (origin, radius, thick, startDegree, angleDegree, fillColor) {
         var angleStart = cc.degreesToRadians(startDegree),
-            angleStep = cc.degreesToRadians(angleDegree) / (this.VERT_COUNT - 1),
+            angleStep = cc.degreesToRadians(angleDegree) / (this._vertCount - 1),
             verts = [],
             vertsReversed = [];
-        for (var i = 0; i < this.VERT_COUNT; i++)
+        for (var i = 0; i < this._vertCount; i++)
         {
             var rads = angleStart + angleStep * i,
                 cos = Math.cos(rads),
@@ -71,11 +71,11 @@ var Obstacle = cc.DrawNode.extend({
         }
         vertsReversed = _.reverse(vertsReversed);
 
-        for (i = 0; i < this.VERT_COUNT - 1; i++) {
+        for (i = 0; i < this._vertCount - 1; i++) {
             var p1 = vertsReversed[i],
                 p2 = vertsReversed[i + 1],
-                p3 = verts[this.VERT_COUNT - 2 - i],
-                p4 = verts[this.VERT_COUNT - 1 - i],
+                p3 = verts[this._vertCount - 2 - i],
+                p4 = verts[this._vertCount - 1 - i],
                 _verts = [p4, p3, p2, p1];
 
             this.drawPoly(_verts, fillColor, 0, fillColor);

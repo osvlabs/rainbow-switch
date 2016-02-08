@@ -77,12 +77,12 @@ var GameLayer = cc.LayerColor.extend({
         //circle = new ObstacleCircle(300, 25);
         //circle.setPosition(util.center.x, 300);
         //circle._interval = 5;
-        //circle.VERT_COUNT = 2;
+        //circle._vertCount = 2;
         //this.addChild(circle);
 
-        //circle = new ObstacleCircle(300, 25);
-        //circle.setPosition(util.center.x, 600);
-        //this.addChild(circle);
+        circle = new ObstacleCircle(300, 25);
+        circle.setPosition(util.center.x, 600);
+        this.addChild(circle);
     },
     move: function(y) {
         this.setPositionY(this.getPositionY() + y);
