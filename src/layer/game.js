@@ -10,6 +10,7 @@ var GameLayer = cc.LayerColor.extend({
         this._super();
 
         this.addObstacles();
+        this.addStars();
 
         var hand = util.icon(util.ICON_HAND_O_UP, 100);
         hand.setPosition(util.center.x + 8, 100);
@@ -58,31 +59,14 @@ var GameLayer = cc.LayerColor.extend({
         }
     },
     addObstacles: function () {
-        var colors = [
-            util.COLOR_RED,
-            util.COLOR_GREEN,
-            util.COLOR_BLUE
-        ];
         var circle = new ObstacleSector(600, 25, 60, 60, 70);
-        circle.setColors(colors);
         circle.setPosition(util.center.x, 50);
         this.addChild(circle);
-
-        circle = new ObstacleSector(600, 25, 60, 60);
-        circle.setColors(colors);
-        circle.setSpeed(-1);
-        circle.setPosition(util.center.x, 150);
-        this.addChild(circle);
-
-        //circle = new ObstacleCircle(300, 25);
-        //circle.setPosition(util.center.x, 300);
-        //circle._interval = 5;
-        //circle._vertCount = 2;
-        //this.addChild(circle);
-
-        circle = new ObstacleCircle(300, 25);
-        circle.setPosition(util.center.x, 600);
-        this.addChild(circle);
+    },
+    addStars: function () {
+        var star = new Star();
+        star.setPosition(util.center.x, 750);
+        this.addChild(star);
     },
     move: function(y) {
         this.setPositionY(this.getPositionY() + y);
