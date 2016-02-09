@@ -99,7 +99,7 @@ var GameLayer = cc.LayerColor.extend({
     },
     addSwitches: function () {
         var star = new Switch();
-        star.setPosition(util.center.x, 850);
+        star.setPosition(util.center.x, 950);
         star.setAutoAddShape(false);
         this.addChild(star);
     },

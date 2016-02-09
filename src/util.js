@@ -68,10 +68,10 @@ var util = {
         this.ballColor = this.COLOR_YELLOW;
     },
     icon: function (text, size) {
-        if (size === undefined) {
-            size = 50;
-        }
-        return new cc.LabelTTF(text, 'FontAwesome', size);
+        return new cc.LabelTTF(text, 'FontAwesome', size || 50);
+    },
+    label: function (text, size) {
+        return new cc.LabelTTF(text, 'Arial', size || 40);
     },
     animate: function (prefix, count, interval) {
         var frames = [];
