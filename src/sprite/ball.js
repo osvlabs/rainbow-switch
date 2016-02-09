@@ -1,14 +1,13 @@
 var Ball = PhysicsSprite.extend({
-    TIME: 0.3,
-    label: null,
+    _label: null,
     ctor: function () {
         this._super();
 
         this.setAnchorPoint(0.5, 0.5);
 
-        this.label = util.icon(util.ICON_CIRCLE, 35);
-        this.label.setColor(util.ballColor);
-        this.addChild(this.label);
+        this._label = util.icon(util.ICON_CIRCLE, 35);
+        this._label.setColor(util.ballColor);
+        this.addChild(this._label);
 
         var size = cc.size(35, 35);
         var body = new cp.Body(1, cp.momentForCircle(1, 0, size.width / 2, cp.vzero));
@@ -38,7 +37,7 @@ var Ball = PhysicsSprite.extend({
         }), this);
     },
     getWorldPosition: function () {
-        var _pos = this.label.getPosition();
+        var _pos = this._label.getPosition();
         return this.convertToWorldSpace(_pos)
     },
     jump: function (event) {

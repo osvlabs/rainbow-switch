@@ -43,6 +43,20 @@ var GameLayer = cc.LayerColor.extend({
             null
         );
 
+        util.space.addCollisionHandler(
+            util.COLLISION_BALL,
+            util.COLLISION_STAR,
+            function (arbiter, space) {
+                space.addPostStepCallback(function(){
+                    arbiter.b.object.winScore();
+                }.bind(this));
+                return true;
+            }.bind(this),
+            null,
+            null,
+            null
+        );
+
         this.scheduleUpdate();
     },
     update: function (dt) {

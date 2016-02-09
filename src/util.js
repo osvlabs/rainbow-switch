@@ -40,12 +40,14 @@ var util = {
     // Events
     EVENT_JUMP: 'jump',
     EVENT_GAME_OVER: 'game_over',
+    EVENT_WIN_SCORE: 'win_score',
 
     // Collisions
     COLLISION_BALL: 'ball',
     COLLISION_GAME_OVER_WALL: 'game_over_wall',
     COLLISION_DEBRIS: 'debris',
     COLLISION_OBSTACLE: 'obstacle',
+    COLLISION_STAR: 'star',
 
     // Others
     center: null,
