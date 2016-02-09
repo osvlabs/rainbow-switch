@@ -1,8 +1,18 @@
-var Star = cc.Node.extend({
+var Star = cc.Node.extend(
+    /** @lends Star.prototype */
+    {
     _shape: null,
     _label: null,
-    ctor: function () {
+    _score: 1,
+    /**
+     * @constructs
+     * @param {int} [score]
+     */
+    ctor: function (score) {
         this._super();
+        if (score !== undefined) {
+            this._score = score;
+        }
 
         this._label = util.icon(util.ICON_STAR);
         this.addChild(this._label);
@@ -10,7 +20,8 @@ var Star = cc.Node.extend({
     onEnter: function () {
         this._super();
 
-        var pos = this.getPosition(),
+        var posParent = this.parent.getPosition(),
+            pos = cc.pAdd(this.getPosition(), posParent),
             size = this._label.getFontSize();
         this._shape = new cp.BoxShape2(util.space.staticBody, cp.bb(
             pos.x - size / 2,
@@ -39,7 +50,8 @@ var Star = cc.Node.extend({
         this._label.setVisible(false);
         this.addChild(new cc.ParticleSystem(res.star_explode));
 
-        var label = util.label('+1');
+        var ch = this._score >= 0 ? '+' : '-';
+        var label = util.label(ch + Math.abs(this._score));
         this.addChild(label);
 
         label.runAction(cc.sequence([

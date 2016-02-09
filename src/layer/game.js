@@ -10,7 +10,6 @@ var GameLayer = cc.LayerColor.extend({
         this._super();
 
         this.addObstacles();
-        this.addStars();
         this.addSwitches();
 
         var hand = util.icon(util.ICON_HAND_O_UP, 100);
@@ -25,7 +24,7 @@ var GameLayer = cc.LayerColor.extend({
         this._ball.setPosition(util.center.x, 217);
         this.addChild(this._ball);
 
-        //util.addDebugNode.apply(this);
+        util.addDebugNode.apply(this);
 
         util.space.addCollisionHandler(
             util.COLLISION_BALL,
@@ -91,11 +90,6 @@ var GameLayer = cc.LayerColor.extend({
         var circle = new ObstacleSector(600, 25, 60, 60, 70);
         circle.setPosition(util.center.x, 50);
         this.addChild(circle);
-    },
-    addStars: function () {
-        var star = new Star();
-        star.setPosition(util.center.x, 750);
-        this.addChild(star);
     },
     addSwitches: function () {
         var star = new Switch();
