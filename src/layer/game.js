@@ -11,6 +11,7 @@ var GameLayer = cc.LayerColor.extend({
 
         this.addObstacles();
         this.addStars();
+        this.addSwitches();
 
         var hand = util.icon(util.ICON_HAND_O_UP, 100);
         hand.setPosition(util.center.x + 8, 100);
@@ -24,7 +25,7 @@ var GameLayer = cc.LayerColor.extend({
         this._ball.setPosition(util.center.x, 217);
         this.addChild(this._ball);
 
-        util.addDebugNode.apply(this);
+        //util.addDebugNode.apply(this);
 
         util.space.addCollisionHandler(
             util.COLLISION_BALL,
@@ -57,6 +58,20 @@ var GameLayer = cc.LayerColor.extend({
             null
         );
 
+        util.space.addCollisionHandler(
+            util.COLLISION_BALL,
+            util.COLLISION_SWITCH,
+            function (arbiter, space) {
+                space.addPostStepCallback(function(){
+                    arbiter.b.object.onCollisionDetected();
+                }.bind(this));
+                return true;
+            }.bind(this),
+            null,
+            null,
+            null
+        );
+
         this.scheduleUpdate();
     },
     update: function (dt) {
@@ -80,6 +95,12 @@ var GameLayer = cc.LayerColor.extend({
     addStars: function () {
         var star = new Star();
         star.setPosition(util.center.x, 750);
+        this.addChild(star);
+    },
+    addSwitches: function () {
+        var star = new Switch();
+        star.setPosition(util.center.x, 850);
+        star.setAutoAddShape(false);
         this.addChild(star);
     },
     move: function(y) {

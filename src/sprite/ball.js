@@ -6,7 +6,7 @@ var Ball = PhysicsSprite.extend({
         this.setAnchorPoint(0.5, 0.5);
 
         this._label = util.icon(util.ICON_CIRCLE, 35);
-        this._label.setColor(util.ballColor);
+        this.changeBall();
         this.addChild(this._label);
 
         var size = cc.size(35, 35);
@@ -35,6 +35,12 @@ var Ball = PhysicsSprite.extend({
             eventName: util.EVENT_GAME_OVER,
             callback: this.gameOver.bind(this)
         }), this);
+
+        cc.eventManager.addListener(cc.EventListener.create({
+            event: cc.EventListener.CUSTOM,
+            eventName: util.EVENT_CHANGE_BALL,
+            callback: this.changeBall.bind(this)
+        }), this);
     },
     getWorldPosition: function () {
         var _pos = this._label.getPosition();
@@ -47,5 +53,10 @@ var Ball = PhysicsSprite.extend({
     gameOver: function () {
         this.unscheduleUpdate();
         this.removeFromParent(true);
+    },
+    changeBall: function () {
+        var others = _.xor(util.COLORS, [util.ballColor]);
+        util.ballColor = _.sample(others);
+        this._label.setColor(util.ballColor);
     }
 });

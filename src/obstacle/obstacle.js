@@ -4,6 +4,7 @@ var Obstacle = cc.DrawNode.extend({
     _colors: null,
     _speed: 1,
     _interval: 0.04,
+    _autoAddShape: true,
     ctor: function () {
         this._super();
         this.setAnchorPoint(0.5, 0.5);
@@ -25,6 +26,12 @@ var Obstacle = cc.DrawNode.extend({
     setSpeed: function (speed) {
         this._speed = speed;
     },
+    setInterval: function (v) {
+        this._interval = v;
+    },
+    setAutoAddShape: function (v) {
+        this._autoAddShape = v;
+    },
     onEnter: function () {
         this._super();
         if (this._colors.length <= 0) {
@@ -33,6 +40,10 @@ var Obstacle = cc.DrawNode.extend({
 
         this.schedule(this.move, this._interval);
         this.move();
+    },
+    onExit: function () {
+        this.clearShapes();
+        this._super();
     },
     center: function () {
         var size = this.getContentSize();
@@ -43,7 +54,9 @@ var Obstacle = cc.DrawNode.extend({
     },
     clear: function () {
         this._super();
-
+        this.clearShapes();
+    },
+    clearShapes: function () {
         _.forEach(this._shapes, function (v, k) {
             if (util.space.containsShape(v)) {
                 util.space.removeShape(v);
@@ -80,13 +93,15 @@ var Obstacle = cc.DrawNode.extend({
 
             this.drawPoly(_verts, fillColor, 0, fillColor);
 
-            var shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(_verts), cc.pSub(this.getPosition(), this.center()));
-            shape.setSensor(true);
-            shape.setCollisionType(util.COLLISION_OBSTACLE);
-            shape.color = fillColor;
-            shape.obstacle = this;
-            util.space.addShape(shape);
-            this._shapes.push(shape);
+            if (this._autoAddShape) {
+                var shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(_verts), cc.pSub(this.getPosition(), this.center()));
+                shape.setSensor(true);
+                shape.setCollisionType(util.COLLISION_OBSTACLE);
+                shape.color = fillColor;
+                shape.obstacle = this;
+                util.space.addShape(shape);
+                this._shapes.push(shape);
+            }
         }
     }
 });

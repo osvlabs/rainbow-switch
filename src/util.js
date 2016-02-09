@@ -41,6 +41,7 @@ var util = {
     EVENT_JUMP: 'jump',
     EVENT_GAME_OVER: 'game_over',
     EVENT_WIN_SCORE: 'win_score',
+    EVENT_CHANGE_BALL: 'change_ball_color',
 
     // Collisions
     COLLISION_BALL: 'ball',
@@ -48,6 +49,7 @@ var util = {
     COLLISION_DEBRIS: 'debris',
     COLLISION_OBSTACLE: 'obstacle',
     COLLISION_STAR: 'star',
+    COLLISION_SWITCH: 'switch',
 
     // Others
     center: null,
