@@ -94,11 +94,11 @@ var GameLayer = cc.LayerColor.extend({
         circle.setPosition(util.center.x, 1100);
         this.addChild(circle);
 
-        circle = new ObstacleRegularPolygon(180, 40, 3);
+        circle = new ObstacleIsogon(180, 40, 3);
         circle.setPosition(util.center.x, 1600);
         this.addChild(circle);
 
-        circle = new ObstacleRegularPolygon(180, 25, 4);
+        circle = new ObstacleIsogon(180, 25, 4);
         circle.setPosition(util.center.x, 2000);
         this.addChild(circle);
     },
