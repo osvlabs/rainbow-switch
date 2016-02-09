@@ -1,7 +1,6 @@
 var Star = cc.Node.extend({
     _shape: null,
     _label: null,
-    _particle: null,
     ctor: function () {
         this._super();
 
@@ -24,17 +23,23 @@ var Star = cc.Node.extend({
         util.space.addShape(this._shape);
 
         this.runAction(cc.sequence([
-            cc.scaleTo(0.75, 1.25).easing(cc.easeSineIn()),
-            cc.scaleTo(0.75, 1).easing(cc.easeSineOut())
+            cc.scaleBy(0.75, 1.25).easing(cc.easeSineIn()),
+            cc.scaleBy(0.75, 0.8).easing(cc.easeSineOut())
         ]).repeatForever());
+
+        this.schedule(function () {
+            this.runAction(cc.sequence([
+                cc.scaleBy(0.3, 0.1, 1).easing(cc.easeBackIn()),
+                cc.scaleBy(0.3, 10, 1).easing(cc.easeBackOut())
+            ]));
+        }, 5);
     },
     winScore: function () {
-        this._particle = new cc.ParticleSystem(res.star_explode);
         this.runAction(cc.sequence([
             cc.spawn([
                 cc.fadeOut(0.2),
                 cc.callFunc(function () {
-                    this.addChild(this._particle);
+                    this.addChild(new cc.ParticleSystem(res.star_explode));
                 }.bind(this))
             ]),
             cc.callFunc(function () {
