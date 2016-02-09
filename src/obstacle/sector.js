@@ -2,6 +2,7 @@ var ObstacleSector = ObstacleCircle.extend({
     _vertCount: 15,
     _startDegree: 0,
     _degrees: 0,
+    _speed: 1,
     ctor: function (radius, thick, startDegree, degrees, rotateDegree) {
         this._super();
 
@@ -12,10 +13,10 @@ var ObstacleSector = ObstacleCircle.extend({
         this._startDegree = startDegree;
     },
     onEnter: function () {
-        this._super();
+        Obstacle.prototype.onEnter.call(this);
 
-        var pos = this.getPosition();
-        this.addStar(cc.p(0, this._radius + pos.y + 10));
+        this.addStar(cc.p(0, this._radius + 55));
+        this.addSwitch(this._radius + 150);
     },
     move: function () {
         this.clear();

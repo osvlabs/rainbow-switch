@@ -6,6 +6,7 @@ var Obstacle = cc.DrawNode.extend({
     _interval: 0.04,
     _autoAddShape: true,
     _star: null,
+    _switch: null,
     ctor: function () {
         this._super();
         this.setAnchorPoint(0.5, 0.5);
@@ -36,12 +37,17 @@ var Obstacle = cc.DrawNode.extend({
     /**
      * Add star
      * @param {cc.Point} pos
-     * @param {int} [score]
+     * @param {int} [score=1]
      */
     addStar: function (pos, score) {
         this._star = new Star(score);
-        this._star.setPosition(pos);
+        this._star.setPosition(pos.x, pos.y);
         this.addChild(this._star);
+    },
+    addSwitch: function (deltaY) {
+        this._switch = new Switch();
+        this._switch.setPosition(0, deltaY);
+        this.addChild(this._switch);
     },
     onEnter: function () {
         this._super();

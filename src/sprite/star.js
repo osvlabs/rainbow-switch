@@ -6,7 +6,7 @@ var Star = cc.Node.extend(
     _score: 1,
     /**
      * @constructs
-     * @param {int} [score]
+     * @param {int} [score=1]
      */
     ctor: function (score) {
         this._super();
@@ -20,9 +20,11 @@ var Star = cc.Node.extend(
     onEnter: function () {
         this._super();
 
-        var posParent = this.parent.getPosition(),
-            pos = cc.pAdd(this.getPosition(), posParent),
+        var pos = this.getPosition(),
             size = this._label.getFontSize();
+        if (this.parent instanceof Obstacle) {
+            pos = cc.pAdd(pos, this.parent.getPosition());
+        }
         this._shape = new cp.BoxShape2(util.space.staticBody, cp.bb(
             pos.x - size / 2,
             pos.y - size / 2 + 5,

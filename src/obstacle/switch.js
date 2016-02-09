@@ -1,9 +1,12 @@
 var Switch = Obstacle.extend({
     _radius: 25,
+    ctor: function () {
+        this._super(false);
+    },
     onEnter: function () {
-        this._super();
-
-        this.unschedule(this.move);
+        cc.DrawNode.prototype.onEnter.call(this);
+        this.setColors(4);
+        this.move();
     },
     move: function () {
         var degree = 360 / this._colors.length;
@@ -11,7 +14,11 @@ var Switch = Obstacle.extend({
             this.drawSector(this.center(), this._radius, this._radius, i * degree, degree, this._colors[i]);
         }
 
-        var shape = new cp.CircleShape(util.space.staticBody, this._radius, this.getPosition());
+        var pos = this.getPosition();
+        if (this.parent instanceof Obstacle) {
+            pos = cc.pAdd(pos, this.parent.getPosition());
+        }
+        var shape = new cp.CircleShape(util.space.staticBody, this._radius, pos);
         shape.setSensor(true);
         shape.setCollisionType(util.COLLISION_SWITCH);
         shape.object = this;
