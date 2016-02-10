@@ -48,7 +48,7 @@ var Ball = PhysicsSprite.extend({
     },
     jump: function (event) {
         var v = this.getBody().getVel().y;
-        this.getBody().applyImpulse(cp.v(0, Math.abs(500 - v)), cp.vzero);
+        this.getBody().applyImpulse(cp.v(0, Math.abs(400 - v)), cp.vzero);
     },
     gameOver: function () {
         this.unscheduleUpdate();

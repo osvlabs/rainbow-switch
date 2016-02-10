@@ -1,5 +1,6 @@
 var GameScene = cc.Scene.extend({
     layer: null,
+    floatLayer: null,
     earth: null,
     ctor: function () {
         this._super();
@@ -28,6 +29,9 @@ var GameScene = cc.Scene.extend({
 
         this.layer = new GameLayer();
         this.addChild(this.layer);
+
+        this.floatLayer = new GameFloatLayer();
+        this.addChild(this.floatLayer);
 
         cc.eventManager.addListener(cc.EventListener.create({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,

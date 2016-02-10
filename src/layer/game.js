@@ -1,6 +1,7 @@
 var GameLayer = cc.LayerColor.extend({
     _ball: null,
     _dead: false,
+    _scoreLabel: null,
     ctor: function () {
         this._super(util.COLOR_DARK);
 

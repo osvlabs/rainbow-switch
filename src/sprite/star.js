@@ -51,6 +51,7 @@ var Star = cc.Node.extend(
         util.space.removeShape(this._shape);
         this._label.setVisible(false);
         this.addChild(new cc.ParticleSystem(res.star_explode));
+        cc.eventManager.dispatchCustomEvent(util.EVENT_WIN_SCORE);
 
         var ch = this._score >= 0 ? '+' : '-';
         var label = util.label(ch + Math.abs(this._score));
