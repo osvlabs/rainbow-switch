@@ -1,20 +1,20 @@
 var Ball = PhysicsSprite.extend({
-    _label: null,
+    _circle: null,
+    _radius: 15,
     ctor: function () {
         this._super();
 
         this.setAnchorPoint(0.5, 0.5);
 
-        this._label = util.icon(util.ICON_CIRCLE, 35);
+        this._circle = new cc.DrawNode();
         this.changeBall();
-        this.addChild(this._label);
+        this.addChild(this._circle);
 
-        var size = cc.size(35, 35);
-        var body = new cp.Body(1, cp.momentForCircle(1, 0, size.width / 2, cp.vzero));
+        var body = new cp.Body(1, cp.momentForCircle(1, 0, this._radius, cp.vzero));
         body.userData = this;
         util.space.addBody(body);
 
-        var shape = new cp.CircleShape(body, size.width / 2, cp.vzero);
+        var shape = new cp.CircleShape(body, this._radius, cp.vzero);
         shape.setCollisionType(util.COLLISION_BALL);
         util.space.addShape(shape);
 
@@ -43,7 +43,7 @@ var Ball = PhysicsSprite.extend({
         }), this);
     },
     getWorldPosition: function () {
-        var _pos = this._label.getPosition();
+        var _pos = this._circle.getPosition();
         return this.convertToWorldSpace(_pos)
     },
     jump: function (event) {
@@ -57,6 +57,8 @@ var Ball = PhysicsSprite.extend({
     changeBall: function () {
         var others = _.xor(util.COLORS, [util.ballColor]);
         util.ballColor = _.sample(others);
-        this._label.setColor(util.ballColor);
+        this._circle.clear();
+        this._circle.drawDot(cc.p(0, 0), this._radius, util.ballColor);
+        this._circle.setColor(util.ballColor);
     }
 });

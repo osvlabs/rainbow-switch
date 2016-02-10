@@ -10,7 +10,7 @@ var Slogan = cc.Node.extend({
 
         this.setAnchorPoint(0.5, 0.5);
 
-        this._rh = new cc.Sprite(res._rh);
+        this._rh = new cc.Sprite(res.rh);
         this._rh.setPosition(0, -45);
         this.addChild(this._rh);
 
