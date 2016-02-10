@@ -14,7 +14,7 @@ var Ball = PhysicsSprite.extend({
         body.userData = this;
         util.space.addBody(body);
 
-        var shape = new cp.CircleShape(body, this._radius, cp.vzero);
+        var shape = new cp.CircleShape(body, this._radius / 2, cp.vzero);
         shape.setCollisionType(util.COLLISION_BALL);
         util.space.addShape(shape);
 

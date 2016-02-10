@@ -13,7 +13,7 @@ var GameLayer = cc.LayerColor.extend({
         this._super();
         util.gameLayer = this;
 
-        this.addObstacles();
+        var y = this.addObstacles();
 
         var hand = util.icon(util.ICON_HAND_O_UP, 100);
         hand.setPosition(util.center.x + 8, 100);
@@ -23,11 +23,19 @@ var GameLayer = cc.LayerColor.extend({
         slogan.setPosition(util.center.x, 400);
         this.addChild(slogan);
 
+        slogan = new Slogan();
+        slogan.setPosition(util.center.x, y + 150);
+        this.addChild(slogan);
+
+        var tape = new Tape();
+        tape.setPosition(util.center.x, y);
+        this.addChild(tape);
+
         this._ball = new Ball();
         this._ball.setPosition(util.center.x, 217);
         this.addChild(this._ball);
 
-        //util.addDebugNode.apply(this);
+        util.addDebugNode.apply(this);
 
         util.space.addCollisionHandler(
             util.COLLISION_BALL,
@@ -36,7 +44,7 @@ var GameLayer = cc.LayerColor.extend({
                 if (arbiter.b.color != util.ballColor && this._dead == false) {
                     this._dead = true;
                     space.addPostStepCallback(function(){
-                        this.startGameOver();
+                        this.gameOver();
                     }.bind(this));
                 }
                 space.addPostStepCallback(function () {
@@ -80,6 +88,20 @@ var GameLayer = cc.LayerColor.extend({
             null
         );
 
+        util.space.addCollisionHandler(
+            util.COLLISION_BALL,
+            util.COLLISION_FINISH_LINE,
+            function (arbiter, space) {
+                space.addPostStepCallback(function(){
+                    this.finish();
+                }.bind(this));
+                return true;
+            }.bind(this),
+            null,
+            null,
+            null
+        );
+
         this.scheduleUpdate();
     },
     update: function (dt) {
@@ -88,7 +110,7 @@ var GameLayer = cc.LayerColor.extend({
 
         var pos = this._ball.getWorldPosition();
         if (pos.y <= 0) {
-            this.startGameOver();
+            this.gameOver();
         } else {
             if (pos.y > util.center.y) {
                 this.move(util.center.y - pos.y);
@@ -112,6 +134,8 @@ var GameLayer = cc.LayerColor.extend({
 
             y += height + o.getSwitchHeight();
         }.bind(this));
+
+        return y;
     },
     move: function(y) {
         this.setPositionY(this.getPositionY() + y);
@@ -133,17 +157,24 @@ var GameLayer = cc.LayerColor.extend({
             cc.moveBy(frequency, cc.p(amplitude, -amplitude)).easing(cc.easeBackInOut())
         ]));
     },
-    gameOver: function (pos) {
-        this.explode(pos);
-        this.earthQuake();
+    firework: function () {
+        var fw = new cc.ParticleSystem(res.firework);
+        fw.setPosition(this._ball.getPosition());
+        this.addChild(fw);
     },
-    startGameOver: function () {
+    gameOver: function () {
         var pos = this._ball.getPosition();
         cc.eventManager.dispatchCustomEvent(
             util.EVENT_GAME_OVER,
             pos
         );
         this.unscheduleUpdate();
-        this.gameOver(pos);
+        this.explode(pos);
+        this.earthQuake();
+    },
+    finish: function () {
+        cc.eventManager.dispatchCustomEvent(util.EVENT_FINISH);
+        this.unscheduleUpdate();
+        this.firework();
     }
 });

@@ -42,6 +42,7 @@ var util = {
     EVENT_GAME_OVER: 'game_over',
     EVENT_WIN_SCORE: 'win_score',
     EVENT_CHANGE_BALL: 'change_ball_color',
+    EVENT_FINISH: 'finish',
 
     // Collisions
     COLLISION_BALL: 'ball',
@@ -50,6 +51,7 @@ var util = {
     COLLISION_OBSTACLE: 'obstacle',
     COLLISION_STAR: 'star',
     COLLISION_SWITCH: 'switch',
+    COLLISION_FINISH_LINE: 'finish_line',
 
     // Others
     center: null,

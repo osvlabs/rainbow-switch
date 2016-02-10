@@ -1,5 +1,6 @@
 var Switch = Obstacle.extend({
     _radius: 25,
+    _autoAddShape: false,
     ctor: function () {
         this._super(false);
     },
