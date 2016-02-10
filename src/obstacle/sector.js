@@ -1,22 +1,32 @@
 var ObstacleSector = ObstacleCircle.extend({
     _vertCount: 15,
-    _startDegree: 0,
-    _degrees: 0,
+    _startDegree: 60,
+    _degrees: 60,
     _speed: 1,
     ctor: function (radius, thick, startDegree, degrees, rotateDegree) {
-        this._super();
+        Obstacle.prototype.ctor.apply(this);
 
-        this._rotateDegree = rotateDegree || this._rotateDegree;
         this._radius = radius;
-        this._degrees = degrees;
-        this._thick = thick;
-        this._startDegree = startDegree;
-    },
-    onEnter: function () {
-        Obstacle.prototype.onEnter.call(this);
+        if (thick !== undefined) {
+            this._thick = thick;
+        }
+        if (startDegree !== undefined) {
+            this._startDegree = startDegree;
+        }
+        if (degrees !== undefined) {
+            this._degrees = degrees;
+        }
+        this._rotateDegree = rotateDegree || this._rotateDegree;
 
         this.addStar(cc.p(0, this._radius + 55));
         this.addSwitch(this._radius + 150);
+    },
+    getMaxHeight: function () {
+        var ys = [];
+        for(var i = this._startDegree; i <= this._startDegree + this._degrees; i++) {
+            ys.push(Math.sin(cc.degreesToRadians(i)));
+        }
+        return this._radius * (_.max(ys) - _.min(ys)) + 60;
     },
     move: function () {
         this.clear();
@@ -79,3 +89,7 @@ var ObstacleSector = ObstacleCircle.extend({
         }
     }
 });
+
+ObstacleSector.create = function (args) {
+    return new ObstacleSector(args.radius, args.thick, args.startDegree, args.degrees, args.rotateDegree);
+};

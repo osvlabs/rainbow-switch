@@ -7,6 +7,7 @@ var Obstacle = cc.DrawNode.extend({
     _autoAddShape: true,
     _star: null,
     _switch: null,
+    _height: null,
     ctor: function () {
         this._super();
         this.setAnchorPoint(0.5, 0.5);
@@ -33,6 +34,19 @@ var Obstacle = cc.DrawNode.extend({
     },
     setAutoAddShape: function (v) {
         this._autoAddShape = v;
+    },
+    getHeight: function () {
+        if (this._height !== null) {
+            return this._height;
+        }
+        this._height = this.getMaxHeight();
+        return this._height;
+    },
+    getMaxHeight: function () {
+        return 0;
+    },
+    getSwitchHeight: function () {
+        return this._switch ? 220 : 0;
     },
     /**
      * Add star
@@ -122,3 +136,12 @@ var Obstacle = cc.DrawNode.extend({
         }
     }
 });
+
+Obstacle.create = function (type, args) {
+    var clsName = 'Obstacle' + _.capitalize(type),
+        cls = eval(clsName);
+    if (cls && cls.create) {
+        return cls.create(args);
+    }
+    return null;
+};

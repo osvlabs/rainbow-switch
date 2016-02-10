@@ -2,10 +2,13 @@ var GameLayer = cc.LayerColor.extend({
     _ball: null,
     _dead: false,
     _scoreLabel: null,
+    _obstacles: null,
+    _currentIndex: 0,
     ctor: function () {
         this._super(util.COLOR_DARK);
 
         this.setContentSize(cc.winSize.width, 10000);
+        this._obstacles = [];
     },
     onEnter: function () {
         this._super();
@@ -87,21 +90,20 @@ var GameLayer = cc.LayerColor.extend({
         }
     },
     addObstacles: function () {
-        var circle = new ObstacleSector(600, 25, 60, 60, 70);
-        circle.setPosition(util.center.x, 50);
-        this.addChild(circle);
+        var y = 600;
+        _.forEach(util.currentLevels(), function (v, k) {
+            var o = Obstacle.create(v.type, v);
 
-        circle = new ObstacleCircle(150, 25);
-        circle.setPosition(util.center.x, 1100);
-        this.addChild(circle);
+            var height = o.getHeight(),
+                _y = y + height / 2;
+            if (v.type == 'sector') {
+                _y -= v.radius;
+            }
+            o.setPosition(util.center.x, _y);
+            this.addChild(o);
 
-        circle = new ObstacleIsogon(180, 40, 3);
-        circle.setPosition(util.center.x, 1600);
-        this.addChild(circle);
-
-        circle = new ObstacleIsogon(180, 25, 4);
-        circle.setPosition(util.center.x, 2000);
-        this.addChild(circle);
+            y += height + o.getSwitchHeight();
+        }.bind(this));
     },
     move: function(y) {
         this.setPositionY(this.getPositionY() + y);

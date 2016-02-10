@@ -15,6 +15,7 @@
         "src/lib/lodash.min.js",
         "src/util.js",
         "src/resource.js",
+        "src/data.js",
         "src/sprite/slogan.js",
         "src/sprite/physics.sprite.js",
         "src/sprite/scale.sprite.js",

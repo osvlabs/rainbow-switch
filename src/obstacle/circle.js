@@ -1,20 +1,22 @@
 var ObstacleCircle = Obstacle.extend({
     _vertCount: 20,
     _radius: 0,
-    _thick: 0,
+    _thick: 25,
     _rotateDegree: 0,
     _speed: 3,
     ctor: function (radius, thick) {
         this._super();
 
         this._radius = radius;
-        this._thick = thick;
-    },
-    onEnter: function () {
-        this._super();
+        if (thick !== undefined) {
+            this._thick = thick;
+        }
 
         this.addStar(cc.p(0, 0));
         this.addSwitch(this._radius + 110);
+    },
+    getMaxHeight: function () {
+        return this._radius * 2;
     },
     move: function () {
         this.clear();
@@ -26,3 +28,7 @@ var ObstacleCircle = Obstacle.extend({
         }
     }
 });
+
+ObstacleCircle.create = function (args) {
+    return new ObstacleCircle(args.radius, args.thick);
+};
