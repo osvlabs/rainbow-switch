@@ -25,6 +25,9 @@ var GameScene = cc.Scene.extend({
     onEnter: function () {
         this._super();
 
+        util.currentLevel = 0;
+        util.currentIndex = 0;
+
         this.scheduleUpdate();
 
         this.layer = new GameLayer();

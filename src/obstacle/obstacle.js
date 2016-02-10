@@ -8,6 +8,7 @@ var Obstacle = cc.DrawNode.extend({
     _star: null,
     _switch: null,
     _height: null,
+    _index: 0,
     ctor: function () {
         this._super();
         this.setAnchorPoint(0.5, 0.5);

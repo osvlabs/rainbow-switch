@@ -3,7 +3,6 @@ var GameLayer = cc.LayerColor.extend({
     _dead: false,
     _scoreLabel: null,
     _obstacles: null,
-    _currentIndex: 0,
     ctor: function () {
         this._super(util.COLOR_DARK);
 
@@ -12,6 +11,7 @@ var GameLayer = cc.LayerColor.extend({
     },
     onEnter: function () {
         this._super();
+        util.gameLayer = this;
 
         this.addObstacles();
 
@@ -39,6 +39,12 @@ var GameLayer = cc.LayerColor.extend({
                         this.startGameOver();
                     }.bind(this));
                 }
+                space.addPostStepCallback(function () {
+                    util.currentIndex = Math.max(
+                        util.currentIndex,
+                        arbiter.b.obstacle._index
+                    );
+                }.bind(this));
                 return true;
             }.bind(this),
             null,
@@ -93,6 +99,7 @@ var GameLayer = cc.LayerColor.extend({
         var y = 600;
         _.forEach(util.currentLevels(), function (v, k) {
             var o = Obstacle.create(v.type, v);
+            o._index = k + 1;
 
             var height = o.getHeight(),
                 _y = y + height / 2;
@@ -101,6 +108,7 @@ var GameLayer = cc.LayerColor.extend({
             }
             o.setPosition(util.center.x, _y);
             this.addChild(o);
+            this._obstacles.push(o);
 
             y += height + o.getSwitchHeight();
         }.bind(this));

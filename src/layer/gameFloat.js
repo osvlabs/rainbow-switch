@@ -24,6 +24,5 @@ var GameFloatLayer = cc.Layer.extend({
     },
     winScore: function () {
         this.setScore(++this._score);
-        cc.log(this._score);
     }
 });

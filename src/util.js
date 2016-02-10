@@ -56,6 +56,7 @@ var util = {
     space: null,
     ballColor: null,
     currentLevel: 0,
+    currentIndex: 0,
     init: function () {
         var size = cc.winSize;
         this.center = cc.p(size.width * 0.5, size.height * 0.5);
