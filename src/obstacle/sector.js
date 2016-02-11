@@ -60,7 +60,11 @@ var ObstacleSector = ObstacleCircle.extend({
             } else if (i == n) {
                 degree = delta % defaultDegree;
             }
-            this.drawSector(this.center(), this._radius, this._thick, start, degree, newColors[i]);
+            this.drawOperate({
+                start: start,
+                degree: degree,
+                color: newColors[i]
+            });
         }
     },
     moveCounterclockwise: function () {
@@ -85,8 +89,17 @@ var ObstacleSector = ObstacleCircle.extend({
             } else if (i == n) {
                 degree = defaultDegree - delta;
             }
-            this.drawSector(this.center(), this._radius, this._thick, start, Math.abs(degree), newColors[i]);
+            this.drawOperate({
+                start: start,
+                degree: degree,
+                color: newColors[i]
+            });
         }
+    },
+    drawOperate: function (args) {
+        this.drawSector(
+            this.center(), this._radius, this._thick, args.start, Math.abs(args.degree), args.color
+        );
     }
 });
 

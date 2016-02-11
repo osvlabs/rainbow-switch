@@ -12,7 +12,7 @@ var GameScene = cc.Scene.extend({
         space.gravity = cp.v(0, -1000);
 
         this.earth = new cp.SegmentShape(space.staticBody, cp.v(0, 200),
-            cp.v(cc.winSize.width, 200), 0);
+            cp.v(cc.winSize.width, 200), 10);
         space.addStaticShape(this.earth);
 
         space.setDefaultCollisionHandler(function (arb, space) {
@@ -91,16 +91,16 @@ var GameScene = cc.Scene.extend({
             width = cc.winSize.width,
             height = cc.winSize.height,
             delta = - this.layer.getPositionY(),
-            thick = 0,
+            thick = -10,
             tl = cp.v(thick, height - thick + delta),
             tr = cp.v(width - thick, height - thick + delta),
             bl = cp.v(thick, thick + delta),
             br = cp.v(width - thick, thick + delta);
         var walls = [
-            new cp.SegmentShape(staticBody, bl, br, 0), // Bottom
-            new cp.SegmentShape(staticBody, tl, tr, 0), // Top
-            new cp.SegmentShape(staticBody, bl, tl, 0), // Left
-            new cp.SegmentShape(staticBody, br, tr, 0)  // Right
+            new cp.SegmentShape(staticBody, bl, br, Math.abs(thick)), // Bottom
+            new cp.SegmentShape(staticBody, tl, tr, Math.abs(thick)), // Top
+            new cp.SegmentShape(staticBody, bl, tl, Math.abs(thick)), // Left
+            new cp.SegmentShape(staticBody, br, tr, Math.abs(thick))  // Right
         ];
         for (var i = 0; i < walls.length; i++) {
             var shape = walls[i];

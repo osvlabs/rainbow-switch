@@ -8,8 +8,7 @@ util.data =  {
          },*/
         [
             {
-                type: 'line',
-                radius: 600
+                type: 'line'
             }
         ], [
             {

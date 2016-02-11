@@ -27,6 +27,7 @@
         "src/obstacle/circle.js",
         "src/obstacle/sector.js",
         "src/obstacle/isogon.js",
+        "src/obstacle/line.js",
         "src/obstacle/switch.js",
         "src/layer/game.js",
         "src/layer/gameFloat.js",
