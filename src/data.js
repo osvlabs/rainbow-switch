@@ -8,12 +8,17 @@ util.data =  {
          },*/
         [
             {
-                type: 'line'
+                type: 'line',
+                speed: -7
+            }, {
+                type: 'line',
+                speed: 7
             }
         ], [
             {
                 type: 'sector',
-                radius: 600
+                radius: 600,
+                speed: 1.5
             }
         ], [
             {
