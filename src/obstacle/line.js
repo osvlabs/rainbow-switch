@@ -1,5 +1,4 @@
 var ObstacleLine = ObstacleSector.extend({
-    _vertCount: 2,
     _startDegree: 0,
     _thick: 25,
     _speed: 7,

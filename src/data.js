@@ -8,6 +8,11 @@ util.data =  {
          },*/
         [
             {
+                type: 'cross',
+                length: 200
+            }
+        ], [
+            {
                 type: 'line',
                 speed: -7
             }, {

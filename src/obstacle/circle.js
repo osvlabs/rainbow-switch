@@ -21,9 +21,10 @@ var ObstacleCircle = Obstacle.extend({
         this.clear();
         this._delta += this._speed;
 
-        var degree = 360 / this._colors.length;
+        var degree = 360 / this._colors.length,
+            origin = this.center();
         for(var i = 0; i < this._colors.length; i++) {
-            this.drawSector(this.center(), this._radius, this._thick, i * degree + this._delta, degree, this._colors[i]);
+            this.drawSector(origin, this._radius, this._thick, i * degree + this._delta, degree, this._colors[i]);
         }
     }
 });
