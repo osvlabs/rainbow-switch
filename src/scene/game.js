@@ -52,6 +52,12 @@ var GameScene = cc.Scene.extend({
             eventName: util.EVENT_GAME_OVER,
             callback: this.gameOver.bind(this)
         }), this);
+
+        cc.eventManager.addListener(cc.EventListener.create({
+            event: cc.EventListener.CUSTOM,
+            eventName: util.EVENT_FINISH,
+            callback: this.finish.bind(this)
+        }), this);
     },
     update: function (dt) {
         this._super(dt);
@@ -69,6 +75,11 @@ var GameScene = cc.Scene.extend({
         layer.setPosition(cc.p(0, 0));
         this.addChild(layer);
         layer.runAction(cc.fadeOut(1).easing(cc.easeSineOut()));
+    },
+    finish: function () {
+        this.scheduleOnce(function () {
+            cc.director.runScene(cc.TransitionFade.create(0.5, new GamePassScene()));
+        }, 1.5);
     },
     setupGameOverPhysics: function () {
         util.space.gravity = cp.v(0, -500);

@@ -31,6 +31,7 @@
         "src/layer/game.js",
         "src/layer/gameFloat.js",
         "src/scene/game.js",
+        "src/scene/pass.js",
         "src/scene/over.js"
     ]
 }

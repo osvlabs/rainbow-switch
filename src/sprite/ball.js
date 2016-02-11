@@ -1,6 +1,7 @@
 var Ball = PhysicsSprite.extend({
     _circle: null,
     _radius: 15,
+    _active: true,
     ctor: function () {
         this._super();
 
@@ -41,14 +42,23 @@ var Ball = PhysicsSprite.extend({
             eventName: util.EVENT_CHANGE_BALL,
             callback: this.changeBall.bind(this)
         }), this);
+
+        cc.eventManager.addListener(cc.EventListener.create({
+            event: cc.EventListener.CUSTOM,
+            eventName: util.EVENT_FINISH,
+            callback: this.pass.bind(this)
+        }), this);
     },
     getWorldPosition: function () {
         var _pos = this._circle.getPosition();
         return this.convertToWorldSpace(_pos)
     },
     jump: function (event) {
-        var v = this.getBody().getVel().y;
-        this.getBody().applyImpulse(cp.v(0, Math.abs(400 - v)), cp.vzero);
+        if (this._active) {
+            var body = this.getBody(),
+                v = body.getVel().y;
+            body.applyImpulse(cp.v(0, Math.abs(400 - v)), cp.vzero);
+        }
     },
     gameOver: function () {
         this.unscheduleUpdate();
@@ -64,5 +74,12 @@ var Ball = PhysicsSprite.extend({
         this._circle.clear();
         this._circle.drawDot(cc.p(0, 0), this._radius, util.ballColor);
         this._circle.setColor(util.ballColor);
+    },
+    pass: function () {
+        this._active = false;
+
+        var body = this.getBody();
+        body.setVel(cp.vzero);
+        body.applyImpulse(cp.v(0, 1500), cp.vzero);
     }
 });
