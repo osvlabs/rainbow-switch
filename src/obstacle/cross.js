@@ -9,8 +9,8 @@ var ObstacleCross = Obstacle.extend({
             this._thick = thick;
         }
 
-        //this.addStar(cc.p(0, 0));
-        //this.addSwitch(this._length + 110);
+        this.addStar(cc.p(0, this._length + 50));
+        this.addSwitch(this._length + 150);
     },
     getMaxHeight: function () {
         return this._length * 2;
@@ -20,37 +20,30 @@ var ObstacleCross = Obstacle.extend({
         this._delta += this._speed;
 
         var degreeDefault = 360 / this._colors.length,
-            origin = this.center(),
-            radius = this._thick / 2;
+            radius = this._thick / 2,
+            origin = util.p2$v(this.center()),
+            p1 = $V([0, radius]),
+            p2 = $V([this._length, radius]),
+            p3 = $V([this._length, -radius]),
+            p4 = $V([0, -radius]);
         for(var i = 0; i < this._colors.length; i++) {
             var degree = cc.degreesToRadians(i * degreeDefault + this._delta),
-                sin = Math.sin(degree),
-                cos = Math.cos(degree),
-                tan = Math.tan(degree),
-                rsin = radius * sin,
-                rcos = radius * cos,
-                p1 = cc.p(
-                    -rsin,
-                    rcos
-                ),
-                p2l = (this._length + radius * tan),
-                p2m = radius / sin,
-                p2 = cc.p(
-                    p2l * cos - p2m,
-                    p2l * sin
-                ),
-                p3l = p2l + this._thick * tan,
-                p3 = cc.p(
-                    p3l * cos - p2m,
-                    p3l * sin - this._thick / cos
-                ),
-                p4 = cc.p(
-                    rsin,
-                    -rcos
-                ),
-                verts = [p1, p2, p3, p4],
+                verts = [
+                    util.$v2p(p1.rotate(degree, origin)),
+                    util.$v2p(p2.rotate(degree, origin)),
+                    util.$v2p(p3.rotate(degree, origin)),
+                    util.$v2p(p4.rotate(degree, origin))
+                ],
                 color = this._colors[i];
             this.drawPoly(verts, color, 0, color);
+
+            var shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(verts), this.getPosition());
+            shape.setSensor(true);
+            shape.setCollisionType(util.COLLISION_OBSTACLE);
+            shape.color = color;
+            shape.obstacle = this;
+            util.space.addShape(shape);
+            this._shapes.push(shape);
         }
     }
 });

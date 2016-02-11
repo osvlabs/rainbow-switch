@@ -111,5 +111,17 @@ var util = {
     },
     currentLevels: function () {
         return this.data.levels[this.currentLevel];
+    },
+    $v2p: function (v) {
+        return cc.p(
+            v.elements[0],
+            v.elements[1]
+        );
+    },
+    p2$v: function (p) {
+        return $V([
+            p.x,
+            p.y
+        ]);
     }
 };

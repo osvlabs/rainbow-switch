@@ -13,6 +13,7 @@
 
     "jsList" : [
         "src/lib/lodash.min.js",
+        "src/lib/sylvester.js",
         "src/util.js",
         "src/resource.js",
         "src/data.js",
