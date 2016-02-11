@@ -4,6 +4,7 @@ var Obstacle = cc.DrawNode.extend({
     _colors: null,
     _speed: 1,
     _interval: 0.04,
+    _delta: 0,
     _autoAddShape: true,
     _star: null,
     _switch: null,
@@ -142,7 +143,16 @@ Obstacle.create = function (type, args) {
     var clsName = 'Obstacle' + _.capitalize(type),
         cls = eval(clsName);
     if (cls && cls.create) {
-        return cls.create(args);
+        var o = cls.create(args);
+
+        if (args.colors !== undefined) {
+            o.setColors(args.colors);
+        }
+        if (args.speed !== undefined) {
+            o.setSpeed(args.speed);
+        }
+
+        return o;
     }
     return null;
 };

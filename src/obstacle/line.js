@@ -1,48 +1,36 @@
-var ObstacleSector = ObstacleCircle.extend({
-    _vertCount: 15,
-    _startDegree: 60,
-    _degrees: 60,
-    _speed: 1,
-    ctor: function (radius, thick, startDegree, degrees, delta) {
-        Obstacle.prototype.ctor.apply(this);
+var ObstacleLine = Obstacle.extend({
+    _vertCount: 2,
+    _thick: 25,
+    _length: 0,
+    ctor: function (thick) {
+        this._super();
+        this._length = cc.winSize.width;
 
-        this._radius = radius;
         if (thick !== undefined) {
             this._thick = thick;
         }
-        if (startDegree !== undefined) {
-            this._startDegree = startDegree;
-        }
-        if (degrees !== undefined) {
-            this._degrees = degrees;
-        }
-        this._delta = delta || this._delta;
 
         this.addStar(cc.p(0, this._radius + 55));
         this.addSwitch(this._radius + 150);
     },
     getMaxHeight: function () {
-        var ys = [];
-        for(var i = this._startDegree; i <= this._startDegree + this._degrees; i++) {
-            ys.push(Math.sin(cc.degreesToRadians(i)));
-        }
-        return this._radius * (_.max(ys) - _.min(ys)) + 60;
+        return this._thick;
     },
     move: function () {
         this.clear();
         this._delta += this._speed;
 
         if (this._delta >= 0) {
-            this.moveClockwise();
+            this.moveRight();
         } else {
-            this.moveCounterclockwise();
+            this.moveLeft();
         }
     },
-    moveClockwise: function () {
+    moveRight: function () {
         var n = this._colors.length,
             newColors = [],
             i = 0,
-            d = Math.floor((this._delta % this._degrees / this._degrees) * n);
+            d = Math.floor((this._delta % this._length / this._length) * n);
         for(; i < n; i++) {
             var j = (d + i) % n;
             newColors.push(this._colors[j]);
@@ -63,7 +51,7 @@ var ObstacleSector = ObstacleCircle.extend({
             this.drawSector(this.center(), this._radius, this._thick, start, degree, newColors[i]);
         }
     },
-    moveCounterclockwise: function () {
+    moveLeft: function () {
         var n = this._colors.length,
             newColors = [],
             i = 0,
@@ -90,6 +78,6 @@ var ObstacleSector = ObstacleCircle.extend({
     }
 });
 
-ObstacleSector.create = function (args) {
-    return new ObstacleSector(args.radius, args.thick, args.startDegree, args.degrees, args.delta);
+ObstacleLine.create = function (args) {
+    return new ObstacleLine(args.thick);
 };

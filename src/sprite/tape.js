@@ -1,15 +1,16 @@
 var Tape = cc.DrawNode.extend({
     _length: 10,
+    _floors: 3,
     onEnter: function () {
         this._super();
         this.setAnchorPoint(0.5, 0.5);
 
-        var size = cc.size(cc.winSize.width, this._length * 3);
+        var size = cc.size(cc.winSize.width, this._length * this._floors);
         this.setContentSize(size);
 
         var length = this._length,
             count = size.width / length;
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < this._floors; i++) {
             var x = i % 2 ? length : 0,
                 y = i * length;
             for (var j = 0; j < count; j += 2) {

@@ -2,7 +2,6 @@ var ObstacleCircle = Obstacle.extend({
     _vertCount: 20,
     _radius: 0,
     _thick: 25,
-    _rotateDegree: 0,
     _speed: 3,
     ctor: function (radius, thick) {
         this._super();
@@ -20,11 +19,11 @@ var ObstacleCircle = Obstacle.extend({
     },
     move: function () {
         this.clear();
-        this._rotateDegree += this._speed;
+        this._delta += this._speed;
 
         var degree = 360 / this._colors.length;
         for(var i = 0; i < this._colors.length; i++) {
-            this.drawSector(this.center(), this._radius, this._thick, i * degree + this._rotateDegree, degree, this._colors[i]);
+            this.drawSector(this.center(), this._radius, this._thick, i * degree + this._delta, degree, this._colors[i]);
         }
     }
 });
