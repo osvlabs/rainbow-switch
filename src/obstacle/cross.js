@@ -21,14 +21,17 @@ var ObstacleCross = Obstacle.extend({
 
         var degreeDefault = 360 / this._colors.length,
             radius = this._thick / 2,
-            origin = util.p2$v(this.center()),
-            p1 = $V([0, radius]),
+            center = this.center(),
+            origin = util.p2$v(center),
+            px = radius / Math.tan(cc.degreesToRadians(degreeDefault / 2)),
+            p1 = $V([px, radius]),
             p2 = $V([this._length, radius]),
             p3 = $V([this._length, -radius]),
-            p4 = $V([0, -radius]);
+            p4 = $V([px, -radius]);
         for(var i = 0; i < this._colors.length; i++) {
             var degree = cc.degreesToRadians(i * degreeDefault + this._delta),
                 verts = [
+                    center,
                     util.$v2p(p1.rotate(degree, origin)),
                     util.$v2p(p2.rotate(degree, origin)),
                     util.$v2p(p3.rotate(degree, origin)),
