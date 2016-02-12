@@ -27,12 +27,7 @@ var ObstacleLine = ObstacleSector.extend({
             pos.x + args.start + args.degree,
             pos.y + this._radius
         ));
-        shape.setSensor(true);
-        shape.setCollisionType(util.COLLISION_OBSTACLE);
-        shape.color = args.color;
-        shape.obstacle = this;
-        util.space.addShape(shape);
-        this._shapes.push(shape);
+        this.addShape(shape, args.color);
     }
 });
 

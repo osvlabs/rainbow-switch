@@ -97,14 +97,15 @@ var Obstacle = cc.DrawNode.extend({
         });
         this._shapes.length = 0;
     },
-    drawSector: function (origin, radius, thick, startDegree, angleDegree, fillColor) {
-        var angleStart = cc.degreesToRadians(startDegree),
-            angleStep = cc.degreesToRadians(angleDegree) / (this._vertCount - 1),
+    getSectorVerts: function (origin, radius, thick, startDegree, angleDegree) {
+        var start = cc.degreesToRadians(startDegree),
+            step = cc.degreesToRadians(angleDegree) / (this._vertCount - 1),
             verts = [],
-            vertsReversed = [];
+            vertsReversed = [],
+            result = [];
         for (var i = 0; i < this._vertCount; i++)
         {
-            var rads = angleStart + angleStep * i,
+            var rads = start + step * i,
                 cos = Math.cos(rads),
                 sin = Math.sin(rads),
                 x = origin.x + radius * cos,
@@ -124,18 +125,32 @@ var Obstacle = cc.DrawNode.extend({
                 p4 = verts[this._vertCount - 1 - i],
                 _verts = [p4, p3, p2, p1];
 
-            this.drawPoly(_verts, fillColor, 0, fillColor);
-
-            if (this._autoAddShape) {
-                var shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(_verts), cc.pSub(this.getPosition(), this.center()));
-                shape.setSensor(true);
-                shape.setCollisionType(util.COLLISION_OBSTACLE);
-                shape.color = fillColor;
-                shape.obstacle = this;
-                util.space.addShape(shape);
-                this._shapes.push(shape);
-            }
+            result.push(_verts);
         }
+
+        return result;
+    },
+    drawSector: function (origin, radius, thick, startDegree, angleDegree, fillColor) {
+        var verts = this.getSectorVerts(origin, radius, thick, startDegree, angleDegree);
+
+        _.forEach(verts, function (_verts, k) {
+            this.drawPoly(_verts, fillColor, 0, fillColor);
+            if (this._autoAddShape) {
+                var shape = new cp.PolyShape(
+                    util.space.staticBody,
+                    util.cpVerts(_verts), cc.pSub(this.getPosition(), this.center())
+                );
+                this.addShape(shape, fillColor);
+            }
+        }.bind(this));
+    },
+    addShape: function (shape, color) {
+        shape.setSensor(true);
+        shape.setCollisionType(util.COLLISION_OBSTACLE);
+        shape.color = color;
+        shape.obstacle = this;
+        util.space.addShape(shape);
+        this._shapes.push(shape);
     }
 });
 

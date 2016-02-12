@@ -1,6 +1,9 @@
 var ObstacleCross = Obstacle.extend({
+    _vertCount: 10,
     _length: 0,
     _thick: 25,
+    _autoAddShape: false,
+    _speed: 1.5,
     ctor: function (length, thick) {
         this._super();
 
@@ -27,26 +30,30 @@ var ObstacleCross = Obstacle.extend({
             p1 = $V([px, radius]),
             p2 = $V([this._length, radius]),
             p3 = $V([this._length, -radius]),
-            p4 = $V([px, -radius]);
+            p4 = $V([px, -radius]),
+            ps = [p1, p2, p3, p4],
+            _oVerts = this.getSectorVerts(cc.p(this._length, 0), radius, radius, -90, 180),
+            oVerts = [];
+        _.forEach(_oVerts, function (pv, k) {
+            oVerts.push(_.map(pv, util.p2$v));
+        });
+
         for(var i = 0; i < this._colors.length; i++) {
             var degree = cc.degreesToRadians(i * degreeDefault + this._delta),
-                verts = [
-                    center,
-                    util.$v2p(p1.rotate(degree, origin)),
-                    util.$v2p(p2.rotate(degree, origin)),
-                    util.$v2p(p3.rotate(degree, origin)),
-                    util.$v2p(p4.rotate(degree, origin))
-                ],
+                verts = _.concat([center], util.rotate$v2ps(ps, degree, origin)),
                 color = this._colors[i];
             this.drawPoly(verts, color, 0, color);
 
             var shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(verts), this.getPosition());
-            shape.setSensor(true);
-            shape.setCollisionType(util.COLLISION_OBSTACLE);
-            shape.color = color;
-            shape.obstacle = this;
-            util.space.addShape(shape);
-            this._shapes.push(shape);
+            this.addShape(shape, color);
+
+            for (var j = 0; j < oVerts.length; j++) {
+                verts = util.rotate$v2ps(oVerts[j], degree, origin);
+                this.drawPoly(verts, color, 0, color);
+
+                shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(verts), this.getPosition());
+                this.addShape(shape, color);
+            }
         }
     }
 });

@@ -123,5 +123,12 @@ var util = {
             p.x,
             p.y
         ]);
+    },
+    rotate$v2ps: function (vs, degree, origin) {
+        var result = [];
+        _.forEach(vs, function (v, k) {
+            result.push(util.$v2p(v.rotate(degree, origin)));
+        });
+        return result;
     }
 };
