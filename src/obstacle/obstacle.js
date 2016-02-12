@@ -52,17 +52,17 @@ var Obstacle = cc.DrawNode.extend({
     },
     /**
      * Add star
-     * @param {cc.Point} pos
+     * @param {int} y
      * @param {int} [score=1]
      */
-    addStar: function (pos, score) {
+    addStar: function (y, score) {
         this._star = new Star(score);
-        this._star.setPosition(pos.x, pos.y);
+        this._star.setPosition(util.center.x - this.getPositionX(), y);
         this.addChild(this._star);
     },
-    addSwitch: function (deltaY) {
+    addSwitch: function (y) {
         this._switch = new Switch();
-        this._switch.setPosition(0, deltaY);
+        this._switch.setPosition(util.center.x - this.getPositionX(), y);
         this.addChild(this._switch);
     },
     onEnter: function () {

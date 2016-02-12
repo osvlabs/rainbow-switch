@@ -10,8 +10,11 @@ var ObstacleCircle = Obstacle.extend({
         if (thick !== undefined) {
             this._thick = thick;
         }
+    },
+    onEnter: function () {
+        this._super();
 
-        this.addStar(cc.p(0, 0));
+        this.addStar(0);
         this.addSwitch(this._radius + 110);
     },
     getMaxHeight: function () {

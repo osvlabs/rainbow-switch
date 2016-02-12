@@ -17,8 +17,11 @@ var ObstacleSector = ObstacleCircle.extend({
             this._degrees = degrees;
         }
         this._delta = delta || this._delta;
+    },
+    onEnter: function () {
+        this._super();
 
-        this.addStar(cc.p(0, this._radius + 55));
+        this.addStar(this._radius + 55);
         this.addSwitch(this._radius + 150);
     },
     getMaxHeight: function () {

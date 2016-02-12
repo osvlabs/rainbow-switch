@@ -9,7 +9,8 @@ util.data =  {
         [
             {
                 type: 'cross',
-                length: 180
+                length: 180,
+                x: -100
             }
         ], [
             {

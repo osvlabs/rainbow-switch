@@ -128,7 +128,13 @@ var GameLayer = cc.LayerColor.extend({
             if (v.type == 'sector') {
                 _y -= v.radius;
             }
-            o.setPosition(util.center.x, _y);
+
+            var _x = util.center.x;
+            if (v.x !== undefined) {
+                _x += v.x;
+            }
+
+            o.setPosition(_x, _y);
             this.addChild(o);
             this._obstacles.push(o);
 
