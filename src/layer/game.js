@@ -37,81 +37,20 @@ var GameLayer = cc.LayerColor.extend({
 
         util.addDebugNode.apply(this);
 
-        util.space.addCollisionHandler(
-            util.COLLISION_BALL,
-            util.COLLISION_OBSTACLE,
-            function (arbiter, space) {
-                if (arbiter.b.color != util.ballColor && this._dead == false) {
-                    this._dead = true;
-                    space.addPostStepCallback(function(){
-                        this.gameOver();
-                    }.bind(this));
-                }
-                return true;
-            }.bind(this),
-            null,
-            null,
-            null
-        );
+        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_OBSTACLE,
+            this.checkExplode.bind(this), null, null, null);
 
-        util.space.addCollisionHandler(
-            util.COLLISION_BALL,
-            util.COLLISION_OBSTACLE_CENTER,
-            function (arbiter, space) {
-                space.addPostStepCallback(function () {
-                    util.currentIndex = Math.max(
-                        util.currentIndex,
-                        arbiter.b.obstacle._index
-                    );
-                }.bind(this));
-                return true;
-            }.bind(this),
-            null,
-            null,
-            null
-        );
+        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_OBSTACLE_CENTER,
+            this.updateCurrentIndex.bind(this), null, null, null);
 
-        util.space.addCollisionHandler(
-            util.COLLISION_BALL,
-            util.COLLISION_STAR,
-            function (arbiter, space) {
-                space.addPostStepCallback(function(){
-                    arbiter.b.object.winScore();
-                }.bind(this));
-                return true;
-            }.bind(this),
-            null,
-            null,
-            null
-        );
+        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_STAR,
+            this.winScore.bind(this), null, null, null);
 
-        util.space.addCollisionHandler(
-            util.COLLISION_BALL,
-            util.COLLISION_SWITCH,
-            function (arbiter, space) {
-                space.addPostStepCallback(function(){
-                    arbiter.b.object.onCollisionDetected();
-                }.bind(this));
-                return true;
-            }.bind(this),
-            null,
-            null,
-            null
-        );
+        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_SWITCH,
+            this.switchBallColor.bind(this), null, null, null);
 
-        util.space.addCollisionHandler(
-            util.COLLISION_BALL,
-            util.COLLISION_FINISH_LINE,
-            function (arbiter, space) {
-                space.addPostStepCallback(function(){
-                    this.finish();
-                }.bind(this));
-                return true;
-            }.bind(this),
-            null,
-            null,
-            null
-        );
+        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_FINISH_LINE,
+            this.finish.bind(this), null, null, null);
 
         this.scheduleUpdate();
     },
@@ -189,9 +128,42 @@ var GameLayer = cc.LayerColor.extend({
         this.explode(pos);
         this.earthQuake();
     },
-    finish: function () {
-        cc.eventManager.dispatchCustomEvent(util.EVENT_FINISH);
-        this.unscheduleUpdate();
-        this.firework();
-    }
+    finish: function (arbiter, space) {
+        space.addPostStepCallback(function(){
+            cc.eventManager.dispatchCustomEvent(util.EVENT_FINISH);
+            this.unscheduleUpdate();
+            this.firework();
+        }.bind(this));
+        return true;
+    },
+    checkExplode: function (arbiter, space) {
+        if (arbiter.b.color != util.ballColor && this._dead == false) {
+            this._dead = true;
+            space.addPostStepCallback(function(){
+                this.gameOver();
+            }.bind(this));
+        }
+        return true;
+    },
+    updateCurrentIndex: function (arbiter, space) {
+        space.addPostStepCallback(function () {
+            util.currentIndex = Math.max(
+                util.currentIndex,
+                arbiter.b.obstacle._index
+            );
+        }.bind(this));
+        return true;
+    },
+    winScore: function (arbiter, space) {
+        space.addPostStepCallback(function(){
+            arbiter.b.object.winScore();
+        }.bind(this));
+        return true;
+    },
+    switchBallColor: function (arbiter, space) {
+        space.addPostStepCallback(function(){
+            arbiter.b.object.onCollisionDetected();
+        }.bind(this));
+        return true;
+    },
 });
