@@ -188,6 +188,9 @@ Obstacle.create = function (type, args) {
         if (args.speed !== undefined) {
             o.setSpeed(args.speed);
         }
+        if (args.interval !== undefined) {
+            o.setInterval(args.interval);
+        }
 
         return o;
     }

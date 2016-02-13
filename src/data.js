@@ -8,6 +8,12 @@ util.data =  {
          },*/
         [
             {
+                type: 'cross',
+                length: 150,
+                interval: 0.2
+            }
+        ], [
+            {
                 type: 'circle',
                 radius: 150
             }
