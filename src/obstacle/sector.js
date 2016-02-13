@@ -1,5 +1,6 @@
 var ObstacleSector = ObstacleCircle.extend({
     _vertCount: 15,
+    _centerShapeDeltaY: 0,
     _startDegree: 60,
     _degrees: 60,
     _speed: 1,
@@ -17,9 +18,10 @@ var ObstacleSector = ObstacleCircle.extend({
             this._degrees = degrees;
         }
         this._delta = delta || this._delta;
+        this._centerShapeDeltaY = radius - this.getMaxHeight() / 2;
     },
     onEnter: function () {
-        this._super();
+        Obstacle.prototype.onEnter.apply(this);
 
         this.addStar(this._radius + 55);
         this.addSwitch(this._radius + 150);

@@ -1,6 +1,8 @@
 var Obstacle = cc.DrawNode.extend({
     _vertCount: 50,
     _shapes: null,
+    _centerShape: null,
+    _centerShapeDeltaY: 0,
     _colors: null,
     _speed: 1,
     _interval: 0.04,
@@ -50,6 +52,9 @@ var Obstacle = cc.DrawNode.extend({
     getSwitchHeight: function () {
         return this._switch ? 220 : 0;
     },
+    getChildX: function () {
+        return util.center.x - this.getPositionX();
+    },
     /**
      * Add star
      * @param {int} y
@@ -57,19 +62,36 @@ var Obstacle = cc.DrawNode.extend({
      */
     addStar: function (y, score) {
         this._star = new Star(score);
-        this._star.setPosition(util.center.x - this.getPositionX(), y);
+        this._star.setPosition(this.getChildX(), y);
         this.addChild(this._star);
     },
     addSwitch: function (y) {
         this._switch = new Switch();
-        this._switch.setPosition(util.center.x - this.getPositionX(), y);
+        this._switch.setPosition(this.getChildX(), y);
         this.addChild(this._switch);
+    },
+    addCenterShape: function () {
+        var shape = new cp.CircleShape(
+            util.space.staticBody,
+            10,
+            cp.v(
+                util.center.x,
+                this.getPositionY() + this._centerShapeDeltaY
+            )
+        );
+        shape.setSensor(true);
+        shape.setCollisionType(util.COLLISION_OBSTACLE_CENTER);
+        shape.obstacle = this;
+        util.space.addShape(shape);
+        this._centerShape = shape;
     },
     onEnter: function () {
         this._super();
         if (this._colors.length <= 0) {
             this.setColors(4);
         }
+
+        this.addCenterShape();
 
         this.schedule(this.move, this._interval);
         this.move();

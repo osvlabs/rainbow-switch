@@ -8,9 +8,8 @@ util.data =  {
          },*/
         [
             {
-                type: 'cross',
-                length: 180,
-                x: -100
+                type: 'circle',
+                radius: 150
             }
         ], [
             {
@@ -24,7 +23,7 @@ util.data =  {
             {
                 type: 'sector',
                 radius: 600,
-                speed: 1.5
+                speed: 1
             }
         ], [
             {

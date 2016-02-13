@@ -49,6 +49,7 @@ var util = {
     COLLISION_GAME_OVER_WALL: 'game_over_wall',
     COLLISION_DEBRIS: 'debris',
     COLLISION_OBSTACLE: 'obstacle',
+    COLLISION_OBSTACLE_CENTER: 'obstacle_center',
     COLLISION_STAR: 'star',
     COLLISION_SWITCH: 'switch',
     COLLISION_FINISH_LINE: 'finish_line',

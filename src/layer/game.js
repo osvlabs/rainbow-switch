@@ -35,7 +35,7 @@ var GameLayer = cc.LayerColor.extend({
         this._ball.setPosition(util.center.x, 217);
         this.addChild(this._ball);
 
-        //util.addDebugNode.apply(this);
+        util.addDebugNode.apply(this);
 
         util.space.addCollisionHandler(
             util.COLLISION_BALL,
@@ -47,6 +47,17 @@ var GameLayer = cc.LayerColor.extend({
                         this.gameOver();
                     }.bind(this));
                 }
+                return true;
+            }.bind(this),
+            null,
+            null,
+            null
+        );
+
+        util.space.addCollisionHandler(
+            util.COLLISION_BALL,
+            util.COLLISION_OBSTACLE_CENTER,
+            function (arbiter, space) {
                 space.addPostStepCallback(function () {
                     util.currentIndex = Math.max(
                         util.currentIndex,
