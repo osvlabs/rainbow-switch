@@ -177,7 +177,7 @@ var Obstacle = cc.DrawNode.extend({
 });
 
 Obstacle.create = function (type, args) {
-    var clsName = 'Obstacle' + _.capitalize(type),
+    var clsName = 'Obstacle' + type,
         cls = eval(clsName);
     if (cls && cls.create) {
         var o = cls.create(args);

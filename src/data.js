@@ -8,33 +8,38 @@ util.data =  {
          },*/
         [
             {
-                type: 'diamond',
+                type: 'ShakeCircle',
+                radius: 150
+            }
+        ], [
+            {
+                type: 'Diamond',
                 radius1: 100,
                 radius2: 150
             }
         ], [
             {
-                type: 'cross',
+                type: 'Cross',
                 length: 150,
                 speed: -2,
                 x: -100
             }
         ], [
             {
-                type: 'circle',
+                type: 'Circle',
                 radius: 150
             }
         ], [
             {
-                type: 'line',
+                type: 'Line',
                 speed: -7
             }, {
-                type: 'line',
+                type: 'Line',
                 speed: 7
             }
         ], [
             {
-                type: 'sector',
+                type: 'Sector',
                 radius: 600,
                 speed: 1
             }
@@ -52,7 +57,7 @@ util.data =  {
             }
         ], [
             {
-                type: 'isogon',
+                type: 'Isogon',
                 radius: 180
             }
         ]

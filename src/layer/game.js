@@ -75,7 +75,7 @@ var GameLayer = cc.LayerColor.extend({
 
             var height = o.getHeight(),
                 _y = y + height / 2;
-            if (v.type == 'sector') {
+            if (v.type == 'Sector') {
                 _y -= v.radius;
             }
 
