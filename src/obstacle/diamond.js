@@ -51,7 +51,8 @@ var ObstacleDiamond = Obstacle.extend({
     },
     drawOperate: function (i, origin, ps) {
         var degree = cc.degreesToRadians(this._delta),
-            verts = util.rotate$v2ps(ps, degree, origin),
+            _verts = util.rotate$v2ps(ps, degree, origin),
+            verts = _.map(_verts, this.pAddDeltaY.bind(this)),
             color = this._colors[i];
         this.drawPoly(verts, color, 0, color);
 

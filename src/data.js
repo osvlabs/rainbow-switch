@@ -16,6 +16,22 @@ util.data =  {
             }
         ], [
             {
+                type: 'Diamond',
+                speed: 2,
+                radius1: 100,
+                radius2: 150,
+                shake: 40
+            }
+        ], [
+            {
+                type: 'Isogon',
+                radius: 180,
+                thick: 40,
+                colors: 3,
+                shake: 30
+            }
+        ], [
+            {
                 type: 'Line',
                 speed: -7,
                 shake: 10

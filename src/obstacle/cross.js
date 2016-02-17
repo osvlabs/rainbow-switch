@@ -21,9 +21,6 @@ var ObstacleCross = Obstacle.extend({
     getMaxHeight: function () {
         return this._length * 2;
     },
-    pAddDeltaY: function (p) {
-        return cc.pAdd(p, cc.p(0, this._deltaY));
-    },
     move: function () {
         this._super();
 

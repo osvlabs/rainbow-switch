@@ -74,6 +74,9 @@ var Obstacle = cc.DrawNode.extend({
         var center = this.center();
         return cc.p(center.x, center.y + this._deltaY);
     },
+    pAddDeltaY: function (p) {
+        return cc.pAdd(p, cc.p(0, this._deltaY));
+    },
     getHeight: function () {
         if (this._height !== null) {
             return this._height;
