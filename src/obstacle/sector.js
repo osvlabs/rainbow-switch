@@ -34,7 +34,7 @@ var ObstacleSector = ObstacleCircle.extend({
         return this._radius * (_.max(ys) - _.min(ys)) + 60;
     },
     move: function () {
-        this._super();
+        Obstacle.prototype.move.apply(this, arguments);
 
         if (this._delta >= 0) {
             this.moveClockwise();
@@ -102,7 +102,7 @@ var ObstacleSector = ObstacleCircle.extend({
     },
     drawOperate: function (args) {
         this.drawSector(
-            this.center(), this._radius, this._thick, args.start, Math.abs(args.degree), args.color
+            this.getShakedCenter(), this._radius, this._thick, args.start, Math.abs(args.degree), args.color
         );
     }
 });

@@ -8,6 +8,12 @@ util.data =  {
          },*/
         [
             {
+                type: 'Sector',
+                radius: 600,
+                shake: 40
+            }
+        ], [
+            {
                 type: 'Circle',
                 radius: 150,
                 shake: 40
@@ -46,12 +52,12 @@ util.data =  {
             }
         ], [
             {
-                type: 'circle',
+                type: 'Circle',
                 radius: 150
             }
         ], [
             {
-                type: 'isogon',
+                type: 'Isogon',
                 radius: 180,
                 thick: 40,
                 colors: 3
