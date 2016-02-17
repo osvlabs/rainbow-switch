@@ -8,10 +8,15 @@ util.data =  {
          },*/
         [
             {
+                type: 'diamond',
+                radius1: 100,
+                radius2: 150
+            }
+        ], [
+            {
                 type: 'cross',
                 length: 150,
-                interval: 0.08,
-                speed: 4,
+                speed: -2,
                 x: -100
             }
         ], [
