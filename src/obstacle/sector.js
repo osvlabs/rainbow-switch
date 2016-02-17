@@ -34,8 +34,7 @@ var ObstacleSector = ObstacleCircle.extend({
         return this._radius * (_.max(ys) - _.min(ys)) + 60;
     },
     move: function () {
-        this.clear();
-        this._delta += this._speed;
+        this._super();
 
         if (this._delta >= 0) {
             this.moveClockwise();

@@ -22,8 +22,7 @@ var ObstacleDiamond = Obstacle.extend({
         return Math.max(this._radius1, this._radius2) * 2;
     },
     move: function () {
-        this.clear();
-        this._delta += this._speed;
+        this._super();
 
         var origin = util.p2$v(this.center()),
             x = this._radius1,

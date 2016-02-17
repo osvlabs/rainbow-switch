@@ -1,8 +1,11 @@
 var Obstacle = cc.DrawNode.extend({
     _vertCount: 50,
     _shapes: null,
+
+    // To detect pass
     _centerShape: null,
     _centerShapeDeltaY: 0,
+
     _colors: null,
     _speed: 1,
     _interval: 0.04,
@@ -12,6 +15,13 @@ var Obstacle = cc.DrawNode.extend({
     _switch: null,
     _height: null,
     _index: 0,
+
+    // For shake feature
+    _shake: 0,
+    _shakeSpeed: 2,
+    _currentShakeSpeed: 2,
+    _deltaY: 0,
+
     ctor: function () {
         this._super();
         this.setAnchorPoint(0.5, 0.5);
@@ -38,6 +48,31 @@ var Obstacle = cc.DrawNode.extend({
     },
     setAutoAddShape: function (v) {
         this._autoAddShape = v;
+    },
+    setShake: function (shake, speed) {
+        if (shake !== undefined) {
+            this._shake = shake;
+        }
+        if (speed !== undefined) {
+            this._shakeSpeed = Math.abs(speed);
+        }
+        this._currentShakeSpeed = this._shakeSpeed;
+    },
+    stepDeltaY: function () {
+        if (this._shake == 0) {
+            return;
+        }
+        var nextShake = this._deltaY + this._shakeSpeed;
+        if (nextShake > this._shake) {
+            this._currentShakeSpeed = -this._shakeSpeed;
+        } else if (nextShake < -this._shake) {
+            this._currentShakeSpeed = this._shakeSpeed;
+        }
+        this._deltaY += this._currentShakeSpeed;
+    },
+    getShakedCenter: function () {
+        var center = this.center();
+        return cc.p(center.x, center.y + this._deltaY);
     },
     getHeight: function () {
         if (this._height !== null) {
@@ -105,7 +140,10 @@ var Obstacle = cc.DrawNode.extend({
         return cc.p(size.width / 2, size.height / 2);
     },
     move: function () {
-        // Do nothing here
+        this.clear();
+
+        this._delta += this._speed;
+        this.stepDeltaY();
     },
     clear: function () {
         this._super();
@@ -190,6 +228,9 @@ Obstacle.create = function (type, args) {
         }
         if (args.interval !== undefined) {
             o.setInterval(args.interval);
+        }
+        if (args.shake !== undefined) {
+            o.setShake(args.shake, args.shakeSpeed);
         }
 
         return o;

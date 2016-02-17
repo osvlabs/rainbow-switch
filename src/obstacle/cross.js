@@ -22,8 +22,7 @@ var ObstacleCross = Obstacle.extend({
         return this._length * 2;
     },
     move: function () {
-        this.clear();
-        this._delta += this._speed;
+        this._super();
 
         var degreeDefault = 360 / this._colors.length,
             radius = this._thick / 2,

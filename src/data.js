@@ -8,8 +8,9 @@ util.data =  {
          },*/
         [
             {
-                type: 'ShakeCircle',
-                radius: 150
+                type: 'Circle',
+                radius: 150,
+                shake: 40
             }
         ], [
             {

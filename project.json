@@ -31,7 +31,6 @@
         "src/obstacle/line.js",
         "src/obstacle/cross.js",
         "src/obstacle/diamond.js",
-        "src/obstacle/shakeCircle.js",
         "src/obstacle/switch.js",
         "src/layer/game.js",
         "src/layer/gameFloat.js",

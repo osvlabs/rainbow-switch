@@ -18,14 +18,13 @@ var ObstacleCircle = Obstacle.extend({
         this.addSwitch(this._radius + 110);
     },
     getMaxHeight: function () {
-        return this._radius * 2;
+        return (this._radius + this._shake) * 2;
     },
     move: function () {
-        this.clear();
-        this._delta += this._speed;
+        this._super();
 
         var degree = 360 / this._colors.length,
-            origin = this.center();
+            origin = this.getShakedCenter();
         for(var i = 0; i < this._colors.length; i++) {
             this.drawSector(origin, this._radius, this._thick, i * degree + this._delta, degree, this._colors[i]);
         }
