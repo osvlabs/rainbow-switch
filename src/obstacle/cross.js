@@ -21,6 +21,9 @@ var ObstacleCross = Obstacle.extend({
     getMaxHeight: function () {
         return this._length * 2;
     },
+    pAddDeltaY: function (p) {
+        return cc.pAdd(p, cc.p(0, this._deltaY));
+    },
     move: function () {
         this._super();
 
@@ -42,7 +45,8 @@ var ObstacleCross = Obstacle.extend({
 
         for(var i = 0; i < this._colors.length; i++) {
             var degree = cc.degreesToRadians(i * degreeDefault + this._delta),
-                verts = _.concat([center], util.rotate$v2ps(ps, degree, origin)),
+                _verts = _.concat([center], util.rotate$v2ps(ps, degree, origin)),
+                verts = _.map(_verts, this.pAddDeltaY.bind(this)),
                 color = this._colors[i];
             this.drawPoly(verts, color, 0, color);
 
@@ -50,7 +54,8 @@ var ObstacleCross = Obstacle.extend({
             this.addShape(shape, color);
 
             for (var j = 0; j < oVerts.length; j++) {
-                verts = util.rotate$v2ps(oVerts[j], degree, origin);
+                _verts = util.rotate$v2ps(oVerts[j], degree, origin);
+                verts = _.map(_verts, this.pAddDeltaY.bind(this));
                 this.drawPoly(verts, color, 0, color);
 
                 shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(verts), this.getPosition());
