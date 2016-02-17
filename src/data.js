@@ -8,6 +8,16 @@ util.data =  {
          },*/
         [
             {
+                type: 'Line',
+                speed: -7,
+                shake: 10
+            }, {
+                type: 'Line',
+                speed: 7,
+                shake: 30
+            }
+        ], [
+            {
                 type: 'Sector',
                 radius: 600,
                 shake: 40

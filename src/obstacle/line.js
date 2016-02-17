@@ -14,8 +14,8 @@ var ObstacleLine = ObstacleSector.extend({
     drawOperate: function (args) {
         args.start -= cc.winSize.width / 2;
         this.drawRect(
-            cc.p(args.start, -this._radius),
-            cc.p(args.start + args.degree, this._radius),
+            cc.p(args.start, -this._radius + this._deltaY),
+            cc.p(args.start + args.degree, this._radius + this._deltaY),
             args.color,
             0,
             args.color
@@ -23,9 +23,9 @@ var ObstacleLine = ObstacleSector.extend({
         var pos = this.getPosition();
         var shape = new cp.BoxShape2(util.space.staticBody, cp.bb(
             pos.x + args.start,
-            pos.y - this._radius,
+            pos.y - this._radius + this._deltaY,
             pos.x + args.start + args.degree,
-            pos.y + this._radius
+            pos.y + this._radius + this._deltaY
         ));
         this.addShape(shape, args.color);
     }
