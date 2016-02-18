@@ -31,7 +31,7 @@ var Obstacle = cc.DrawNode.extend({
         this._colors = [];
         this._shapes = [];
     },
-    setColors: function (colors) {
+    setColors: function (colors, doNotShuffle) {
         if (_.isNumber(colors)) {
             colors = _.sampleSize(util.COLORS, colors);
             if (_.indexOf(colors, util.ballColor) < 0) {
@@ -41,7 +41,10 @@ var Obstacle = cc.DrawNode.extend({
         } else {
             colors = colors || _.clone(util.COLORS);
         }
-        this._colors = _.shuffle(colors);
+        if (!doNotShuffle) {
+            colors = _.shuffle(colors);
+        }
+        this._colors = colors;
     },
     setSpeed: function (speed) {
         this._speed = speed;

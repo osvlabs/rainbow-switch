@@ -16,11 +16,22 @@ var ObstacleGroup = Obstacle.extend({
     onEnter: function () {
         this._super();
 
+        var colors = this._colors;
+        this._presetColor = colors[0];
+
+        this._a.setColors(colors, true);
         this.addChild(this._a);
+
+        this._b.setColors([
+            colors[3],
+            colors[0],
+            colors[2],
+            colors[1]
+        ], true);
         this.addChild(this._b);
 
         this.addStar(this._starDeltaY);
-        this.addSwitch(this.getMaxHeight() + 110);
+        this.addSwitch(this.getMaxHeight() + 40);
     },
     getMaxHeight: function () {
         return Math.max(this._a.getMaxHeight(), this._b.getMaxHeight());
