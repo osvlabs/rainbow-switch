@@ -1,13 +1,13 @@
 var ObstacleCross = Obstacle.extend({
     _vertCount: 10,
-    _length: 0,
+    _radius: 0,
     _thick: 25,
     _autoAddShape: false,
     _speed: 1.5,
-    ctor: function (length, thick) {
+    ctor: function (radius, thick) {
         this._super();
 
-        this._length = length;
+        this._radius = radius;
         if (thick !== undefined) {
             this._thick = thick;
         }
@@ -16,14 +16,14 @@ var ObstacleCross = Obstacle.extend({
         this._super();
 
         if (this._autoAddStar) {
-            this.addStar(this._length + 50);
+            this.addStar(this._radius + 50);
         }
         if (this._autoAddSwitch) {
-            this.addSwitch(this._length + 150);
+            this.addSwitch(this._radius + 150);
         }
     },
     getMaxHeight: function () {
-        return this._length * 2;
+        return this._radius * 2;
     },
     move: function () {
         this._super();
@@ -34,11 +34,11 @@ var ObstacleCross = Obstacle.extend({
             origin = util.p2$v(center),
             px = radius / Math.tan(cc.degreesToRadians(degreeDefault / 2)),
             p1 = $V([px, radius]),
-            p2 = $V([this._length, radius]),
-            p3 = $V([this._length, -radius]),
+            p2 = $V([this._radius, radius]),
+            p3 = $V([this._radius, -radius]),
             p4 = $V([px, -radius]),
             ps = [p1, p2, p3, p4],
-            _oVerts = this.getSectorVerts(cc.p(this._length, 0), radius, radius, -90, 180),
+            _oVerts = this.getSectorVerts(cc.p(this._radius, 0), radius, radius, -90, 180),
             oVerts = [];
         _.forEach(_oVerts, function (pv, k) {
             oVerts.push(_.map(pv, util.p2$v));
@@ -51,7 +51,7 @@ var ObstacleCross = Obstacle.extend({
                 color = this._colors[i];
             this.drawPoly(verts, color, 0, color);
 
-            var shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(verts), this.getPosition());
+            var shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(verts), this.getLayerPosition());
             this.addShape(shape, color);
 
             for (var j = 0; j < oVerts.length; j++) {
@@ -59,7 +59,7 @@ var ObstacleCross = Obstacle.extend({
                 verts = _.map(_verts, this.pAddDeltaY.bind(this));
                 this.drawPoly(verts, color, 0, color);
 
-                shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(verts), this.getPosition());
+                shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(verts), this.getLayerPosition());
                 this.addShape(shape, color);
             }
         }
@@ -67,5 +67,5 @@ var ObstacleCross = Obstacle.extend({
 });
 
 ObstacleCross.create = function (args) {
-    return new ObstacleCross(args.length, args.thick);
+    return new ObstacleCross(args.radius, args.thick);
 };

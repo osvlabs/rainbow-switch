@@ -10,6 +10,21 @@ util.data =  {
             {
                 type: 'Group',
                 a: {
+                    type: 'Cross',
+                    radius: 100
+                },
+                b: {
+                    type: 'Cross',
+                    radius: 100
+                },
+                speed: 3,
+                x: 111,
+                starDeltaY: 120
+            }
+        ], [
+            {
+                type: 'Group',
+                a: {
                     type: 'Circle',
                     radius: 100
                 },
@@ -24,7 +39,7 @@ util.data =  {
         ], [
             {
                 type: 'Cross',
-                length: 150,
+                radius: 150,
                 speed: -2,
                 x: -100,
                 shake: 30
@@ -76,7 +91,7 @@ util.data =  {
         ], [
             {
                 type: 'Cross',
-                length: 150,
+                radius: 150,
                 speed: -2,
                 x: -100
             }
