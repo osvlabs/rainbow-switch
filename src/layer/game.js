@@ -70,7 +70,7 @@ var GameLayer = cc.LayerColor.extend({
     addObstacles: function () {
         var y = 600;
         _.forEach(util.currentLevels(), function (v, k) {
-            var o = Obstacle.create(v.type, v);
+            var o = Obstacle.create(_.cloneDeep(v));
             o._index = k + 1;
 
             var height = o.getHeight(),
@@ -79,12 +79,7 @@ var GameLayer = cc.LayerColor.extend({
                 _y -= v.radius;
             }
 
-            var _x = util.center.x;
-            if (v.x !== undefined) {
-                _x += v.x;
-            }
-
-            o.setPosition(_x, _y);
+            o.setPositionY(_y);
             this.addChild(o);
             this._obstacles.push(o);
 

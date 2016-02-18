@@ -23,8 +23,12 @@ var ObstacleSector = ObstacleCircle.extend({
     onEnter: function () {
         Obstacle.prototype.onEnter.apply(this);
 
-        this.addStar(this._radius + 55);
-        this.addSwitch(this._radius + 150);
+        if (this._autoAddStar) {
+            this.addStar(this._radius + 55);
+        }
+        if (this._autoAddSwitch) {
+            this.addSwitch(this._radius + 150);
+        }
     },
     getMaxHeight: function () {
         var ys = [];

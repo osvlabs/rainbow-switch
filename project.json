@@ -2,7 +2,7 @@
     "project_type": "javascript",
 
     "debugMode" : 1,
-    "showFPS" : false,
+    "showFPS" : true,
     "frameRate" : 60,
     "noCache" : false,
     "id" : "gameCanvas",
@@ -31,6 +31,7 @@
         "src/obstacle/line.js",
         "src/obstacle/cross.js",
         "src/obstacle/diamond.js",
+        "src/obstacle/group.js",
         "src/obstacle/switch.js",
         "src/layer/game.js",
         "src/layer/gameFloat.js",

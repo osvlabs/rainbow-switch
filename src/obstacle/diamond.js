@@ -15,8 +15,12 @@ var ObstacleDiamond = Obstacle.extend({
     onEnter: function () {
         this._super();
 
-        this.addStar(0);
-        this.addSwitch(this.getMaxHeight() + 150);
+        if (this._autoAddStar) {
+            this.addStar(0);
+        }
+        if (this._autoAddSwitch) {
+            this.addSwitch(this.getMaxHeight() + 150);
+        }
     },
     getMaxHeight: function () {
         return Math.max(this._radius1, this._radius2) * 2;

@@ -8,6 +8,24 @@ util.data =  {
          },*/
         [
             {
+                type: 'Group',
+                a: {
+                    type: 'Circle',
+                    child: true,
+                    x: -100,
+                    radius: 100
+                },
+                b: {
+                    type: 'Circle',
+                    child: true,
+                    x: 100,
+                    radius: 100,
+                    speed: -3
+                },
+                starDeltaY: 120
+            }
+        ], [
+            {
                 type: 'Cross',
                 length: 150,
                 speed: -2,

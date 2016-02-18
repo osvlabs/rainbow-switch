@@ -11,10 +11,13 @@ var Obstacle = cc.DrawNode.extend({
     _interval: 0.04,
     _delta: 0,
     _autoAddShape: true,
+    _autoAddStar: true,
+    _autoAddSwitch: true,
     _star: null,
     _switch: null,
     _height: null,
     _index: 0,
+    _child: false,
 
     // For shake feature
     _shake: 0,
@@ -160,6 +163,12 @@ var Obstacle = cc.DrawNode.extend({
         });
         this._shapes.length = 0;
     },
+    getLayerPosition: function () {
+        if (!this._child) {
+            return this.getPosition();
+        }
+        return cc.pAdd(this.getPosition(), this.parent.getPosition());
+    },
     getSectorVerts: function (origin, radius, thick, startDegree, angleDegree) {
         var start = cc.degreesToRadians(startDegree),
             step = cc.degreesToRadians(angleDegree) / (this._vertCount - 1),
@@ -201,7 +210,7 @@ var Obstacle = cc.DrawNode.extend({
             if (this._autoAddShape) {
                 var shape = new cp.PolyShape(
                     util.space.staticBody,
-                    util.cpVerts(_verts), cc.pSub(this.getPosition(), this.center())
+                    util.cpVerts(_verts), cc.pSub(this.getLayerPosition(), this.center())
                 );
                 this.addShape(shape, fillColor);
             }
@@ -217,10 +226,15 @@ var Obstacle = cc.DrawNode.extend({
     }
 });
 
-Obstacle.create = function (type, args) {
-    var clsName = 'Obstacle' + type,
+Obstacle.create = function (args) {
+    var clsName = 'Obstacle' + args.type,
         cls = eval(clsName);
     if (cls && cls.create) {
+        if (args.type == 'Group') {
+            args.a = Obstacle.create(args.a);
+            args.b = Obstacle.create(args.b);
+        }
+
         var o = cls.create(args);
 
         if (args.colors !== undefined) {
@@ -235,6 +249,24 @@ Obstacle.create = function (type, args) {
         if (args.shake !== undefined) {
             o.setShake(args.shake, args.shakeSpeed);
         }
+        if (args.star === false || args.child === true) {
+            o._autoAddStar = false;
+        }
+        if (args.switch === false || args.child === true) {
+            o._autoAddSwitch = false;
+        }
+        if (args.child === true) {
+            o._child = true;
+        }
+
+        var x = util.center.x;
+        if (o._child) {
+            x = 0;
+        }
+        if (args.x !== undefined) {
+            x += args.x;
+        }
+        o.setPosition(x, 0);
 
         return o;
     }

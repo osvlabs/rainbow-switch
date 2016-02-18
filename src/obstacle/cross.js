@@ -15,8 +15,12 @@ var ObstacleCross = Obstacle.extend({
     onEnter: function () {
         this._super();
 
-        this.addStar(this._length + 50);
-        this.addSwitch(this._length + 150);
+        if (this._autoAddStar) {
+            this.addStar(this._length + 50);
+        }
+        if (this._autoAddSwitch) {
+            this.addSwitch(this._length + 150);
+        }
     },
     getMaxHeight: function () {
         return this._length * 2;
