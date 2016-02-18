@@ -11,17 +11,14 @@ util.data =  {
                 type: 'Group',
                 a: {
                     type: 'Circle',
-                    child: true,
-                    x: -100,
                     radius: 100
                 },
                 b: {
                     type: 'Circle',
-                    child: true,
-                    x: 100,
-                    radius: 100,
-                    speed: -3
+                    radius: 100
                 },
+                speed: 3,
+                x: 100,
                 starDeltaY: 120
             }
         ], [

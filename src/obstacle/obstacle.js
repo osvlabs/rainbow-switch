@@ -231,8 +231,18 @@ Obstacle.create = function (args) {
         cls = eval(clsName);
     if (cls && cls.create) {
         if (args.type == 'Group') {
+            args.a.child = true;
+            args.a.x = -args.x;
+            args.a.speed = args.speed;
             args.a = Obstacle.create(args.a);
+
+            args.b.child = true;
+            args.b.x = args.x;
+            args.b.speed = -args.speed;
             args.b = Obstacle.create(args.b);
+
+            delete args.x;
+            delete args.speed;
         }
 
         var o = cls.create(args);

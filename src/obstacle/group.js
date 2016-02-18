@@ -2,6 +2,7 @@ var ObstacleGroup = Obstacle.extend({
     _a: null,
     _b: null,
     _starDeltaY: 0,
+    _presetColor: null,
 
     ctor: function (a, b, starDeltaY) {
         this._super();

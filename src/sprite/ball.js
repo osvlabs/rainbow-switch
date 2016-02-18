@@ -65,12 +65,19 @@ var Ball = PhysicsSprite.extend({
         this.removeFromParent(true);
     },
     changeBall: function () {
-        var colors = util.COLORS;
+        var colors = util.COLORS,
+            preset = null;
         if (util.gameLayer && util.gameLayer._obstacles.length > util.currentIndex) {
-            colors = util.gameLayer._obstacles[util.currentIndex]._colors;
+            var obstacle = util.gameLayer._obstacles[util.currentIndex];
+            preset = obstacle._presetColor;
+            colors = obstacle._colors;
         }
-        var others = _.xor(colors, [util.ballColor]);
-        util.ballColor = _.sample(others);
+        if (preset) {
+            util.ballColor = preset;
+        } else {
+            var others = _.xor(colors, [util.ballColor]);
+            util.ballColor = _.sample(others);
+        }
         this._circle.clear();
         this._circle.drawDot(cc.p(0, 0), this._radius, util.ballColor);
         this._circle.setColor(util.ballColor);
