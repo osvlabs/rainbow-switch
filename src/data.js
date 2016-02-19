@@ -15,6 +15,19 @@ util.data =  {
                 },
                 b: {
                     type: 'Circle',
+                    radius: 150
+                },
+                speed: 3
+            }
+        ], [
+            {
+                type: 'Group',
+                a: {
+                    type: 'Circle',
+                    radius: 100
+                },
+                b: {
+                    type: 'Circle',
                     radius: 100
                 },
                 speed: 3,
