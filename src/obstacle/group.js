@@ -22,12 +22,22 @@ var ObstacleGroup = Obstacle.extend({
         this._a.setColors(colors, true);
         this.addChild(this._a);
 
-        this._b.setColors([
+        var others = [
             colors[3],
             colors[0],
             colors[2],
             colors[1]
-        ], true);
+        ];
+        if (this._b instanceof ObstacleCross) {
+            others = [
+                colors[3],
+                colors[2],
+                colors[0],
+                colors[1]
+            ];
+        }
+
+        this._b.setColors(others, true);
         this.addChild(this._b);
 
         this.addStar(this._starDeltaY);
