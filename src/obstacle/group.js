@@ -1,14 +1,12 @@
 var ObstacleGroup = Obstacle.extend({
-    _a: null,
-    _b: null,
+    _parts: null,
     _starDeltaY: 0,
     _presetColor: null,
 
-    ctor: function (a, b, starDeltaY) {
+    ctor: function (parts, starDeltaY) {
         this._super();
 
-        this._a = a;
-        this._b = b;
+        this._parts = parts;
         if (starDeltaY !== undefined) {
             this._starDeltaY = starDeltaY;
         }
@@ -19,35 +17,62 @@ var ObstacleGroup = Obstacle.extend({
         var colors = this._colors;
         this._presetColor = colors[0];
 
-        this._a.setColors(colors, true);
-        this.addChild(this._a);
+        if (this._parts.length == 2) {
+            this._parts[0].setColors(colors, true);
 
-        var others = [
-            colors[3],
-            colors[0],
-            colors[2],
-            colors[1]
-        ];
-        if (this._b instanceof ObstacleCross) {
-            others = [
+            var others = [
                 colors[3],
-                colors[2],
                 colors[0],
+                colors[2],
                 colors[1]
             ];
+            if (this._parts[0] instanceof ObstacleCross) {
+                others = [
+                    colors[3],
+                    colors[2],
+                    colors[0],
+                    colors[1]
+                ];
+            }
+
+            this._parts[1].setColors(others, true);
         }
 
-        this._b.setColors(others, true);
-        this.addChild(this._b);
+        _.forEach(this._parts, function (v, k) {
+            this.addChild(v);
+        }.bind(this));
 
         this.addStar(this._starDeltaY);
         this.addSwitch(this.getMaxHeight() + 40);
     },
     getMaxHeight: function () {
-        return Math.max(this._a.getMaxHeight(), this._b.getMaxHeight());
+        var max = 0;
+        _.forEach(this._parts, function (v, k) {
+            var h = v.getMaxHeight();
+            max = Math.max(max, h);
+        }.bind(this));
+        return max;
     }
 });
 
 ObstacleGroup.create = function (args) {
-    return new ObstacleGroup(args.a, args.b, args.starDeltaY);
+    if (args.x === undefined) {
+        args.x = 0;
+    }
+
+    _.forEach(args.parts, function (v, k) {
+        v.child = true;
+        if (v.x === undefined) {
+            v.x = Math.pow(-1, k + 1) * args.x;
+        }
+        if (args.speed !== undefined) {
+            v.speed = Math.pow(-1, k) * args.speed;
+        }
+        args.parts[k] = Obstacle.create(v);
+    });
+
+    delete args.x;
+    delete args.speed;
+
+    return new ObstacleGroup(args.parts, args.starDeltaY);
 };

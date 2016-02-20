@@ -233,25 +233,6 @@ Obstacle.create = function (args) {
     var clsName = 'Obstacle' + args.type,
         cls = eval(clsName);
     if (cls && cls.create) {
-        if (args.type == 'Group') {
-            if (args.x === undefined) {
-                args.x = 0;
-            }
-
-            args.a.child = true;
-            args.a.x = -args.x;
-            args.a.speed = args.speed;
-            args.a = Obstacle.create(args.a);
-
-            args.b.child = true;
-            args.b.x = args.x;
-            args.b.speed = -args.speed;
-            args.b = Obstacle.create(args.b);
-
-            delete args.x;
-            delete args.speed;
-        }
-
         var o = cls.create(args);
 
         if (args.colors !== undefined) {
@@ -283,7 +264,11 @@ Obstacle.create = function (args) {
         if (args.x !== undefined) {
             x += args.x;
         }
-        o.setPosition(x, 0);
+        var y = 0;
+        if (args.y !== undefined) {
+            y = args.y;
+        }
+        o.setPosition(x, y);
 
         return o;
     }
