@@ -1,7 +1,6 @@
 var Slogan = cc.Node.extend({
     _rainbowWidth: 400,
     _interval: 2,
-    _rh: null,
     _rainbow: null,
     _rainbowRect: null,
     _rainbowRectAgent: null,
@@ -9,10 +8,6 @@ var Slogan = cc.Node.extend({
         this._super();
 
         this.setAnchorPoint(0.5, 0.5);
-
-        this._rh = new cc.Sprite(res.rh);
-        this._rh.setPosition(0, -45);
-        this.addChild(this._rh);
 
         var rainbow = new cc.Sprite(res.rainbow);
         this._rainbow = new cc.ClippingNode(rainbow);

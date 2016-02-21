@@ -11,6 +11,7 @@ var ScaleSprite = cc.Sprite.extend({
                 var pos = touch.getLocation();
                 var target = event.getCurrentTarget();
                 if (cc.rectContainsPoint(target.getBoundingBox(), pos)) {
+                    self.stopAllActions();
                     self.runAction(cc.scaleTo(0.1, 1.4).easing(cc.easeSineOut()));
                     if (callback) {
                         callback();

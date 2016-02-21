@@ -23,9 +23,9 @@ var GameLayer = cc.LayerColor.extend({
         slogan.setPosition(util.center.x, 400);
         this.addChild(slogan);
 
-        slogan = new Slogan();
-        slogan.setPosition(util.center.x, y + 250);
-        this.addChild(slogan);
+        var rh = new cc.Sprite(res.rh);
+        rh.setPosition(util.center.x, y + 200);
+        this.addChild(rh);
 
         var tape = new Tape();
         tape.setPosition(util.center.x, y);

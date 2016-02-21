@@ -135,7 +135,9 @@ var Obstacle = cc.DrawNode.extend({
             this.setColors(4);
         }
 
-        this.addCenterShape();
+        if (this._autoAddShape) {
+            this.addCenterShape();
+        }
 
         this.schedule(this.move, this._interval);
         this.move();
@@ -252,6 +254,9 @@ Obstacle.create = function (args) {
         }
         if (args.switch === false || args.child === true) {
             o._autoAddSwitch = false;
+        }
+        if (args.shape === false) {
+            o._autoAddShape = false;
         }
         if (args.child === true) {
             o._child = true;

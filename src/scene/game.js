@@ -8,19 +8,17 @@ var GameScene = cc.Scene.extend({
         this.initPhysics();
     },
     initPhysics: function () {
-        var space = new cp.Space();
-        space.gravity = cp.v(0, -1000);
+        util.space = new cp.Space();
+        util.space.gravity = cp.v(0, -1000);
 
-        this.earth = new cp.SegmentShape(space.staticBody, cp.v(0, 200),
+        this.earth = new cp.SegmentShape(util.space.staticBody, cp.v(0, 200),
             cp.v(cc.winSize.width, 200), 10);
-        space.addStaticShape(this.earth);
+        util.space.addStaticShape(this.earth);
 
-        space.setDefaultCollisionHandler(function (arb, space) {
+        util.space.setDefaultCollisionHandler(function (arb, space) {
             //cc.log(arb);
             return true;
         }, null, null, null);
-
-        util.space = space;
     },
     onEnter: function () {
         this._super();

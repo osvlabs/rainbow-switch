@@ -42,8 +42,12 @@ var ObstacleGroup = Obstacle.extend({
             this.addChild(v);
         }.bind(this));
 
-        this.addStar(this._starDeltaY);
-        this.addSwitch(this.getMaxHeight() + 40);
+        if (this._autoAddStar) {
+            this.addStar(this._starDeltaY);
+        }
+        if (this._autoAddSwitch) {
+            this.addSwitch(this.getMaxHeight() + 40);
+        }
     },
     getMaxHeight: function () {
         var max = 0;

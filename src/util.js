@@ -34,7 +34,8 @@ var util = {
     // Icons
     ICON_HAND_O_UP: '',
     ICON_CIRCLE: '',
-    ICON_PLAY: '',
+    ICON_PLAY: '',
+    ICON_PLAY_CIRCLE: '',
     ICON_STAR: '',
 
     // Events
@@ -77,6 +78,16 @@ var util = {
     },
     label: function (text, size) {
         return new cc.LabelTTF(text, 'Arial', size || 40);
+    },
+    iconBtn: function (text, size, callback) {
+        var btn = new ScaleSprite(undefined, callback);
+        btn.setContentSize(cc.size(size * 0.85, size * 1.2));
+
+        var icon = util.icon(text, size);
+        icon.setAnchorPoint(0, 0);
+        btn.addChild(icon);
+
+        return btn;
     },
     animate: function (prefix, count, interval) {
         var frames = [];
