@@ -10,7 +10,7 @@
                 debug="false" 
                 output="/Users/hans/Projects/RainbowSwitch/publish/html5/game.min.js"
                 languagein="ECMASCRIPT5"
-                
+                sourceMapOutputFile="/Users/hans/Projects/RainbowSwitch/publish/html5/sourcemap" sourceMapFormat="V3"
                 >
             <sources dir="/Users/hans/Projects/RainbowSwitch/frameworks/cocos2d-html5">
                 <file name="CCBoot.js"/>

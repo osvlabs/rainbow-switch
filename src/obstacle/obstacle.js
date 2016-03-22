@@ -157,7 +157,7 @@ var Obstacle = cc.DrawNode.extend({
         this.stepDeltaY();
     },
     clear: function () {
-        this._super();
+        cc.DrawNode.prototype.clear.call(this);
         this.clearShapes();
     },
     clearShapes: function () {
