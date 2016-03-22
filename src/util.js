@@ -20,15 +20,7 @@ var util = {
     COLOR_GRAY: cc.color('#AAAAAA'),
     COLOR_SILVER: cc.color('#DDDDDD'),
 
-    EXPLODE_COLORS: [
-        cc.color.WHITE,
-        cc.color.RED,
-        cc.color.ORANGE,
-        cc.color.YELLOW,
-        cc.color.BLUE,
-        cc.color.GREEN,
-        cc.color.MAGENTA
-    ],
+    EXPLODE_COLORS: [],
     COLORS: [],
 
     // Icons
@@ -72,6 +64,16 @@ var util = {
             util.COLOR_LIME
         ];
         this.ballColor = this.COLOR_YELLOW;
+
+        this.EXPLODE_COLORS = [
+            cc.color.WHITE,
+            cc.color.RED,
+            cc.color.ORANGE,
+            cc.color.YELLOW,
+            cc.color.BLUE,
+            cc.color.GREEN,
+            cc.color.MAGENTA
+        ];
     },
     icon: function (text, size) {
         return new cc.LabelTTF(text, 'FontAwesome', size || 50);
