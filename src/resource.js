@@ -2,7 +2,9 @@ var res = {
     font_awesome: 'res/fontawesome.ttf',
     rh: 'res/rh.png',
     rainbow: 'res/rainbow.png',
-    rainbow_rect: 'res/rainbow_rect.png'
+    rainbow_rect: 'res/rainbow_rect.png',
+    star_explode: 'res/star_explode.plist',
+    firework: 'res/firework.plist'
 };
 
 var g_resources = [];

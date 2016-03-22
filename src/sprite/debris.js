@@ -32,7 +32,7 @@ var Debris = PhysicsSprite.extend({
     },
     getRandomNumber: function () {
         var min = 3,
-            max = 8,
+            max = 10,
             a = _.random(-max, -min, true),
             b = _.random(min, max, true);
         return _.random(1) ? a : b;

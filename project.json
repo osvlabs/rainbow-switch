@@ -2,7 +2,7 @@
     "project_type": "javascript",
 
     "debugMode" : 1,
-    "showFPS" : false,
+    "showFPS" : true,
     "frameRate" : 60,
     "noCache" : false,
     "id" : "gameCanvas",
@@ -13,18 +13,32 @@
 
     "jsList" : [
         "src/lib/lodash.min.js",
+        "src/lib/sylvester.js",
         "src/util.js",
         "src/resource.js",
+        "src/data.js",
         "src/sprite/slogan.js",
         "src/sprite/physics.sprite.js",
         "src/sprite/scale.sprite.js",
         "src/sprite/debris.js",
         "src/sprite/ball.js",
+        "src/sprite/star.js",
+        "src/sprite/tape.js",
         "src/obstacle/obstacle.js",
         "src/obstacle/circle.js",
         "src/obstacle/sector.js",
+        "src/obstacle/isogon.js",
+        "src/obstacle/line.js",
+        "src/obstacle/cross.js",
+        "src/obstacle/diamond.js",
+        "src/obstacle/group.js",
+        "src/obstacle/switch.js",
         "src/layer/game.js",
+        "src/layer/gameFloat.js",
+        "src/scene/splash.js",
+        "src/scene/home.js",
         "src/scene/game.js",
+        "src/scene/pass.js",
         "src/scene/over.js"
     ]
 }

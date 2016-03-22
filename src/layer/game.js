@@ -1,15 +1,19 @@
 var GameLayer = cc.LayerColor.extend({
     _ball: null,
     _dead: false,
+    _scoreLabel: null,
+    _obstacles: null,
     ctor: function () {
         this._super(util.COLOR_DARK);
 
         this.setContentSize(cc.winSize.width, 10000);
+        this._obstacles = [];
     },
     onEnter: function () {
         this._super();
+        util.gameLayer = this;
 
-        this.addObstacles();
+        var y = this.addObstacles();
 
         var hand = util.icon(util.ICON_HAND_O_UP, 100);
         hand.setPosition(util.center.x + 8, 100);
@@ -19,28 +23,34 @@ var GameLayer = cc.LayerColor.extend({
         slogan.setPosition(util.center.x, 400);
         this.addChild(slogan);
 
+        var rh = new cc.Sprite(res.rh);
+        rh.setPosition(util.center.x, y + 200);
+        this.addChild(rh);
+
+        var tape = new Tape();
+        tape.setPosition(util.center.x, y);
+        this.addChild(tape);
+
         this._ball = new Ball();
         this._ball.setPosition(util.center.x, 217);
         this.addChild(this._ball);
 
         util.addDebugNode.apply(this);
 
-        util.space.addCollisionHandler(
-            util.COLLISION_BALL,
-            util.COLLISION_OBSTACLE,
-            function (arbiter, space) {
-                if (arbiter.b.color != util.ballColor && this._dead == false) {
-                    this._dead = true;
-                    space.addPostStepCallback(function(){
-                        this.gameOver();
-                    }.bind(this));
-                }
-                return true;
-            }.bind(this),
-            null,
-            null,
-            null
-        );
+        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_OBSTACLE,
+            this.checkExplode.bind(this), null, null, null);
+
+        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_OBSTACLE_CENTER,
+            this.updateCurrentIndex.bind(this), null, null, null);
+
+        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_STAR,
+            this.winScore.bind(this), null, null, null);
+
+        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_SWITCH,
+            this.switchBallColor.bind(this), null, null, null);
+
+        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_FINISH_LINE,
+            this.finish.bind(this), null, null, null);
 
         this.scheduleUpdate();
     },
@@ -58,14 +68,25 @@ var GameLayer = cc.LayerColor.extend({
         }
     },
     addObstacles: function () {
-        var circle = new ObstacleSector(200, 30, 30, 120, [
-            util.COLOR_RED,
-            util.COLOR_GREEN,
-            util.COLOR_YELLOW
-        ], 10);
-        //var circle = new ObstacleCircle(200, 30);
-        circle.setPosition(util.center.x, 600);
-        this.addChild(circle);
+        var y = 600;
+        _.forEach(util.currentLevels(), function (v, k) {
+            var o = Obstacle.create(_.cloneDeep(v));
+            o._index = k + 1;
+
+            var height = o.getHeight(),
+                _y = y + height / 2;
+            if (v.type == 'Sector') {
+                _y -= v.radius;
+            }
+
+            o.setPositionY(_y);
+            this.addChild(o);
+            this._obstacles.push(o);
+
+            y += height + o.getSwitchHeight();
+        }.bind(this));
+
+        return y;
     },
     move: function(y) {
         this.setPositionY(this.getPositionY() + y);
@@ -87,12 +108,57 @@ var GameLayer = cc.LayerColor.extend({
             cc.moveBy(frequency, cc.p(amplitude, -amplitude)).easing(cc.easeBackInOut())
         ]));
     },
+    firework: function () {
+        var fw = new cc.ParticleSystem(res.firework);
+        fw.setPosition(this._ball.getPosition());
+        this.addChild(fw);
+    },
     gameOver: function () {
-        cc.log('gameOver');
+        var pos = this._ball.getPosition();
         cc.eventManager.dispatchCustomEvent(
             util.EVENT_GAME_OVER,
-            this._ball.getPosition()
+            pos
         );
         this.unscheduleUpdate();
-    }
+        this.explode(pos);
+        this.earthQuake();
+    },
+    finish: function (arbiter, space) {
+        space.addPostStepCallback(function(){
+            cc.eventManager.dispatchCustomEvent(util.EVENT_FINISH);
+            this.unscheduleUpdate();
+            this.firework();
+        }.bind(this));
+        return true;
+    },
+    checkExplode: function (arbiter, space) {
+        if (arbiter.b.color != util.ballColor && this._dead == false) {
+            this._dead = true;
+            space.addPostStepCallback(function(){
+                this.gameOver();
+            }.bind(this));
+        }
+        return true;
+    },
+    updateCurrentIndex: function (arbiter, space) {
+        space.addPostStepCallback(function () {
+            util.currentIndex = Math.max(
+                util.currentIndex,
+                arbiter.b.obstacle._index
+            );
+        }.bind(this));
+        return true;
+    },
+    winScore: function (arbiter, space) {
+        space.addPostStepCallback(function(){
+            arbiter.b.object.winScore();
+        }.bind(this));
+        return true;
+    },
+    switchBallColor: function (arbiter, space) {
+        space.addPostStepCallback(function(){
+            arbiter.b.object.onCollisionDetected();
+        }.bind(this));
+        return true;
+    },
 });

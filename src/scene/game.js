@@ -1,5 +1,6 @@
 var GameScene = cc.Scene.extend({
     layer: null,
+    floatLayer: null,
     earth: null,
     ctor: function () {
         this._super();
@@ -7,27 +8,31 @@ var GameScene = cc.Scene.extend({
         this.initPhysics();
     },
     initPhysics: function () {
-        var space = new cp.Space();
-        space.gravity = cp.v(0, -1000);
+        util.space = new cp.Space();
+        util.space.gravity = cp.v(0, -1000);
 
-        this.earth = new cp.SegmentShape(space.staticBody, cp.v(0, 200),
-            cp.v(cc.winSize.width, 200), 0);
-        space.addStaticShape(this.earth);
+        this.earth = new cp.SegmentShape(util.space.staticBody, cp.v(0, 200),
+            cp.v(cc.winSize.width, 200), 10);
+        util.space.addStaticShape(this.earth);
 
-        space.setDefaultCollisionHandler(function (arb, space) {
+        util.space.setDefaultCollisionHandler(function (arb, space) {
             //cc.log(arb);
             return true;
         }, null, null, null);
-
-        util.space = space;
     },
     onEnter: function () {
         this._super();
+
+        util.currentLevel = 0;
+        util.currentIndex = 0;
 
         this.scheduleUpdate();
 
         this.layer = new GameLayer();
         this.addChild(this.layer);
+
+        this.floatLayer = new GameFloatLayer();
+        this.addChild(this.floatLayer);
 
         cc.eventManager.addListener(cc.EventListener.create({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
@@ -45,6 +50,12 @@ var GameScene = cc.Scene.extend({
             eventName: util.EVENT_GAME_OVER,
             callback: this.gameOver.bind(this)
         }), this);
+
+        cc.eventManager.addListener(cc.EventListener.create({
+            event: cc.EventListener.CUSTOM,
+            eventName: util.EVENT_FINISH,
+            callback: this.finish.bind(this)
+        }), this);
     },
     update: function (dt) {
         this._super(dt);
@@ -52,9 +63,7 @@ var GameScene = cc.Scene.extend({
     },
     gameOver: function (event) {
         this.flash();
-        this.setupPhysics();
-        this.layer.explode(event.getUserData());
-        this.layer.earthQuake();
+        this.setupGameOverPhysics();
         this.scheduleOnce(function () {
             cc.director.runScene(cc.TransitionFade.create(0.5, new GameOverScene()));
         }, 1.5);
@@ -65,7 +74,12 @@ var GameScene = cc.Scene.extend({
         this.addChild(layer);
         layer.runAction(cc.fadeOut(1).easing(cc.easeSineOut()));
     },
-    setupPhysics: function () {
+    finish: function () {
+        this.scheduleOnce(function () {
+            cc.director.runScene(cc.TransitionFade.create(0.5, new GamePassScene()));
+        }, 1.5);
+    },
+    setupGameOverPhysics: function () {
         util.space.gravity = cp.v(0, -500);
         if (util.space.containsShape(this.earth)) {
             util.space.removeStaticShape(this.earth);
@@ -75,16 +89,16 @@ var GameScene = cc.Scene.extend({
             width = cc.winSize.width,
             height = cc.winSize.height,
             delta = - this.layer.getPositionY(),
-            thick = 0,
+            thick = -10,
             tl = cp.v(thick, height - thick + delta),
             tr = cp.v(width - thick, height - thick + delta),
             bl = cp.v(thick, thick + delta),
             br = cp.v(width - thick, thick + delta);
         var walls = [
-            new cp.SegmentShape(staticBody, bl, br, 0), // Bottom
-            new cp.SegmentShape(staticBody, tl, tr, 0), // Top
-            new cp.SegmentShape(staticBody, bl, tl, 0), // Left
-            new cp.SegmentShape(staticBody, br, tr, 0)  // Right
+            new cp.SegmentShape(staticBody, bl, br, Math.abs(thick)), // Bottom
+            new cp.SegmentShape(staticBody, tl, tr, Math.abs(thick)), // Top
+            new cp.SegmentShape(staticBody, bl, tl, Math.abs(thick)), // Left
+            new cp.SegmentShape(staticBody, br, tr, Math.abs(thick))  // Right
         ];
         for (var i = 0; i < walls.length; i++) {
             var shape = walls[i];
