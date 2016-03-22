@@ -6,7 +6,7 @@ util.data =  {
              start: 60,
              degree: 60
          },*/
-        [
+        /*[
             {
                 type: 'Group',
                 parts: [{
@@ -54,7 +54,7 @@ util.data =  {
                 ],
                 speed: 3
             }
-        ], [
+        ], */[
             {
                 type: 'Cross',
                 radius: 150,

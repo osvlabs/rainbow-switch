@@ -46,14 +46,14 @@ var util = {
     EVENT_FINISH: 'finish',
 
     // Collisions
-    COLLISION_BALL: 'ball',
-    COLLISION_GAME_OVER_WALL: 'game_over_wall',
-    COLLISION_DEBRIS: 'debris',
-    COLLISION_OBSTACLE: 'obstacle',
-    COLLISION_OBSTACLE_CENTER: 'obstacle_center',
-    COLLISION_STAR: 'star',
-    COLLISION_SWITCH: 'switch',
-    COLLISION_FINISH_LINE: 'finish_line',
+    COLLISION_BALL: 1,
+    COLLISION_GAME_OVER_WALL: 10,
+    COLLISION_DEBRIS: 20,
+    COLLISION_OBSTACLE: 30,
+    COLLISION_OBSTACLE_CENTER: 40,
+    COLLISION_STAR: 50,
+    COLLISION_SWITCH: 60,
+    COLLISION_FINISH_LINE: 100,
 
     // Others
     center: null,
