@@ -31,7 +31,7 @@ var util = {
     ICON_STAR: '',
 
     // Events
-    EVENT_JUMP: 'jump',
+    EVENT_ROTATE: 'rotate',
     EVENT_GAME_OVER: 'game_over',
     EVENT_WIN_SCORE: 'win_score',
     EVENT_CHANGE_BALL: 'change_ball_color',
@@ -51,8 +51,6 @@ var util = {
     center: null,
     space: null,
     ballColor: null,
-    currentLevel: 0,
-    currentIndex: 0,
     init: function () {
         var size = cc.winSize;
         this.center = cc.p(size.width * 0.5, size.height * 0.5);
@@ -122,9 +120,6 @@ var util = {
         });
 
         return result;
-    },
-    currentLevels: function () {
-        return this.data.levels[this.currentLevel];
     },
     $v2p: function (v) {
         return cc.p(

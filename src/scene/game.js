@@ -1,7 +1,7 @@
 var GameScene = cc.Scene.extend({
+    bgLayer: null,
     layer: null,
     floatLayer: null,
-    earth: null,
     ctor: function () {
         this._super();
 
@@ -9,11 +9,7 @@ var GameScene = cc.Scene.extend({
     },
     initPhysics: function () {
         util.space = new cp.Space();
-        util.space.gravity = cp.v(0, -1000);
-
-        this.earth = new cp.SegmentShape(util.space.staticBody, cp.v(0, 200),
-            cp.v(cc.winSize.width, 200), 10);
-        util.space.addStaticShape(this.earth);
+        util.space.gravity = cp.v(0, 0);
 
         util.space.setDefaultCollisionHandler(function (arb, space) {
             //cc.log(arb);
@@ -22,9 +18,6 @@ var GameScene = cc.Scene.extend({
     },
     onEnter: function () {
         this._super();
-
-        util.currentLevel = 0;
-        util.currentIndex = 0;
 
         this.scheduleUpdate();
 
@@ -39,7 +32,7 @@ var GameScene = cc.Scene.extend({
             swallowTouches: true,
             onTouchBegan: function (touch) {
                 cc.eventManager.dispatchEvent(
-                    new cc.EventCustom(util.EVENT_JUMP)
+                    new cc.EventCustom(util.EVENT_ROTATE)
                 );
                 return true;
             }
@@ -49,12 +42,6 @@ var GameScene = cc.Scene.extend({
             event: cc.EventListener.CUSTOM,
             eventName: util.EVENT_GAME_OVER,
             callback: this.gameOver.bind(this)
-        }), this);
-
-        cc.eventManager.addListener(cc.EventListener.create({
-            event: cc.EventListener.CUSTOM,
-            eventName: util.EVENT_FINISH,
-            callback: this.finish.bind(this)
         }), this);
     },
     update: function (dt) {
@@ -74,17 +61,7 @@ var GameScene = cc.Scene.extend({
         this.addChild(layer);
         layer.runAction(cc.fadeOut(1).easing(cc.easeSineOut()));
     },
-    finish: function () {
-        this.scheduleOnce(function () {
-            cc.director.runScene(cc.TransitionFade.create(0.5, new GamePassScene()));
-        }, 1.5);
-    },
     setupGameOverPhysics: function () {
-        util.space.gravity = cp.v(0, -500);
-        if (util.space.containsShape(this.earth)) {
-            util.space.removeStaticShape(this.earth);
-        }
-
         var staticBody = util.space.staticBody,
             width = cc.winSize.width,
             height = cc.winSize.height,

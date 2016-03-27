@@ -1,39 +1,16 @@
-var GameLayer = cc.LayerColor.extend({
-    _ball: null,
+var GameLayer = cc.Layer.extend({
+    _earth: null,
     _dead: false,
-    _scoreLabel: null,
-    _obstacles: null,
     ctor: function () {
-        this._super(util.COLOR_DARK);
-
-        this.setContentSize(cc.winSize.width, 10000);
-        this._obstacles = [];
+        this._super();
     },
     onEnter: function () {
         this._super();
         util.gameLayer = this;
 
-        var y = this.addObstacles();
-
-        var hand = util.icon(util.ICON_HAND_O_UP, 100);
-        hand.setPosition(util.center.x + 8, 100);
-        this.addChild(hand);
-
-        var slogan = new Slogan();
-        slogan.setPosition(util.center.x, 400);
-        this.addChild(slogan);
-
-        var rh = new cc.Sprite(res.rh);
-        rh.setPosition(util.center.x, y + 200);
-        this.addChild(rh);
-
-        var tape = new Tape();
-        tape.setPosition(util.center.x, y);
-        this.addChild(tape);
-
-        this._ball = new Ball();
-        this._ball.setPosition(util.center.x, 217);
-        this.addChild(this._ball);
+        this._earth = new Ball();
+        this._earth.setPosition(util.center.x, util.center.y);
+        this.addChild(this._earth);
 
         util.addDebugNode.apply(this);
 
@@ -58,7 +35,7 @@ var GameLayer = cc.LayerColor.extend({
         this._super(dt);
         this._dead = false;
 
-        var pos = this._ball.getWorldPosition();
+        var pos = this._earth.getWorldPosition();
         if (pos.y <= 0) {
             this.gameOver();
         } else {
@@ -81,7 +58,6 @@ var GameLayer = cc.LayerColor.extend({
 
             o.setPositionY(_y);
             this.addChild(o);
-            this._obstacles.push(o);
 
             y += height + o.getSwitchHeight();
         }.bind(this));
@@ -110,11 +86,11 @@ var GameLayer = cc.LayerColor.extend({
     },
     firework: function () {
         var fw = new cc.ParticleSystem(res.firework);
-        fw.setPosition(this._ball.getPosition());
+        fw.setPosition(this._earth.getPosition());
         this.addChild(fw);
     },
     gameOver: function () {
-        var pos = this._ball.getPosition();
+        var pos = this._earth.getPosition();
         cc.eventManager.dispatchCustomEvent(
             util.EVENT_GAME_OVER,
             pos

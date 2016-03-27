@@ -67,11 +67,11 @@ var Ball = PhysicsSprite.extend({
     changeBall: function () {
         var colors = util.COLORS,
             preset = null;
-        if (util.gameLayer && util.gameLayer._obstacles.length > util.currentIndex) {
+        /*if (util.gameLayer && util.gameLayer._obstacles.length > util.currentIndex) {
             var obstacle = util.gameLayer._obstacles[util.currentIndex];
             preset = obstacle._presetColor;
             colors = obstacle._colors;
-        }
+        }*/
         if (preset) {
             util.ballColor = preset;
         } else {
