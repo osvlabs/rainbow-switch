@@ -1,5 +1,4 @@
 var GameScene = cc.Scene.extend({
-    bgLayer: null,
     layer: null,
     floatLayer: null,
     ctor: function () {
@@ -20,6 +19,8 @@ var GameScene = cc.Scene.extend({
         this._super();
 
         this.scheduleUpdate();
+
+        this.addChild(new BgLayer());
 
         this.layer = new GameLayer();
         this.addChild(this.layer);

@@ -33,6 +33,7 @@
         "src/obstacle/diamond.js",
         "src/obstacle/group.js",
         "src/obstacle/switch.js",
+        "src/layer/bg.js",
         "src/layer/game.js",
         "src/layer/gameFloat.js",
         "src/scene/splash.js",
