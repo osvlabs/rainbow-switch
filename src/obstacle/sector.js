@@ -3,7 +3,7 @@ var ObstacleSector = ObstacleCircle.extend({
     _centerShapeDeltaY: 0,
     _startDegree: 60,
     _degrees: 60,
-    _speed: 1,
+    _speed: 0,
     ctor: function (radius, thick, startDegree, degrees, delta) {
         Obstacle.prototype.ctor.apply(this);
 

@@ -7,12 +7,12 @@ var Obstacle = cc.DrawNode.extend({
     _centerShapeDeltaY: 0,
 
     _colors: null,
-    _speed: 1,
+    _speed: 0,
     _interval: 0.04,
     _delta: 0,
     _autoAddShape: true,
-    _autoAddStar: true,
-    _autoAddSwitch: true,
+    _autoAddStar: false,
+    _autoAddSwitch: false,
     _star: null,
     _switch: null,
     _height: null,
@@ -278,4 +278,9 @@ Obstacle.create = function (args) {
         return o;
     }
     return null;
+};
+
+Obstacle.get = function () {
+    var args = _.sample(util.data.obstacles);
+    return Obstacle.create(args);
 };

@@ -1,7 +1,7 @@
 var ObstacleLine = ObstacleSector.extend({
     _startDegree: 0,
     _thick: 25,
-    _speed: 7,
+    _speed: 0,
     ctor: function (thick) {
         if (thick === undefined) {
             thick = this._thick;

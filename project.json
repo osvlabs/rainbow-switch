@@ -24,7 +24,6 @@
         "src/sprite/ball.js",
         "src/sprite/earth.js",
         "src/sprite/star.js",
-        "src/sprite/tape.js",
         "src/obstacle/obstacle.js",
         "src/obstacle/circle.js",
         "src/obstacle/sector.js",

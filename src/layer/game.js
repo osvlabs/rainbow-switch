@@ -18,6 +18,10 @@ var GameLayer = cc.Layer.extend({
     onEnter: function () {
         this._super();
 
+        var obstacle = Obstacle.get();
+        obstacle.setPosition(util.center);
+        this.addChild(obstacle);
+
         // util.addDebugNode.apply(this);
 
         util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_OBSTACLE,
@@ -31,47 +35,6 @@ var GameLayer = cc.Layer.extend({
 
         util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_SWITCH,
             this.switchBallColor.bind(this), null, null, null);
-
-        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_FINISH_LINE,
-            this.finish.bind(this), null, null, null);
-
-        this.scheduleUpdate();
-    },
-    update: function (dt) {
-        this._super(dt);
-        this._dead = false;
-
-        var pos = this._earth.getPosition();
-        if (pos.y <= 0) {
-            this.sendGameOver();
-        } else {
-            if (pos.y > util.center.y) {
-                this.move(util.center.y - pos.y);
-            }
-        }
-    },
-    addObstacles: function () {
-        var y = 600;
-        _.forEach(util.currentLevels(), function (v, k) {
-            var o = Obstacle.create(_.cloneDeep(v));
-            o._index = k + 1;
-
-            var height = o.getHeight(),
-                _y = y + height / 2;
-            if (v.type == 'Sector') {
-                _y -= v.radius;
-            }
-
-            o.setPositionY(_y);
-            this.addChild(o);
-
-            y += height + o.getSwitchHeight();
-        }.bind(this));
-
-        return y;
-    },
-    move: function(y) {
-        this.setPositionY(this.getPositionY() + y);
     },
     explode: function (pos) {
         pos.y += 15;
@@ -90,11 +53,6 @@ var GameLayer = cc.Layer.extend({
             cc.moveBy(frequency, cc.p(amplitude, -amplitude)).easing(cc.easeBackInOut())
         ]));
     },
-    firework: function () {
-        var fw = new cc.ParticleSystem(res.firework);
-        fw.setPosition(this._earth.getPosition());
-        this.addChild(fw);
-    },
     sendGameOver: function () {
         var pos = this._earth.getPosition();
         cc.eventManager.dispatchCustomEvent(
@@ -106,14 +64,6 @@ var GameLayer = cc.Layer.extend({
         this.unscheduleUpdate();
         this.explode(event.getUserData());
         this.earthQuake();
-    },
-    finish: function (arbiter, space) {
-        space.addPostStepCallback(function(){
-            cc.eventManager.dispatchCustomEvent(util.EVENT_FINISH);
-            this.unscheduleUpdate();
-            this.firework();
-        }.bind(this));
-        return true;
     },
     checkExplode: function (arbiter, space) {
         if (arbiter.b.color != util.ballColor && this._dead == false) {
@@ -144,5 +94,5 @@ var GameLayer = cc.Layer.extend({
             arbiter.b.object.onCollisionDetected();
         }.bind(this));
         return true;
-    },
+    }
 });

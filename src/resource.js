@@ -5,7 +5,6 @@ var res = {
     rainbow_rect: 'res/rainbow_rect.png',
     star_explode: 'res/star_explode.plist',
     universe: 'res/particle_universe.plist',
-    firework: 'res/firework.plist',
     earth: 'res/earth.png'
 };
 

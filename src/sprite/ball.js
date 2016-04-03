@@ -42,12 +42,6 @@ var Ball = PhysicsSprite.extend({
             eventName: util.EVENT_CHANGE_BALL,
             callback: this.changeBall.bind(this)
         }), this);
-
-        cc.eventManager.addListener(cc.EventListener.create({
-            event: cc.EventListener.CUSTOM,
-            eventName: util.EVENT_FINISH,
-            callback: this.pass.bind(this)
-        }), this);
     },
     getWorldPosition: function () {
         var _pos = this._circle.getPosition();
@@ -81,12 +75,5 @@ var Ball = PhysicsSprite.extend({
         this._circle.clear();
         this._circle.drawDot(cc.p(0, 0), this._radius, util.ballColor);
         this._circle.setColor(util.ballColor);
-    },
-    pass: function () {
-        this._active = false;
-
-        var body = this.getBody();
-        body.setVel(cp.vzero);
-        body.applyImpulse(cp.v(0, 1500), cp.vzero);
     }
 });

@@ -2,7 +2,7 @@ var ObstacleCircle = Obstacle.extend({
     _vertCount: 20,
     _radius: 0,
     _thick: 25,
-    _speed: 3,
+    _speed: 0,
     ctor: function (radius, thick) {
         this._super();
 

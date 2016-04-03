@@ -3,7 +3,7 @@ var ObstacleCross = Obstacle.extend({
     _radius: 0,
     _thick: 25,
     _autoAddShape: false,
-    _speed: 1.5,
+    _speed: 0,
     ctor: function (radius, thick) {
         this._super();
 
