@@ -22,6 +22,7 @@
         "src/sprite/scale.sprite.js",
         "src/sprite/debris.js",
         "src/sprite/ball.js",
+        "src/sprite/earth.js",
         "src/sprite/star.js",
         "src/sprite/tape.js",
         "src/obstacle/obstacle.js",

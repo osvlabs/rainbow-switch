@@ -3,16 +3,22 @@ var GameLayer = cc.Layer.extend({
     _dead: false,
     ctor: function () {
         this._super();
-    },
-    onEnter: function () {
-        this._super();
         util.gameLayer = this;
 
-        this._earth = new Ball();
+        this._earth = new Earth();
         this._earth.setPosition(util.center.x, util.center.y);
         this.addChild(this._earth);
 
-        util.addDebugNode.apply(this);
+        cc.eventManager.addListener(cc.EventListener.create({
+            event: cc.EventListener.CUSTOM,
+            eventName: util.EVENT_GAME_OVER,
+            callback: this.gameOver.bind(this)
+        }), this);
+    },
+    onEnter: function () {
+        this._super();
+
+        // util.addDebugNode.apply(this);
 
         util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_OBSTACLE,
             this.checkExplode.bind(this), null, null, null);
@@ -35,9 +41,9 @@ var GameLayer = cc.Layer.extend({
         this._super(dt);
         this._dead = false;
 
-        var pos = this._earth.getWorldPosition();
+        var pos = this._earth.getPosition();
         if (pos.y <= 0) {
-            this.gameOver();
+            this.sendGameOver();
         } else {
             if (pos.y > util.center.y) {
                 this.move(util.center.y - pos.y);
@@ -89,14 +95,16 @@ var GameLayer = cc.Layer.extend({
         fw.setPosition(this._earth.getPosition());
         this.addChild(fw);
     },
-    gameOver: function () {
+    sendGameOver: function () {
         var pos = this._earth.getPosition();
         cc.eventManager.dispatchCustomEvent(
             util.EVENT_GAME_OVER,
             pos
         );
+    },
+    gameOver: function (event) {
         this.unscheduleUpdate();
-        this.explode(pos);
+        this.explode(event.getUserData());
         this.earthQuake();
     },
     finish: function (arbiter, space) {
@@ -111,7 +119,7 @@ var GameLayer = cc.Layer.extend({
         if (arbiter.b.color != util.ballColor && this._dead == false) {
             this._dead = true;
             space.addPostStepCallback(function(){
-                this.gameOver();
+                this.sendGameOver();
             }.bind(this));
         }
         return true;
