@@ -1,4 +1,4 @@
-var GameFloatLayer = cc.Layer.extend({
+var GameUILayer = cc.Layer.extend({
     _scoreLabel: null,
     _score: 0,
     ctor: function () {

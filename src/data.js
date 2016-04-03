@@ -1,11 +1,5 @@
 util.data =  {
     obstacles: [
-        /* default: {
-             colors: 4,
-             thick: 25,
-             start: 60,
-             degree: 60
-         },*/
         {
             type: 'Cross',
             radius: 150,

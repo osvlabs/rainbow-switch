@@ -35,7 +35,7 @@
         "src/obstacle/switch.js",
         "src/layer/bg.js",
         "src/layer/game.js",
-        "src/layer/gameFloat.js",
+        "src/layer/ui.js",
         "src/scene/splash.js",
         "src/scene/home.js",
         "src/scene/game.js",
