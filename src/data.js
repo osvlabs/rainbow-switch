@@ -15,11 +15,11 @@ util.data =  {
             thick: 40,
             colors: 3,
             shake: 30
-        }, {
+        }, /*{
             type: 'Sector',
             radius: 600,
             shake: 40
-        }, {
+        }, */{
             type: 'Circle',
             radius: 150,
             shake: 40
@@ -33,10 +33,10 @@ util.data =  {
         }, {
             type: 'Circle',
             radius: 150
-        }, {
+        }, /*{
             type: 'Sector',
             radius: 600
-        }, {
+        }, */{
             type: 'Isogon',
             radius: 180,
             thick: 40,

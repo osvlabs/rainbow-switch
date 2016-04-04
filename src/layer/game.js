@@ -1,7 +1,9 @@
 var GameLayer = cc.Layer.extend({
     _earth: null,
     _dead: false,
-    _earlierPoint: null,
+    _previousLocation: null,
+    _obstacle: null,
+    _speed: 4,
     ctor: function () {
         this._super();
         util.gameLayer = this;
@@ -20,26 +22,18 @@ var GameLayer = cc.Layer.extend({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             swallowTouches: true,
             onTouchBegan: function (touch) {
-                this._earlierPoint = touch.getLocation();
+                this._previousLocation = touch.getLocation();
                 return true;
             }.bind(this),
             onTouchMoved: function (touch) {
-                var p1 = this._earlierPoint,
-                    p2 = touch.getPreviousLocation(),
-                    p3 = touch.getLocation();
-                this._earlierPoint = p2;
-                if (cc.pSameAs(p1, p2)) {
-                    return;
-                }
-                var v1 = util.p2$v(cc.pSub(p2, p1)),
-                    v2 = util.p2$v(cc.pSub(p3, p2)),
-                    angle = v2.angleFrom(v1);
-                // cc.log(v1.elements[0] + ', ' + v1.elements[1]);
-                cc.log(angle);
-                // console.log(cc.radiansToDegrees(angle));
-                cc.eventManager.dispatchEvent(
-                    new cc.EventCustom(util.EVENT_ROTATE)
+                var location = touch.getLocation();
+                var angle = this.getRadianOfPoints(util.center, location, util.center, this._previousLocation);
+                this._previousLocation = location;
+                cc.eventManager.dispatchCustomEvent(
+                    util.EVENT_ROTATE,
+                    angle
                 );
+                this._obstacle.increaseDelta(this.getDeltaByRadian(angle));
             }.bind(this)
         }), this);
     },
@@ -49,6 +43,7 @@ var GameLayer = cc.Layer.extend({
         var obstacle = Obstacle.get();
         obstacle.setPosition(util.center);
         this.addChild(obstacle);
+        this._obstacle = obstacle;
 
         // util.addDebugNode.apply(this);
 
@@ -122,5 +117,25 @@ var GameLayer = cc.Layer.extend({
             arbiter.b.object.onCollisionDetected();
         }.bind(this));
         return true;
+    },
+    getRadianOfPoints:function (beginLineA, endLineA, beginLineB, endLineB) {
+        var a = endLineA.x - beginLineA.x;
+        var b = endLineA.y - beginLineA.y;
+        var c = endLineB.x - beginLineB.x;
+        var d = endLineB.y - beginLineB.y;
+
+        var atanA = Math.atan2(a, b);
+        var atanB = Math.atan2(c, d);
+
+        var angle = cc.radiansToDegrees(atanA - atanB);
+        if (angle > 180) {
+            angle -= 360;
+        } else if (angle < -180) {
+            angle += 360;
+        }
+        return angle;
+    },
+    getDeltaByRadian: function (angle) {
+        return (angle < 0 ? 1 : -1) * this._speed;
     }
 });

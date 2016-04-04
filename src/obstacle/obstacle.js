@@ -49,6 +49,12 @@ var Obstacle = cc.DrawNode.extend({
     setSpeed: function (speed) {
         this._speed = speed;
     },
+    setDelta: function (delta) {
+        this._delta = delta;
+    },
+    increaseDelta: function (v) {
+        this._delta += v;
+    },
     setInterval: function (v) {
         this._interval = v;
     },
