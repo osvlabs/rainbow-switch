@@ -1,6 +1,7 @@
 var GameLayer = cc.Layer.extend({
     _earth: null,
     _dead: false,
+    _earlierPoint: null,
     ctor: function () {
         this._super();
         util.gameLayer = this;
@@ -13,6 +14,33 @@ var GameLayer = cc.Layer.extend({
             event: cc.EventListener.CUSTOM,
             eventName: util.EVENT_GAME_OVER,
             callback: this.gameOver.bind(this)
+        }), this);
+
+        cc.eventManager.addListener(cc.EventListener.create({
+            event: cc.EventListener.TOUCH_ONE_BY_ONE,
+            swallowTouches: true,
+            onTouchBegan: function (touch) {
+                this._earlierPoint = touch.getLocation();
+                return true;
+            }.bind(this),
+            onTouchMoved: function (touch) {
+                var p1 = this._earlierPoint,
+                    p2 = touch.getPreviousLocation(),
+                    p3 = touch.getLocation();
+                this._earlierPoint = p2;
+                if (cc.pSameAs(p1, p2)) {
+                    return;
+                }
+                var v1 = util.p2$v(cc.pSub(p2, p1)),
+                    v2 = util.p2$v(cc.pSub(p3, p2)),
+                    angle = v2.angleFrom(v1);
+                // cc.log(v1.elements[0] + ', ' + v1.elements[1]);
+                cc.log(angle);
+                // console.log(cc.radiansToDegrees(angle));
+                cc.eventManager.dispatchEvent(
+                    new cc.EventCustom(util.EVENT_ROTATE)
+                );
+            }.bind(this)
         }), this);
     },
     onEnter: function () {

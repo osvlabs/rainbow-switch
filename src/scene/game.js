@@ -28,17 +28,6 @@ var GameScene = cc.Scene.extend({
         this.addChild(uiLayer);
 
         cc.eventManager.addListener(cc.EventListener.create({
-            event: cc.EventListener.TOUCH_ONE_BY_ONE,
-            swallowTouches: true,
-            onTouchBegan: function (touch) {
-                cc.eventManager.dispatchEvent(
-                    new cc.EventCustom(util.EVENT_ROTATE)
-                );
-                return true;
-            }
-        }), this);
-
-        cc.eventManager.addListener(cc.EventListener.create({
             event: cc.EventListener.CUSTOM,
             eventName: util.EVENT_GAME_OVER,
             callback: this.gameOver.bind(this)
