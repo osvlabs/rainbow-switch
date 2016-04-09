@@ -242,6 +242,7 @@ Obstacle.create = function (args) {
         cls = eval(clsName);
     if (cls && cls.create) {
         var o = cls.create(args);
+        o.args = args;
 
         if (args.colors !== undefined) {
             o.setColors(args.colors);
@@ -286,7 +287,24 @@ Obstacle.create = function (args) {
     return null;
 };
 
-Obstacle.get = function () {
-    var args = _.sample(util.data.obstacles);
+Obstacle.get = function (i) {
+    var args = null;
+    if (i === undefined) {
+        args = _.sample(util.data.obstacles);
+    } else if (_.isInteger(i)) {
+        args = util.data.obstacles[i];
+    } else if (_.isString(i)) {
+        var cls = eval('Obstacle' + i);
+        if (cls.args) {
+            args = cls.args();
+        } else {
+            args = {
+                type: i,
+                radius: 120
+            };
+        }
+    } else if (_.isObject(i)) {
+        args = i;
+    }
     return Obstacle.create(args);
 };

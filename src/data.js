@@ -1,49 +1,69 @@
 util.data =  {
     obstacles: [
         {
+            type: 'Circle',
+            radius: 150
+        }, {
+            type: 'Circle',
+            radius: 150,
+            shake: 40
+        }, {
+            type: 'Circle',
+            radius: 130,
+            thick: 130
+        }, {
+            type: 'Circle',
+            radius: 130,
+            thick: 80,
+            shake: 40
+        }, {
+            type: 'Cross',
+            radius: 150
+        }, {
             type: 'Cross',
             radius: 150,
-            shake: 30
+            shake: 40
+        }, {
+            type: 'Cross',
+            radius: 130,
+            thick: 50,
+            shake: 80
+        }, {
+            type: 'Diamond',
+            radius1: 100,
+            radius2: 150
+        }, {
+            type: 'Diamond',
+            radius1: 80,
+            radius2: 160
         }, {
             type: 'Diamond',
             radius1: 100,
             radius2: 150,
             shake: 40
         }, {
-            type: 'Isogon',
-            radius: 180,
-            thick: 40,
-            colors: 3,
-            shake: 30
-        }, /*{
-            type: 'Sector',
-            radius: 600,
-            shake: 40
-        }, */{
-            type: 'Circle',
-            radius: 150,
-            shake: 40
-        }, {
             type: 'Diamond',
-            radius1: 100,
-            radius2: 150
+            radius1: 50,
+            radius2: 150,
+            shake: 90
         }, {
-            type: 'Cross',
-            radius: 150
+            type: 'Isogon',
+            radius: 180
         }, {
-            type: 'Circle',
-            radius: 150
-        }, /*{
-            type: 'Sector',
-            radius: 600
-        }, */{
             type: 'Isogon',
             radius: 180,
             thick: 40,
             colors: 3
         }, {
             type: 'Isogon',
-            radius: 180
+            radius: 180,
+            thick: 40,
+            colors: 3,
+            shake: 40
+        }, {
+            type: 'Isogon',
+            radius: 180,
+            shake: 40
         }
     ]
 };

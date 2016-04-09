@@ -68,3 +68,16 @@ var ObstacleDiamond = Obstacle.extend({
 ObstacleDiamond.create = function (args) {
     return new ObstacleDiamond(args.radius1, args.radius2, args.thick);
 };
+
+ObstacleDiamond.args = function () {
+    return {
+        type: 'Diamond',
+        radius1: _.random(90, 180),
+        radius2: _.random(70, 150),
+        thick: _.random(10, 60),
+        shake: _.sample([
+            0,
+            _.random(20, 90)
+        ])
+    };
+};

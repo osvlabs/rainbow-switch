@@ -13,3 +13,15 @@ var ObstacleIsogon = ObstacleCircle.extend({
 ObstacleIsogon.create = function (args) {
     return new ObstacleIsogon(args.radius, args.thick, args.colors);
 };
+
+ObstacleIsogon.args = function () {
+    return {
+        type: 'Isogon',
+        radius: _.random(90, 180),
+        thick: _.random(10, 60),
+        shake: _.sample([
+            0,
+            _.random(20, 90)
+        ])
+    };
+};

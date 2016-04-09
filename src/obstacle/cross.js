@@ -37,12 +37,9 @@ var ObstacleCross = Obstacle.extend({
             p2 = $V([this._radius, radius]),
             p3 = $V([this._radius, -radius]),
             p4 = $V([px, -radius]),
+            pe = $V([this._radius, 0]),
             ps = [p1, p2, p3, p4],
-            _oVerts = this.getSectorVerts(cc.p(this._radius, 0), radius, radius, -90, 180),
-            oVerts = [];
-        _.forEach(_oVerts, function (pv, k) {
-            oVerts.push(_.map(pv, util.p2$v));
-        });
+            pl = this.getLayerPosition();
 
         for(var i = 0; i < this._colors.length; i++) {
             var degree = cc.degreesToRadians(i * degreeDefault + this._delta),
@@ -51,21 +48,33 @@ var ObstacleCross = Obstacle.extend({
                 color = this._colors[i];
             this.drawPoly(verts, color, 0, color);
 
-            var shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(verts), this.getLayerPosition());
+            var shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(verts), pl);
             this.addShape(shape, color);
 
-            for (var j = 0; j < oVerts.length; j++) {
-                _verts = util.rotate$v2ps(oVerts[j], degree, origin);
-                verts = _.map(_verts, this.pAddDeltaY.bind(this));
-                this.drawPoly(verts, color, 0, color);
+            var peNew = this.pAddDeltaY(util.$v2p(pe.rotate(degree, origin)));
+            this.drawDot(peNew, radius, color);
 
-                shape = new cp.PolyShape(util.space.staticBody, util.cpVerts(verts), this.getLayerPosition());
-                this.addShape(shape, color);
-            }
+            var offset = cc.pAdd(peNew, pl);
+            shape = new cp.CircleShape(util.space.staticBody, radius, offset);
+            this.addShape(shape, color);
         }
     }
 });
 
 ObstacleCross.create = function (args) {
     return new ObstacleCross(args.radius, args.thick);
+};
+
+ObstacleCross.args = function () {
+    var radius = _.random(90, 180),
+        thick = _.random(10, 60);
+    return {
+        type: 'Cross',
+        radius: radius,
+        thick: thick,
+        shake: _.sample([
+            0,
+            _.random(20, 90)
+        ])
+    };
 };

@@ -100,7 +100,7 @@ var util = {
     addDebugNode: function () {
         this._debugNode = new cc.PhysicsDebugNode(util.space);
         this._debugNode.visible = true;
-        this.addChild(this._debugNode);
+        this.addChild(this._debugNode, 9999);
     },
     logColors: function (colors) {
         var result = [];

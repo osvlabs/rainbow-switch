@@ -38,3 +38,17 @@ var ObstacleCircle = Obstacle.extend({
 ObstacleCircle.create = function (args) {
     return new ObstacleCircle(args.radius, args.thick);
 };
+
+ObstacleCircle.args = function () {
+    var radius = _.random(90, 180),
+        thick = _.random(10, radius);
+    return {
+        type: 'Circle',
+        radius: radius,
+        thick: thick,
+        shake: _.sample([
+            0,
+            _.random(20, 150)
+        ])
+    };
+};

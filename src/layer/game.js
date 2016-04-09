@@ -8,10 +8,6 @@ var GameLayer = cc.Layer.extend({
         this._super();
         util.gameLayer = this;
 
-        this._earth = new Earth();
-        this._earth.setPosition(util.center.x, util.center.y);
-        this.addChild(this._earth);
-
         cc.eventManager.addListener(cc.EventListener.create({
             event: cc.EventListener.CUSTOM,
             eventName: util.EVENT_GAME_OVER,
@@ -40,12 +36,10 @@ var GameLayer = cc.Layer.extend({
     onEnter: function () {
         this._super();
 
-        var obstacle = Obstacle.get();
-        obstacle.setPosition(util.center);
-        this.addChild(obstacle);
-        this._obstacle = obstacle;
+        this.addEarth();
+        this.generateGuard();
 
-        // util.addDebugNode.apply(this);
+        util.addDebugNode.apply(this);
 
         util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_OBSTACLE,
             this.checkExplode.bind(this), null, null, null);
@@ -58,6 +52,20 @@ var GameLayer = cc.Layer.extend({
 
         util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_SWITCH,
             this.switchBallColor.bind(this), null, null, null);
+    },
+    addEarth: function () {
+        this._earth = new Earth();
+        this._earth.setPosition(util.center.x, util.center.y);
+        this.addChild(this._earth, 2);
+    },
+    generateGuard: function (i) {
+        if (this._obstacle) {
+            this._obstacle.removeFromParent(true);
+            this._obstacle = null;
+        }
+        this._obstacle = Obstacle.get(i);
+        this._obstacle.setPosition(util.center);
+        this.addChild(this._obstacle, 1);
     },
     explode: function (pos) {
         pos.y += 15;
