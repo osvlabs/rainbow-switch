@@ -7,6 +7,7 @@ var GameLayer = cc.Layer.extend({
     _meteoritePoint: null,
     _meteoriteColor: null,
     _laser: null,
+    _collisionDetected: false,
     ctor: function () {
         this._super();
         util.gameLayer = this;
@@ -42,19 +43,30 @@ var GameLayer = cc.Layer.extend({
         this.addEarth();
         this.generateGuard();
 
-        this.showMeteoriteTip();
-
         // util.addDebugNode.apply(this);
 
         util.space.addCollisionHandler(util.COLLISION_EARTH, util.COLLISION_METEORITE,
-            function (arbiter, space) {
-                space.addPostStepCallback(function(){
-                    this.sendGameOver();
-                }.bind(this));
-            }.bind(this), null, null, null);
+            this.checkGameOver.bind(this), null, null, null);
 
         util.space.addCollisionHandler(util.COLLISION_OBSTACLE, util.COLLISION_METEORITE,
             this.checkSuccess.bind(this), null, null, null);
+    },
+    checkGameOver: function (arbiter, space) {
+        if (!this._collisionDetected) {
+            this._collisionDetected = true;
+            space.addPostStepCallback(function(){
+                this.sendGameOver();
+            }.bind(this));
+        }
+    },
+    checkSuccess: function (arbiter, space) {
+        if (arbiter.b.color == this._meteoriteColor && !this._collisionDetected) {
+            this._collisionDetected = true;
+            space.addPostStepCallback(function() {
+                this.winScore();
+            }.bind(this));
+        }
+        return true;
     },
     addEarth: function () {
         this._earth = new Earth();
@@ -63,12 +75,24 @@ var GameLayer = cc.Layer.extend({
     },
     generateGuard: function (i) {
         if (this._obstacle) {
-            this._obstacle.removeFromParent(true);
-            this._obstacle = null;
+            var lastObstacle = this._obstacle;
+            lastObstacle.runAction(cc.sequence([
+                cc.scaleTo(0.3, 0.1).easing(cc.easeBackIn()),
+                cc.callFunc(function () {
+                    lastObstacle.removeFromParent(true);
+                })
+            ]));
         }
         this._obstacle = Obstacle.get(i);
         this._obstacle.setPosition(util.center);
+        this._obstacle.setScale(0.1);
         this.addChild(this._obstacle, 1);
+
+        this._obstacle.runAction(cc.scaleTo(0.3, 1).easing(cc.easeBackOut()));
+
+        this._collisionDetected = false;
+
+        this.scheduleOnce(this.showMeteoriteTip, 1.5);
     },
     showMeteoriteTip: function () {
         var x = cc.pDistance(util.center, cc.p(0, 0)),
@@ -133,14 +157,6 @@ var GameLayer = cc.Layer.extend({
         this.explode(event.getUserData());
         this.earthQuake();
     },
-    checkSuccess: function (arbiter, space) {
-        if (arbiter.b.color == this._meteoriteColor) {
-            space.addPostStepCallback(function() {
-                this.winScore();
-            }.bind(this));
-        }
-        return true;
-    },
     winScore: function () {
         var point = this._meteorite.getPosition(),
             star = new Star(point);
@@ -151,8 +167,8 @@ var GameLayer = cc.Layer.extend({
         this._meteorite.inactivate();
 
         this.scheduleOnce(function () {
-            this.showMeteoriteTip();
-        }, 1);
+            this.generateGuard();
+        }.bind(this), 0.3);
     },
     getRadianOfPoints:function (beginLineA, endLineA, beginLineB, endLineB) {
         var a = endLineA.x - beginLineA.x;
