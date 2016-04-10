@@ -1,9 +1,12 @@
 var GameLayer = cc.Layer.extend({
     _earth: null,
-    _dead: false,
     _previousLocation: null,
     _obstacle: null,
     _speed: 4,
+    _meteorite: null,
+    _meteoritePoint: null,
+    _meteoriteColor: null,
+    _laser: null,
     ctor: function () {
         this._super();
         util.gameLayer = this;
@@ -39,23 +42,19 @@ var GameLayer = cc.Layer.extend({
         this.addEarth();
         this.generateGuard();
 
-        var meteorite = new Meteorite();
-        meteorite.setPosition(100, 199);
-        this.addChild(meteorite);
+        this.showMeteoriteTip();
 
-        util.addDebugNode.apply(this);
+        // util.addDebugNode.apply(this);
 
-        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_OBSTACLE,
-            this.checkExplode.bind(this), null, null, null);
+        util.space.addCollisionHandler(util.COLLISION_EARTH, util.COLLISION_METEORITE,
+            function (arbiter, space) {
+                space.addPostStepCallback(function(){
+                    this.sendGameOver();
+                }.bind(this));
+            }.bind(this), null, null, null);
 
-        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_OBSTACLE_CENTER,
-            this.updateCurrentIndex.bind(this), null, null, null);
-
-        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_STAR,
-            this.winScore.bind(this), null, null, null);
-
-        util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_SWITCH,
-            this.switchBallColor.bind(this), null, null, null);
+        util.space.addCollisionHandler(util.COLLISION_OBSTACLE, util.COLLISION_METEORITE,
+            this.checkSuccess.bind(this), null, null, null);
     },
     addEarth: function () {
         this._earth = new Earth();
@@ -70,6 +69,36 @@ var GameLayer = cc.Layer.extend({
         this._obstacle = Obstacle.get(i);
         this._obstacle.setPosition(util.center);
         this.addChild(this._obstacle, 1);
+    },
+    showMeteoriteTip: function () {
+        var x = cc.pDistance(util.center, cc.p(0, 0)),
+            p = cc.p(util.center.x + x, util.center.y),
+            pv = util.p2$v(p),
+            degree = cc.degreesToRadians(_.random(0, 359)),
+            pn = pv.rotate(degree, util.p2$v(util.center));
+        if (this._laser) {
+            this._laser.removeFromParent(true);
+            this._laser = null;
+        }
+        this._meteoritePoint = util.$v2p(pn);
+        this._meteoriteColor = _.sample(this._obstacle._colors);
+        this._laser = new Laser(this._meteoritePoint, this._meteoriteColor);
+        this.addChild(this._laser);
+
+        this.scheduleOnce(function () {
+            this.launchMeteorite();
+        }.bind(this), 2);
+    },
+    launchMeteorite: function () {
+        if (this._meteorite) {
+            this._meteorite.removeFromParent(true);
+            this._meteorite = null;
+        }
+        this._meteorite = new Meteorite(this._meteoriteColor);
+        this._meteorite.setPosition(this._meteoritePoint);
+        this.addChild(this._meteorite, 50);
+        
+        this._meteorite.launch();
     },
     explode: function (pos) {
         pos.y += 15;
@@ -97,38 +126,33 @@ var GameLayer = cc.Layer.extend({
     },
     gameOver: function (event) {
         this.unscheduleUpdate();
+
+        this._meteorite.inactivate();
+        this._earth.setVisible(false);
+
         this.explode(event.getUserData());
         this.earthQuake();
     },
-    checkExplode: function (arbiter, space) {
-        if (arbiter.b.color != util.ballColor && this._dead == false) {
-            this._dead = true;
-            space.addPostStepCallback(function(){
-                this.sendGameOver();
+    checkSuccess: function (arbiter, space) {
+        if (arbiter.b.color == this._meteoriteColor) {
+            space.addPostStepCallback(function() {
+                this.winScore();
             }.bind(this));
         }
         return true;
     },
-    updateCurrentIndex: function (arbiter, space) {
-        space.addPostStepCallback(function () {
-            util.currentIndex = Math.max(
-                util.currentIndex,
-                arbiter.b.obstacle._index
-            );
-        }.bind(this));
-        return true;
-    },
-    winScore: function (arbiter, space) {
-        space.addPostStepCallback(function(){
-            arbiter.b.object.winScore();
-        }.bind(this));
-        return true;
-    },
-    switchBallColor: function (arbiter, space) {
-        space.addPostStepCallback(function(){
-            arbiter.b.object.onCollisionDetected();
-        }.bind(this));
-        return true;
+    winScore: function () {
+        var point = this._meteorite.getPosition(),
+            star = new Star(point);
+        this.addChild(star, 100);
+
+        cc.eventManager.dispatchCustomEvent(util.EVENT_WIN_SCORE);
+
+        this._meteorite.inactivate();
+
+        this.scheduleOnce(function () {
+            this.showMeteoriteTip();
+        }, 1);
     },
     getRadianOfPoints:function (beginLineA, endLineA, beginLineB, endLineB) {
         var a = endLineA.x - beginLineA.x;

@@ -1,7 +1,7 @@
 var Meteorite = PhysicsSprite.extend({
     image: null,
     mColor: null,
-    ctor: function () {
+    ctor: function (color) {
         this._super();
 
         var scale = _.random(0.6, 1.2),
@@ -19,6 +19,14 @@ var Meteorite = PhysicsSprite.extend({
                 color: util.COLOR_LIME
             }],
             imageType = _.sample(images);
+        if (color) {
+            _.forEach(images, function (v, k) {
+                if (v.color == color) {
+                    imageType = v;
+                    return false;
+                }
+            });
+        }
         this.image = new cc.Sprite(res['meteorite_' + imageType.name]);
         this.image.setScale(scale);
         this.addChild(this.image);
@@ -43,5 +51,14 @@ var Meteorite = PhysicsSprite.extend({
         this._super();
 
         this.image.runAction(cc.rotateBy(2, 360).repeatForever());
+    },
+    launch: function () {
+        this.runAction(cc.moveTo(0.5, util.center).easing(cc.easeSineIn()));
+    },
+    inactivate: function () {
+        _.forEach(this.getBody().shapeList, function (v, k) {
+            util.space.removeShape(v);
+        });
+        this.setVisible(false);
     }
 });
