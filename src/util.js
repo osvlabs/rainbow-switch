@@ -45,6 +45,7 @@ var util = {
     COLLISION_STAR: 50,
     COLLISION_SWITCH: 60,
     COLLISION_EARTH: 200,
+    COLLISION_METEORITE: 1000,
 
     // Others
     center: null,

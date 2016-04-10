@@ -39,7 +39,11 @@ var GameLayer = cc.Layer.extend({
         this.addEarth();
         this.generateGuard();
 
-        util.addDebugNode.apply(this);
+        var meteorite = new Meteorite();
+        meteorite.setPosition(100, 199);
+        this.addChild(meteorite);
+
+        // util.addDebugNode.apply(this);
 
         util.space.addCollisionHandler(util.COLLISION_BALL, util.COLLISION_OBSTACLE,
             this.checkExplode.bind(this), null, null, null);
