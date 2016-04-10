@@ -289,11 +289,15 @@ Obstacle.create = function (args) {
 
 Obstacle.get = function (i) {
     var args = null;
-    if (i === undefined) {
-        args = _.sample(util.data.obstacles);
-    } else if (_.isInteger(i)) {
-        args = util.data.obstacles[i];
-    } else if (_.isString(i)) {
+    if (i === undefined || _.isString(i)) {
+        if (i === undefined) {
+            i = _.sample([
+                'Circle',
+                'Cross',
+                'Diamond',
+                'Isogon'
+            ]);
+        }
         var cls = eval('Obstacle' + i);
         if (cls.args) {
             args = cls.args();
@@ -303,6 +307,8 @@ Obstacle.get = function (i) {
                 radius: 120
             };
         }
+    } else if (_.isInteger(i)) {
+        args = util.data.obstacles[i];
     } else if (_.isObject(i)) {
         args = i;
     }
