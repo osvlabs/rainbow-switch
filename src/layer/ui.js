@@ -1,16 +1,16 @@
 var GameUILayer = cc.Layer.extend({
     _scoreLabel: null,
-    _score: 0,
     ctor: function () {
         this._super();
 
-        this._scoreLabel = util.label('0', 60);
+        this._scoreLabel = util.label('' + util.score, 60);
         this._scoreLabel.setColor(util.COLOR_SILVER);
         this._scoreLabel.setPosition(50, cc.winSize.height - 50);
         this.addChild(this._scoreLabel);
     },
     onEnter: function () {
         this._super();
+        this.setScore(0);
 
         cc.eventManager.addListener(cc.EventListener.create({
             event: cc.EventListener.CUSTOM,
@@ -19,10 +19,10 @@ var GameUILayer = cc.Layer.extend({
         }), this);
     },
     setScore: function (v) {
-        this._score = v;
-        this._scoreLabel.setString(_.toString(this._score));
+        util.score = v;
+        this._scoreLabel.setString(_.toString(v));
     },
     winScore: function () {
-        this.setScore(++this._score);
+        this.setScore(util.score + 1);
     }
 });

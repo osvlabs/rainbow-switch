@@ -2,7 +2,7 @@ var GameLayer = cc.Layer.extend({
     _earth: null,
     _previousLocation: null,
     _obstacle: null,
-    _speed: 4,
+    _rotateSpeed: 4,
     _meteorite: null,
     _meteoritePoint: null,
     _meteoriteColor: null,
@@ -111,7 +111,7 @@ var GameLayer = cc.Layer.extend({
 
         this.scheduleOnce(function () {
             this.launchMeteorite();
-        }.bind(this), 2);
+        }.bind(this), this.getLaunchMeteoriteTimeout());
     },
     launchMeteorite: function () {
         if (this._meteorite) {
@@ -122,7 +122,15 @@ var GameLayer = cc.Layer.extend({
         this._meteorite.setPosition(this._meteoritePoint);
         this.addChild(this._meteorite, 50);
         
-        this._meteorite.launch();
+        this._meteorite.launch(this.getMeteoriteTimeout());
+    },
+    getMeteoriteTimeout: function () {
+        var percent = util.score / 30;
+        var m = Math.sin(percent * Math.PI / 2);
+        return 1.5 - 1.2 * m;
+    },
+    getLaunchMeteoriteTimeout: function () {
+        return this.getMeteoriteTimeout();
     },
     explode: function (pos) {
         pos.y += 15;
@@ -188,6 +196,6 @@ var GameLayer = cc.Layer.extend({
         return angle;
     },
     getDeltaByRadian: function (angle) {
-        return (angle < 0 ? 1 : -1) * this._speed;
+        return (angle < 0 ? 1 : -1) * this._rotateSpeed;
     }
 });

@@ -52,8 +52,11 @@ var Meteorite = PhysicsSprite.extend({
 
         this.image.runAction(cc.rotateBy(2, 360).repeatForever());
     },
-    launch: function () {
-        this.runAction(cc.moveTo(0.5, util.center).easing(cc.easeSineIn()));
+    launch: function (timeout) {
+        if (timeout === undefined) {
+            timeout = 0.5;
+        }
+        this.runAction(cc.moveTo(timeout, util.center).easing(cc.easeSineOut()));
     },
     inactivate: function () {
         _.forEach(this.getBody().shapeList, function (v, k) {
