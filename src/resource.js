@@ -1,8 +1,7 @@
 var res = {
     font_awesome: 'res/fontawesome.ttf',
     rh: 'res/rh.png',
-    rainbow: 'res/rainbow.png',
-    rainbow_rect: 'res/rainbow_rect.png',
+    slogan: 'res/slogan.png',
     star_explode: 'res/star_explode.plist',
     universe: 'res/particle_universe.plist',
     earth: 'res/earth.png',

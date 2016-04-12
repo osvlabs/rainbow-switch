@@ -36,7 +36,7 @@ var SplashScene = cc.Scene.extend({
         this.runAction(new cc.Sequence([
             new cc.DelayTime(1.5),
             new cc.CallFunc(function(){
-                cc.director.runScene(new cc.TransitionFlipX(0.3, new HomeScene()));
+                cc.director.runScene(new cc.TransitionFlipX(0.3, new GameScene()));
             })
         ]));
     }

@@ -1,8 +1,12 @@
 var GameScene = cc.Scene.extend({
-    layer: null,
+    homeLayer: null,
+    btnLayer: null,
+    gameLayer: null,
+    gameOverShapes: null,
     ctor: function () {
         this._super();
 
+        this.gameOverShapes = [];
         this.initPhysics();
     },
     initPhysics: function () {
@@ -21,11 +25,14 @@ var GameScene = cc.Scene.extend({
 
         this.addChild(new BgLayer());
 
-        this.layer = new GameLayer();
-        this.addChild(this.layer);
+        this.homeLayer = new HomeLayer();
+        this.addChild(this.homeLayer);
 
-        var uiLayer = new GameUILayer();
-        this.addChild(uiLayer);
+        // this.gameLayer = new GameLayer();
+        // this.addChild(this.gameLayer);
+
+        // var uiLayer = new GameUILayer();
+        // this.addChild(uiLayer);
 
         cc.eventManager.addListener(cc.EventListener.create({
             event: cc.EventListener.CUSTOM,
@@ -41,20 +48,25 @@ var GameScene = cc.Scene.extend({
         this.flash();
         this.setupGameOverPhysics();
         this.scheduleOnce(function () {
-            cc.director.runScene(cc.TransitionFade.create(0.5, new GameOverScene()));
-        }, 1.5);
+            this.removeGameOverPhysics();
+            // TODO: Show game over layer
+        }.bind(this), 1);
     },
     flash: function () {
         var layer = new cc.LayerColor(cc.color.WHITE);
-        layer.setPosition(cc.p(0, 0));
         this.addChild(layer);
+
+        layer.setPosition(cc.p(0, 0));
         layer.runAction(cc.fadeOut(1).easing(cc.easeSineOut()));
+        this.scheduleOnce(function () {
+            layer.removeFromParent(true);
+        }, 1);
     },
     setupGameOverPhysics: function () {
         var staticBody = util.space.staticBody,
             width = cc.winSize.width,
             height = cc.winSize.height,
-            delta = - this.layer.getPositionY(),
+            delta = - this.gameLayer.getPositionY(),
             thick = -10,
             tl = cp.v(thick, height - thick + delta),
             tr = cp.v(width - thick, height - thick + delta),
@@ -71,6 +83,12 @@ var GameScene = cc.Scene.extend({
             shape.setCollisionType(util.COLLISION_GAME_OVER_WALL);
             shape.setElasticity(1);
             util.space.addStaticShape(shape);
+            this.gameOverShapes.push(shape);
         }
+    },
+    removeGameOverPhysics: function () {
+        _.forEach(this.gameOverShapes, function (v, k) {
+            util.space.removeShape(v);
+        });
     }
 });

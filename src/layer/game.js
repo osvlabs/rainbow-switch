@@ -1,5 +1,4 @@
 var GameLayer = cc.Layer.extend({
-    _earth: null,
     _previousLocation: null,
     _obstacle: null,
     _rotateSpeed: 4,
@@ -40,7 +39,6 @@ var GameLayer = cc.Layer.extend({
     onEnter: function () {
         this._super();
 
-        this.addEarth();
         this.generateGuard();
 
         // util.addDebugNode.apply(this);
@@ -55,7 +53,7 @@ var GameLayer = cc.Layer.extend({
         if (!this._collisionDetected) {
             this._collisionDetected = true;
             space.addPostStepCallback(function(){
-                this.sendGameOver();
+                cc.eventManager.dispatchCustomEvent(util.EVENT_GAME_OVER);
             }.bind(this));
         }
     },
@@ -67,11 +65,6 @@ var GameLayer = cc.Layer.extend({
             }.bind(this));
         }
         return true;
-    },
-    addEarth: function () {
-        this._earth = new Earth();
-        this._earth.setPosition(util.center.x, util.center.y);
-        this.addChild(this._earth, 2);
     },
     generateGuard: function (i) {
         if (this._obstacle) {
@@ -149,18 +142,11 @@ var GameLayer = cc.Layer.extend({
             cc.moveBy(frequency, cc.p(amplitude, -amplitude)).easing(cc.easeBackInOut())
         ]));
     },
-    sendGameOver: function () {
-        var pos = this._earth.getPosition();
-        cc.eventManager.dispatchCustomEvent(
-            util.EVENT_GAME_OVER,
-            pos
-        );
-    },
     gameOver: function (event) {
         this.unscheduleUpdate();
 
         this._meteorite.inactivate();
-        this._earth.setVisible(false);
+        this._obstacle.setVisible(false);
 
         this.explode(event.getUserData());
         this.earthQuake();

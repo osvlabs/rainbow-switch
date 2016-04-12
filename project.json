@@ -17,7 +17,6 @@
         "src/util.js",
         "src/resource.js",
         "src/data.js",
-        "src/sprite/slogan.js",
         "src/sprite/physics.sprite.js",
         "src/sprite/scale.sprite.js",
         "src/sprite/debris.js",
@@ -38,10 +37,8 @@
         "src/layer/bg.js",
         "src/layer/game.js",
         "src/layer/ui.js",
+        "src/layer/home.js",
         "src/scene/splash.js",
-        "src/scene/home.js",
-        "src/scene/game.js",
-        "src/scene/pass.js",
-        "src/scene/over.js"
+        "src/scene/game.js"
     ]
 }
