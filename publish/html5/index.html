@@ -18,11 +18,29 @@
             -khtml-user-select: none;
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         }
+        #adsense {
+            position: fixed;
+            width: 100%;
+            max-height: 80px;
+            bottom: 0;
+        }
     </style>
 </head>
 <body style="padding:0; margin: 0; background: #000;">
 <script src="res/loading.js"></script>
 <canvas id="gameCanvas" width="480" height="720"></canvas>
+<div id="adsense">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- RainbowGuard -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-5072970286349933"
+         data-ad-slot="5127544826"
+         data-ad-format="auto"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
 
 <script cocos src="game.min.js"></script>
 </body>

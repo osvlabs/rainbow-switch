@@ -190,8 +190,10 @@
                 <file name="src/sprite/scale.sprite.js"/>
                 <file name="src/sprite/debris.js"/>
                 <file name="src/sprite/ball.js"/>
+                <file name="src/sprite/earth.js"/>
                 <file name="src/sprite/star.js"/>
-                <file name="src/sprite/tape.js"/>
+                <file name="src/sprite/meteorite.js"/>
+                <file name="src/sprite/laser.js"/>
                 <file name="src/obstacle/obstacle.js"/>
                 <file name="src/obstacle/circle.js"/>
                 <file name="src/obstacle/sector.js"/>
@@ -201,8 +203,9 @@
                 <file name="src/obstacle/diamond.js"/>
                 <file name="src/obstacle/group.js"/>
                 <file name="src/obstacle/switch.js"/>
+                <file name="src/layer/bg.js"/>
                 <file name="src/layer/game.js"/>
-                <file name="src/layer/gameFloat.js"/>
+                <file name="src/layer/ui.js"/>
                 <file name="src/scene/splash.js"/>
                 <file name="src/scene/home.js"/>
                 <file name="src/scene/game.js"/>
