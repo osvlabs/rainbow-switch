@@ -1,7 +1,7 @@
 var res = {
-    font_awesome: 'res/fontawesome.ttf',
     rh: 'res/rh.png',
     slogan: 'res/slogan.png',
+    play: 'res/play.png',
     star_explode: 'res/star_explode.plist',
     universe: 'res/particle_universe.plist',
     earth: 'res/earth.png',

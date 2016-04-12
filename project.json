@@ -38,6 +38,7 @@
         "src/layer/game.js",
         "src/layer/ui.js",
         "src/layer/home.js",
+        "src/layer/btn.js",
         "src/scene/splash.js",
         "src/scene/game.js"
     ]

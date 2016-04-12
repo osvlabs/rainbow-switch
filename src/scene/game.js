@@ -28,6 +28,9 @@ var GameScene = cc.Scene.extend({
         this.homeLayer = new HomeLayer();
         this.addChild(this.homeLayer);
 
+        this.btnLayer = new BtnLayer();
+        this.addChild(this.btnLayer);
+
         // this.gameLayer = new GameLayer();
         // this.addChild(this.gameLayer);
 
