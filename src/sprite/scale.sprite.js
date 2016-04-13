@@ -1,9 +1,10 @@
 var ScaleSprite = cc.Sprite.extend({
     touchListener: null,
+    scaleMax: 1.4,
+    scaleTime: 0.1,
     ctor: function(frameName, callback, endCallback) {
         this._super(frameName);
 
-        var self = this;
         this.touchListener = cc.EventListener.create({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             swallowTouches: true,
@@ -11,22 +12,31 @@ var ScaleSprite = cc.Sprite.extend({
                 var pos = touch.getLocation();
                 var target = event.getCurrentTarget();
                 if (cc.rectContainsPoint(target.getBoundingBox(), pos)) {
-                    self.stopAllActions();
-                    self.runAction(cc.scaleTo(0.1, 1.4).easing(cc.easeSineOut()));
+                    this.stopAllActions();
+                    var scaleX = this.getScaleX(),
+                        scaleY = this.getScaleY();
+                    this.oldScaleX = scaleX;
+                    this.oldScaleY = scaleY;
+                    this.runAction(
+                        cc.scaleTo(this.scaleTime, scaleX * this.scaleMax, scaleY * this.scaleMax)
+                            .easing(cc.easeBackIn())
+                    );
                     if (callback) {
-                        callback();
+                        this.scheduleOnce(callback, this.scaleTime);
                     }
                     return true;
                 }
                 return false;
-            },
+            }.bind(this),
             onTouchEnded: function (touch, event) {
-                self.stopAllActions();
-                self.runAction(cc.scaleTo(0.1, 1.0).easing(cc.easeSineIn()));
+                this.stopAllActions();
+                this.runAction(
+                    cc.scaleTo(this.scaleTime, this.oldScaleX, this.oldScaleY).easing(cc.easeBounceOut())
+                );
                 if (endCallback) {
-                    endCallback();
+                    this.scheduleOnce(endCallback, this.scaleTime);
                 }
-            },
+            }.bind(this),
             onTouchCancelled: function (touch, event) {
                 this.onTouchEnded(touch, event);
             }

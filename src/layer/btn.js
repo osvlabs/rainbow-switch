@@ -6,9 +6,8 @@ var BtnLayer = BaseLayer.extend({
         this._super();
         this.fromY = -util.center.y;
 
-        this.play = new ScaleSprite(res.play, this.onPlay.bind(this));
+        this.play = new ScaleSprite(res.play, null, this.onPlay.bind(this));
         this.play.setPosition(util.center.x, cc.winSize.height * 0.3);
-        this.play.setScale(0.8);
         this.addChild(this.play);
     },
     onEnter: function () {
@@ -17,6 +16,8 @@ var BtnLayer = BaseLayer.extend({
         this.moveIn();
     },
     moveIn: function () {
+        this.play.setScale(0.8);
+
         this._super();
 
         this.scheduleOnce(function () {
