@@ -58,7 +58,7 @@ var Meteorite = PhysicsSprite.extend({
         }
         this.runAction(cc.moveTo(timeout, util.center).easing(cc.easeSineOut()));
     },
-    inactivate: function () {
+    deactivate: function () {
         _.forEach(this.getBody().shapeList, function (v, k) {
             util.space.removeShape(v);
         });

@@ -23,6 +23,12 @@ var GameUILayer = cc.Layer.extend({
         this._scoreLabel.setString(_.toString(v));
     },
     winScore: function () {
-        this.setScore(util.score + 1);
+        util.score++;
+        this.setScore(util.score);
+
+        var best = util.config(util.CONFIG_BEST_SCORE);
+        if (!best || util.score > best) {
+            util.config(util.CONFIG_BEST_SCORE, util.score);
+        }
     }
 });

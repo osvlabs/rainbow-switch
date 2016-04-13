@@ -44,6 +44,12 @@ var util = {
     // config
     CONFIG_DEBUG: 'debug',
     CONFIG_BEST_SCORE: 'best_score',
+    configDefaults: {
+        best_score : {
+            invalid: null,
+            default: 0
+        }
+    },
 
     // Constants
     LAYER_MOVE_TIME: 0.5,
@@ -75,6 +81,13 @@ var util = {
             cc.color.GREEN,
             cc.color.MAGENTA
         ];
+
+        _.forEach(this.configDefaults, function (v, k) {
+            var cv = util.config(k);
+            if (cv === v.invalid) {
+                util.config(k, v.default);
+            }
+        });
     },
     label: function (text, size) {
         return new cc.LabelTTF(text, 'Arial', size || 40);

@@ -151,7 +151,7 @@ var GameLayer = cc.Layer.extend({
     gameOver: function (event) {
         this.unscheduleUpdate();
 
-        this._meteorite.inactivate();
+        this._meteorite.deactivate();
         this._obstacle.setVisible(false);
         this._earth.setVisible(false);
 
@@ -165,7 +165,7 @@ var GameLayer = cc.Layer.extend({
 
         cc.eventManager.dispatchCustomEvent(util.EVENT_WIN_SCORE);
 
-        this._meteorite.inactivate();
+        this._meteorite.deactivate();
 
         this.scheduleOnce(function () {
             this.generateGuard();
