@@ -3,9 +3,9 @@ var Debris = PhysicsSprite.extend({
         this._super();
         this.setAnchorPoint(0.5, 0.5);
 
-        var radius = _.random(5, 20);
-        var label = util.icon(util.ICON_CIRCLE, radius);
-        label.setColor(_.sample(util.EXPLODE_COLORS));
+        var radius = _.random(2, 10);
+        var label = new cc.DrawNode();
+        label.drawDot(cc.p(0, 0), radius, _.sample(util.EXPLODE_COLORS));
         this.addChild(label);
 
         var size = cc.size(radius, radius);

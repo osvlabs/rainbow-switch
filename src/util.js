@@ -24,6 +24,7 @@ var util = {
     COLORS: [],
 
     // Events
+    EVENT_PLAY: 'play',
     EVENT_ROTATE: 'rotate',
     EVENT_GAME_OVER: 'game_over',
     EVENT_WIN_SCORE: 'win_score',
@@ -40,11 +41,19 @@ var util = {
     COLLISION_EARTH: 200,
     COLLISION_METEORITE: 1000,
 
+    // config
+    CONFIG_DEBUG: 'debug',
+    CONFIG_BEST_SCORE: 'best_score',
+
+    // Constants
+    LAYER_MOVE_TIME: 0.5,
+
     // Others
     center: null,
     space: null,
     ballColor: null,
     score: 0,
+    configPath: 'config.json',
     init: function () {
         var size = cc.winSize;
         this.center = cc.p(size.width * 0.5, size.height * 0.5);
@@ -120,5 +129,40 @@ var util = {
             result.push(util.$v2p(v.rotate(degree, origin)));
         });
         return result;
+    },
+    shadowLabel: function (text, size) {
+        var label = new cc.LabelTTF(text, null, size);
+        label.setFontFillColor(cc.color.WHITE);
+
+        var offset = cc.size(5, -5);
+        if (cc.sys.isNative) {
+            offset = cc.size(2, -2);
+        }
+        label.enableShadow(cc.color.BLACK, offset, 10);
+
+        return label;
+    },
+    config: function (k, v) {
+        if (cc.sys.isNative) {
+            var dir = jsb.fileUtils.getWritablePath();
+            var path = dir + '/' + this.configPath;
+            var jsonString = '{}';
+            if (jsb.fileUtils.isFileExist(path)) {
+                jsonString = jsb.fileUtils.getStringFromFile(path);
+            }
+            var config = JSON.parse(jsonString);
+            if (v === undefined) {
+                return config[k];
+            }
+            config[k] = v;
+            jsb.fileUtils.writeStringToFile(JSON.stringify(config), path);
+        } else {
+            if (v === undefined) {
+                v = localStorage.getItem(k);
+                return JSON.parse(v);
+            }
+            v = JSON.stringify(v);
+            localStorage.setItem(k, v);
+        }
     }
 };

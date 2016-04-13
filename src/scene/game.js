@@ -2,6 +2,8 @@ var GameScene = cc.Scene.extend({
     homeLayer: null,
     btnLayer: null,
     gameLayer: null,
+    uiLayer: null,
+    scoreLayer: null,
     gameOverShapes: null,
     ctor: function () {
         this._super();
@@ -31,11 +33,15 @@ var GameScene = cc.Scene.extend({
         this.btnLayer = new BtnLayer();
         this.addChild(this.btnLayer);
 
-        // this.gameLayer = new GameLayer();
-        // this.addChild(this.gameLayer);
+        this.scoreLayer = new ScoreLayer();
+        this.addChild(this.scoreLayer);
+        this.scoreLayer.setPosition(0, this.scoreLayer.fromY);
 
-        // var uiLayer = new GameUILayer();
-        // this.addChild(uiLayer);
+        cc.eventManager.addListener(cc.EventListener.create({
+            event: cc.EventListener.CUSTOM,
+            eventName: util.EVENT_PLAY,
+            callback: this.play.bind(this)
+        }), this);
 
         cc.eventManager.addListener(cc.EventListener.create({
             event: cc.EventListener.CUSTOM,
@@ -47,13 +53,40 @@ var GameScene = cc.Scene.extend({
         this._super(dt);
         util.space.step(dt);
     },
+    play: function () {
+        this.homeLayer.moveOut();
+        this.btnLayer.moveOut();
+        this.scoreLayer.moveOut();
+
+        this.scheduleOnce(function () {
+            this.gameLayer = new GameLayer();
+            this.addChild(this.gameLayer);
+
+            this.uiLayer = new GameUILayer();
+            this.addChild(this.uiLayer);
+        }, util.LAYER_MOVE_TIME);
+    },
     gameOver: function (event) {
         this.flash();
         this.setupGameOverPhysics();
+
+        this.scheduleOnce(function () {
+            this.gameLayer.runAction(cc.fadeOut(0.4));
+            this.uiLayer.runAction(cc.fadeOut(0.4));
+        }.bind(this), 1.5);
+
         this.scheduleOnce(function () {
             this.removeGameOverPhysics();
-            // TODO: Show game over layer
-        }.bind(this), 1);
+
+            this.gameLayer.removeFromParent(true);
+            this.gameLayer = null;
+
+            this.uiLayer.removeFromParent(true);
+            this.uiLayer = null;
+
+            this.scoreLayer.moveIn();
+            this.btnLayer.moveIn();
+        }.bind(this), 2);
     },
     flash: function () {
         var layer = new cc.LayerColor(cc.color.WHITE);
@@ -93,5 +126,6 @@ var GameScene = cc.Scene.extend({
         _.forEach(this.gameOverShapes, function (v, k) {
             util.space.removeShape(v);
         });
+        this.gameOverShapes.length = 0;
     }
 });

@@ -1,4 +1,5 @@
 var GameLayer = cc.Layer.extend({
+    _earth: null,
     _previousLocation: null,
     _obstacle: null,
     _rotateSpeed: 4,
@@ -38,6 +39,10 @@ var GameLayer = cc.Layer.extend({
     },
     onEnter: function () {
         this._super();
+
+        this._earth = new Earth();
+        this._earth.setPosition(util.center.x, util.center.y);
+        this.addChild(this._earth, 10);
 
         this.generateGuard();
 
@@ -125,11 +130,12 @@ var GameLayer = cc.Layer.extend({
     getLaunchMeteoriteTimeout: function () {
         return this.getMeteoriteTimeout();
     },
-    explode: function (pos) {
+    explode: function () {
+        var pos = _.clone(util.center);
         pos.y += 15;
         for(var i = 0; i < 30; i++) {
             var debris = new Debris(pos);
-            this.addChild(debris);
+            this.addChild(debris, 50);
         }
     },
     earthQuake: function () {
@@ -147,6 +153,7 @@ var GameLayer = cc.Layer.extend({
 
         this._meteorite.inactivate();
         this._obstacle.setVisible(false);
+        this._earth.setVisible(false);
 
         this.explode(event.getUserData());
         this.earthQuake();

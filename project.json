@@ -34,11 +34,13 @@
         "src/obstacle/diamond.js",
         "src/obstacle/group.js",
         "src/obstacle/switch.js",
+        "src/layer/base.js",
         "src/layer/bg.js",
         "src/layer/game.js",
         "src/layer/ui.js",
         "src/layer/home.js",
         "src/layer/btn.js",
+        "src/layer/score.js",
         "src/scene/splash.js",
         "src/scene/game.js"
     ]

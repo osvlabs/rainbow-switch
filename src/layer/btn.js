@@ -1,10 +1,14 @@
-var BtnLayer = cc.Layer.extend({
+var BtnLayer = BaseLayer.extend({
+    fromY: 0,
+    toY: 0,
     play: null,
     ctor: function () {
         this._super();
+        this.fromY = -util.center.y;
 
-        this.play = new cc.Sprite(res.play);
+        this.play = new ScaleSprite(res.play, this.onPlay.bind(this));
         this.play.setPosition(util.center.x, cc.winSize.height * 0.3);
+        this.play.setScale(0.8);
         this.addChild(this.play);
     },
     onEnter: function () {
@@ -13,28 +17,22 @@ var BtnLayer = cc.Layer.extend({
         this.moveIn();
     },
     moveIn: function () {
-        this.setPositionY(-util.center.y);
-        this.setOpacity(0);
-
-        this.runAction(cc.spawn([
-            cc.moveTo(1, cc.p(0, 0)).easing(cc.easeBounceOut()),
-            cc.fadeIn(0.6)
-        ]));
+        this._super();
 
         this.scheduleOnce(function () {
             this.play.runAction(cc.sequence([
-                cc.moveBy(0.8, 0, 20).easing(cc.easeSineIn()),
-                cc.moveBy(1, 0, -20).easing(cc.easeBounceOut()),
-                cc.delayTime(0.8)
+                cc.scaleTo(0.5, 1, 0.5).easing(cc.easeBackIn()),
+                cc.scaleTo(0.3, 0.8).easing(cc.easeBounceOut()),
+                cc.delayTime(2)
             ]).repeatForever());
         }.bind(this), 1);
     },
     moveOut: function () {
         this.play.stopAllActions();
 
-        this.runAction(cc.spawn([
-            cc.moveTo(1, cc.p(0, -util.center.y)).easing(cc.easeBackIn()),
-            cc.fadeOut(0.6)
-        ]));
+        this._super();
+    },
+    onPlay: function () {
+        cc.eventManager.dispatchCustomEvent(util.EVENT_PLAY);
     }
 });

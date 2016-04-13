@@ -1,4 +1,4 @@
-var HomeLayer = cc.Layer.extend({
+var HomeLayer = BaseLayer.extend({
     slogan: null,
     ctor: function () {
         this._super();
@@ -13,28 +13,18 @@ var HomeLayer = cc.Layer.extend({
         this.moveIn();
     },
     moveIn: function () {
-        this.setPositionY(util.center.y);
-        this.setOpacity(0);
-
-        this.runAction(cc.spawn([
-            cc.moveTo(1, cc.p(0, 0)).easing(cc.easeBounceOut()),
-            cc.fadeIn(0.6)
-        ]));
+        this._super();
 
         this.scheduleOnce(function () {
             this.slogan.runAction(cc.sequence([
                 cc.moveBy(0.8, 0, 20).easing(cc.easeSineIn()),
-                cc.moveBy(1, 0, -20).easing(cc.easeBounceOut()),
-                cc.delayTime(0.8)
+                cc.moveBy(1, 0, -20).easing(cc.easeSineOut())
             ]).repeatForever());
         }.bind(this), 1);
     },
     moveOut: function () {
         this.slogan.stopAllActions();
 
-        this.runAction(cc.spawn([
-            cc.moveTo(1, cc.p(0, util.center.y)).easing(cc.easeBackIn()),
-            cc.fadeOut(0.6)
-        ]));
+        this._super();
     }
 });
