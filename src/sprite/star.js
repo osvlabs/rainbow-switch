@@ -7,9 +7,9 @@ var Star = cc.Node.extend({
     onEnter: function () {
         this._super();
         
-        this.addChild(new cc.ParticleSystem(res.star_explode));
+        this.addChild(new cc.ParticleSystem(res.star));
 
-        var label = util.label('+1');
+        var label = util.label('+1', 70);
         label.enableShadow(util.COLOR_DARK, cc.size(5, -5), 5);
         this.addChild(label);
 

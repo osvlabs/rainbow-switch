@@ -9,12 +9,12 @@ var ScoreLayer = BaseLayer.extend({
         this.addChild(node);
 
         var score = util.label('Score', 40);
-        score.setPositionY(120);
+        score.setPositionY(130);
         score.setFontFillColor(util.COLOR_GRAY);
         node.addChild(score);
 
-        this.scoreLabel = util.label('0', 120);
-        this.scoreLabel.setPositionY(40);
+        this.scoreLabel = util.label('0', 130);
+        this.scoreLabel.setPositionY(45);
         node.addChild(this.scoreLabel);
 
         score = util.label('Best score', 25);
@@ -39,5 +39,17 @@ var ScoreLayer = BaseLayer.extend({
         this.updateScore();
 
         this._super();
+
+        this.scheduleOnce(function () {
+            if (this.scoreLabel.getString() == this.bestScoreLabel.getString()) {
+                var particle = new cc.ParticleSystem(res.explode);
+                particle.setPosition(util.center.x, cc.winSize.height * 0.75);
+                this.addChild(particle);
+
+                this.scheduleOnce(function () {
+                    particle.removeFromParent(true);
+                }, 1.5);
+            }
+        }.bind(this), util.LAYER_MOVE_TIME);
     }
 });
