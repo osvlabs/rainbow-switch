@@ -12,8 +12,7 @@
     "modules" : ["cocos2d", "chipmunk"],
 
     "jsList" : [
-        "src/lib/lodash.min.js",
-        "src/lib/sylvester.js",
+        "src/helpers/dist/helper.js",
         "src/util.js",
         "src/resource.js",
         "src/data.js",
