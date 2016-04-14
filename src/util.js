@@ -1,4 +1,4 @@
-var Util = Cocos2dJsHelper.extend({
+var util = new (Cocos2dJsHelper.extend({
     // Colors
     COLOR_DARK: cc.color(34, 34, 34),
 
@@ -64,6 +64,4 @@ var Util = Cocos2dJsHelper.extend({
             cc.color.MAGENTA
         ];
     }
-});
-
-var util = new Util();
+}))();
