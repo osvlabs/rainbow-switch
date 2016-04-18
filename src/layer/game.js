@@ -138,16 +138,6 @@ var GameLayer = cc.Layer.extend({
             this.addChild(debris, 50);
         }
     },
-    earthQuake: function () {
-        var amplitude = 10,
-            frequency = 0.1;
-        this.runAction(cc.sequence([
-            cc.moveBy(frequency, cc.p(-amplitude, -amplitude)).easing(cc.easeBackInOut()),
-            cc.moveBy(frequency, cc.p(2 * amplitude, 0)).easing(cc.easeBackInOut()),
-            cc.moveBy(frequency, cc.p(-2 * amplitude, 2 * amplitude)).easing(cc.easeBackInOut()),
-            cc.moveBy(frequency, cc.p(amplitude, -amplitude)).easing(cc.easeBackInOut())
-        ]));
-    },
     gameOver: function (event) {
         this.unscheduleUpdate();
 
@@ -156,7 +146,6 @@ var GameLayer = cc.Layer.extend({
         this._earth.setVisible(false);
 
         this.explode(event.getUserData());
-        this.earthQuake();
     },
     winScore: function () {
         var point = this._meteorite.getPosition(),
