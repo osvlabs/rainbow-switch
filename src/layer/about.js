@@ -3,15 +3,15 @@ var AboutLayer = cc.LayerColor.extend({
     popup: null,
     hideListener: null,
     ctor: function() {
-        this._super(rh.dimColor);
+        this._super(util.COLOR_TEAL);
         var size = cc.winSize;
 
         var popup = new cc.Node();
         popup.attr({
             width: 480,
             height: size.height * 0.75,
-            x: rh.center.x,
-            y: rh.center.y,
+            x: util.center.x,
+            y: util.center.y,
             anchorX: 0.5,
             anchorY: 0.5
         });
@@ -29,9 +29,9 @@ var AboutLayer = cc.LayerColor.extend({
         });
         popup.addChild(bg);
 
-        this.startPoint = cc.p(rh.center.x, -popup.height * 0.5);
+        this.startPoint = cc.p(util.center.x, -popup.height * 0.5);
 
-        var label = rh.label('开发商');
+        var label = util.label('开发商');
         label.attr({
             x: hCenter,
             y: popup.height - 45
@@ -46,30 +46,16 @@ var AboutLayer = cc.LayerColor.extend({
         });
         popup.addChild(sprite);
 
-        sprite = rh.popupButton('关注我们', res.wechat);
+        sprite = util.popupButton('关注我们', res.wechat);
         sprite.attr({
             x: 150,
             y: popup.height - 300
         });
         popup.addChild(sprite);
 
-        sprite = rh.popupButton('评价', res.star);
-        sprite.attr({
-            x: popup.width - 120,
-            y: popup.height - 300
-        });
-        popup.addChild(sprite);
-
-        sprite = rh.popupButton('更多游戏', res.game);
+        sprite = util.popupButton('更多游戏', res.game);
         sprite.attr({
             x: 150,
-            y: popup.height - 390
-        });
-        popup.addChild(sprite);
-
-        sprite = rh.popupButton('分享', res.share2);
-        sprite.attr({
-            x: popup.width - 120,
             y: popup.height - 390
         });
         popup.addChild(sprite);
@@ -92,11 +78,10 @@ var AboutLayer = cc.LayerColor.extend({
         });
     },
     show: function() {
-        var size = cc.winSize;
         this.popup.setPosition(this.startPoint);
         cc.eventManager.addListener(this.hideListener, this);
         cc.director.getRunningScene().addChild(this);
-        this.popup.runAction(new cc.MoveTo(0.3, rh.center).easing(cc.easeBackOut()));
+        this.popup.runAction(new cc.MoveTo(0.3, util.center).easing(cc.easeBackOut()));
     },
     hide: function() {
         this.popup.runAction(new cc.MoveTo(0.3, this.startPoint).easing(cc.easeBackIn()));
