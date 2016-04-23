@@ -47,7 +47,12 @@ var ScoreLayer = BaseLayer.extend({
                 this.addChild(particle);
 
                 this.scheduleOnce(function () {
-                    particle.removeFromParent(true);
+                    particle.runAction(cc.sequence([
+                        cc.fadeOut(0.5),
+                        cc.callFunc(function () {
+                            particle.removeFromParent(true);
+                        })
+                    ]));
                 }, 1.5);
             }
         }.bind(this), util.LAYER_MOVE_TIME);

@@ -12,7 +12,7 @@
     "modules" : ["cocos2d", "chipmunk"],
 
     "jsList" : [
-        "src/helpers/dist/helper.js",
+        "src/vendor/helpers/helper.js",
         "src/util.js",
         "src/resource.js",
         "src/data.js",

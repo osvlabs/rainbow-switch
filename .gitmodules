@@ -1,3 +1,6 @@
 [submodule "src/helpers"]
 	path = src/helpers
 	url = https://github.com/ezburg/cocos2d-js-helper.git
+[submodule "vendor/helpers"]
+	path = vendor/helpers
+	url = https://github.com/zhanghuanchong/cocos2d-js-helper.git
