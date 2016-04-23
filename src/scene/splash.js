@@ -1,7 +1,7 @@
 var SplashLayer = cc.LayerColor.extend({
     sprite: null,
     ctor: function () {
-        this._super(util.COLOR_DARK);
+        this._super(cc.color.BLACK);
         var size = cc.winSize;
 
         var sprite = new cc.Sprite(res.rh);
@@ -12,10 +12,6 @@ var SplashLayer = cc.LayerColor.extend({
         });
         this.addChild(sprite);
         this.sprite = sprite;
-
-        var slogan = new Slogan();
-        slogan.setPosition(util.center.x, size.height * 0.5 + 100);
-        this.addChild(slogan);
 
         return true;
     },
@@ -34,7 +30,7 @@ var SplashScene = cc.Scene.extend({
     onEnterTransitionDidFinish: function() {
         this._super();
         this.runAction(new cc.Sequence([
-            new cc.DelayTime(1.5),
+            new cc.DelayTime(2),
             new cc.CallFunc(function(){
                 cc.director.runScene(new cc.TransitionFlipX(0.3, new GameScene()));
             })
