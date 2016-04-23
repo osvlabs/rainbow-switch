@@ -1,4 +1,6 @@
 var util = new (Cocos2dJsHelper.extend({
+    version: '1.0',
+
     // Colors
     COLOR_DARK: cc.color(34, 34, 34),
 

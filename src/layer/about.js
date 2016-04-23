@@ -1,15 +1,15 @@
-var AboutLayer = cc.LayerColor.extend({
+var AboutLayer = cc.Layer.extend({
     startPoint: null,
     popup: null,
     hideListener: null,
     ctor: function() {
-        this._super(util.COLOR_TEAL);
+        this._super();
         var size = cc.winSize;
 
         var popup = new cc.Node();
         popup.attr({
             width: 480,
-            height: size.height * 0.75,
+            height: 640,
             x: util.center.x,
             y: util.center.y,
             anchorX: 0.5,
@@ -18,47 +18,59 @@ var AboutLayer = cc.LayerColor.extend({
         this.addChild(popup);
         this.popup = popup;
 
-        var hCenter = popup.width / 2,
-            vCenter = popup.height / 2;
-        var bg = new cc.Scale9Sprite(res.popup, cc.rect(0, 0, 71, 71), cc.rect(35, 35, 1, 1));
-        bg.attr({
-            width: popup.width,
-            height: popup.height,
-            x: hCenter,
-            y: vCenter
-        });
+        var bg = new cc.DrawNode();
+        var radius = 20;
+        bg.drawDots(
+            [
+                cc.p(radius, radius),
+                cc.p(popup.width - radius, radius),
+                cc.p(radius, popup.height - radius),
+                cc.p(popup.width - radius, popup.height - radius)
+            ],
+            radius,
+            util.COLOR_BLUE
+        );
+        bg.drawRect(
+            cc.p(radius, 0),
+            cc.p(popup.width - radius, popup.height),
+            util.COLOR_BLUE,
+            0,
+            util.COLOR_BLUE
+        );
+        bg.drawRect(
+            cc.p(0, radius),
+            cc.p(popup.width, popup.height - radius),
+            util.COLOR_BLUE,
+            0,
+            util.COLOR_BLUE
+        );
         popup.addChild(bg);
 
         this.startPoint = cc.p(util.center.x, -popup.height * 0.5);
 
-        var label = util.label('开发商');
-        label.attr({
-            x: hCenter,
-            y: popup.height - 45
+        var sprite = new cc.Sprite(res.rh);
+        sprite.attr({
+            x: popup.width / 2,
+            y: popup.height - 120,
+            scale: 0.8
         });
+        popup.addChild(sprite);
+
+        sprite = new ScaleSprite(res.how_to_play, null, this.howToPlay.bind(this));
+        sprite.setPosition(popup.width / 2, 360);
+        popup.addChild(sprite);
+
+        sprite = new ScaleSprite(res.more_game, null, this.moreGame.bind(this));
+        sprite.setPosition(popup.width / 2, 280);
+        popup.addChild(sprite);
+
+        sprite = new ScaleSprite(res.feedback, null, this.feedback.bind(this));
+        sprite.setPosition(popup.width / 2, 200);
+        popup.addChild(sprite);
+        
+        var label = util.label('Version: ' + util.version, 30);
+        label.setPosition(popup.width / 2, 80);
         popup.addChild(label);
-
-        var sprite = new cc.Sprite('#logoMobile.png');
-        sprite.attr({
-            x: hCenter,
-            y: popup.height - 170,
-            scale: 0.6
-        });
-        popup.addChild(sprite);
-
-        sprite = util.popupButton('关注我们', res.wechat);
-        sprite.attr({
-            x: 150,
-            y: popup.height - 300
-        });
-        popup.addChild(sprite);
-
-        sprite = util.popupButton('更多游戏', res.game);
-        sprite.attr({
-            x: 150,
-            y: popup.height - 390
-        });
-        popup.addChild(sprite);
 
         this.hideListener = cc.EventListener.create({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
@@ -66,14 +78,12 @@ var AboutLayer = cc.LayerColor.extend({
             onTouchBegan: function (touch, event) {
                 var pos = touch.getLocation();
                 var target = event.getCurrentTarget();
-                if ( cc.rectContainsPoint(target.popup.getBoundingBox(), pos)) {
-                    return false;
-                }
-                if ( cc.rectContainsPoint(target.getBoundingBox(), pos)) {
+                if ( !cc.rectContainsPoint(target.popup.getBoundingBox(), pos) &&
+                    cc.rectContainsPoint(target.getBoundingBox(), pos))
+                {
                     target.hide();
-                    return true;
                 }
-                return false;
+                return true;
             }
         });
     },
@@ -88,6 +98,23 @@ var AboutLayer = cc.LayerColor.extend({
         this.scheduleOnce(function () {
             cc.eventManager.removeListener(this.hideListener);
             this.removeFromParent(true);
-        }, 0.3);
+        }.bind(this), 0.3);
+    },
+    howToPlay: function () {
+
+    },
+    moreGame: function () {
+        if (cc.sys.isNative) {
+            if (cc.sys.os == cc.sys.OS_IOS) {
+                // jsb.reflection.callStaticMethod("AppController", "showMoreGame");
+            } else if (cc.sys.os == cc.sys.OS_ANDROID) {
+                // TODO: add android support
+            }
+        } else {
+            window.open('http://wuruihong.com');
+        }
+    },
+    feedback: function () {
+
     }
 });

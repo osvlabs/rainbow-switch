@@ -11,7 +11,7 @@ var ScaleSprite = cc.Sprite.extend({
             onTouchBegan: function (touch, event) {
                 var pos = touch.getLocation();
                 var target = event.getCurrentTarget();
-                if (cc.rectContainsPoint(target.getBoundingBox(), pos)) {
+                if (cc.rectContainsPoint(target.getBoundingBoxToWorld(), pos)) {
                     this.stopAllActions();
                     var scaleX = this.getScaleX(),
                         scaleY = this.getScaleY();

@@ -9,7 +9,7 @@ var HomeLayer = BaseLayer.extend({
 
         var about = new ScaleSprite(res.about, null, this.showAboutPopup.bind(this));
         var size = about.getContentSize();
-        about.setPosition(cc.winSize.width - size.width / 2 - 20, cc.winSize.height - size.height / 2 - 20);
+        about.setPosition(cc.winSize.width - size.width / 2 - 25, cc.winSize.height - size.height / 2 - 25);
         this.addChild(about);
     },
     onEnter: function () {
@@ -33,5 +33,7 @@ var HomeLayer = BaseLayer.extend({
         this._super();
     },
     showAboutPopup: function () {
+        var aboutLayer = new AboutLayer();
+        aboutLayer.show();
     }
 });

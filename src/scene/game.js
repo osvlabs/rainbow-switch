@@ -23,9 +23,12 @@ var GameScene = cc.Scene.extend({
     onEnter: function () {
         this._super();
 
-        this.scheduleUpdate();
-
         this.addChild(new BgLayer());
+    },
+    onEnterTransitionDidFinish: function () {
+        this._super();
+
+        this.scheduleUpdate();
 
         this.homeLayer = new HomeLayer();
         this.addChild(this.homeLayer);
