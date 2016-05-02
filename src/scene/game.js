@@ -22,6 +22,7 @@ var GameScene = cc.Scene.extend({
     },
     onEnter: function () {
         this._super();
+        util.playMusic();
 
         this.addChild(new BgLayer());
     },

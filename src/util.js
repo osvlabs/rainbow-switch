@@ -43,6 +43,19 @@ var util = new (Cocos2dJsHelper.extend({
     // Constants
     LAYER_MOVE_TIME: 0.5,
 
+    // Config
+    CONFIG_MUSIC: 'music',
+    configDefaults: {
+        best_score : {
+            invalid: null,
+            default: 0
+        },
+        music: {
+            invalid: null,
+            default: true
+        }
+    },
+
     // Others
     ballColor: null,
     init: function () {
@@ -65,5 +78,35 @@ var util = new (Cocos2dJsHelper.extend({
             cc.color.GREEN,
             cc.color.MAGENTA
         ];
+
+        cc.audioEngine.setMusicVolume(0.2);
+        cc.audioEngine.setEffectsVolume(1);
+    },
+    audioEnabled: function () {
+        return this.config(this.CONFIG_MUSIC);
+    },
+    playMusic: function () {
+        if (this.audioEnabled()) {
+            cc.audioEngine.playMusic(res.audio_bg, true);
+        }
+    },
+    playEffect: function (effect) {
+        if (this.audioEnabled()) {
+            cc.audioEngine.playEffect(effect, false);
+        }
+    },
+    toggleAudio: function (enabled) {
+        if (enabled === undefined) {
+            enabled = !this.audioEnabled();
+        }
+        this.config(this.CONFIG_MUSIC, enabled);
+        if (enabled) {
+            this.playMusic();
+        } else {
+            cc.audioEngine.stopMusic();
+            cc.audioEngine.stopAllEffects();
+        }
+
+        return enabled;
     }
 }))();

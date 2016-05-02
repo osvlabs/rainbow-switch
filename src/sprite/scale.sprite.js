@@ -29,6 +29,7 @@ var ScaleSprite = cc.Sprite.extend({
                 return false;
             }.bind(this),
             onTouchEnded: function (touch, event) {
+                util.playEffect(res.audio_click);
                 this.stopAllActions();
                 this.runAction(
                     cc.scaleTo(this.scaleTime, this.oldScaleX, this.oldScaleY).easing(cc.easeBounceOut())

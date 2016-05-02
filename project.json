@@ -34,6 +34,7 @@
         "src/obstacle/group.js",
         "src/obstacle/switch.js",
         "src/layer/base.js",
+        "src/layer/top.js",
         "src/layer/about.js",
         "src/layer/bg.js",
         "src/layer/game.js",

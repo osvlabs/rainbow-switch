@@ -141,6 +141,8 @@ var GameLayer = cc.Layer.extend({
     gameOver: function (event) {
         this.unscheduleUpdate();
 
+        util.playEffect(res.audio_fail);
+
         this._meteorite.deactivate();
         this._obstacle.setVisible(false);
         this._earth.setVisible(false);
@@ -151,6 +153,8 @@ var GameLayer = cc.Layer.extend({
         var point = this._meteorite.getPosition(),
             star = new Star(point);
         this.addChild(star, 100);
+
+        util.playEffect(res.audio_success);
 
         cc.eventManager.dispatchCustomEvent(util.EVENT_WIN_SCORE);
 

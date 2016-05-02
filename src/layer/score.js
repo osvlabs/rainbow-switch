@@ -1,4 +1,4 @@
-var ScoreLayer = BaseLayer.extend({
+var ScoreLayer = TopLayer.extend({
     scoreLabel: null,
     bestScoreLabel: null,
     ctor: function () {
