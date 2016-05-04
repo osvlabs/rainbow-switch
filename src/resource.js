@@ -10,6 +10,7 @@ var res = {
     mail: 'res/mail.png',
     music: 'res/music.png',
     share: 'res/share.png',
+    next: 'res/next.png',
     how_to_play: 'res/how_to_play.png',
     feedback: 'res/feedback.png',
     more_game: 'res/more_game.png',

@@ -68,7 +68,12 @@ var GameScene = cc.Scene.extend({
 
             this.uiLayer = new GameUILayer();
             this.addChild(this.uiLayer);
-        }, util.LAYER_MOVE_TIME);
+            
+            if (!util.config(util.CONFIG_TUTORIAL)) {
+                var tutorialLayer = new GameTutorialLayer();
+                this.addChild(tutorialLayer);
+            }
+        }.bind(this), util.LAYER_MOVE_TIME);
     },
     gameOver: function (event) {
         this.flash();

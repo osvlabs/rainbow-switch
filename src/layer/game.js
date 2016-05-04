@@ -107,9 +107,11 @@ var GameLayer = cc.Layer.extend({
         this._laser = new Laser(this._meteoritePoint, this._meteoriteColor);
         this.addChild(this._laser);
 
-        this.scheduleOnce(function () {
-            this.launchMeteorite();
-        }.bind(this), this.getLaunchMeteoriteTimeout());
+        if (util.tutorial) {
+            util.tutorial.tellLaser();
+        } else {
+            this.scheduleOnce(this.launchMeteorite, this.getLaunchMeteoriteTimeout());
+        }
     },
     launchMeteorite: function () {
         if (this._meteorite) {

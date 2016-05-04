@@ -21,6 +21,8 @@ var util = new (Cocos2dJsHelper.extend({
     COLOR_BLACK: cc.color('#111111'),
     COLOR_GRAY: cc.color('#AAAAAA'),
     COLOR_SILVER: cc.color('#DDDDDD'),
+    COLOR_TRANSPARENT_WHITE: cc.color(255, 255, 255, 127),
+    COLOR_TRANSPARENT_BLACK: cc.color(0, 0, 0, 127),
 
     EXPLODE_COLORS: [],
     COLORS: [],
@@ -28,6 +30,7 @@ var util = new (Cocos2dJsHelper.extend({
     // Events
     EVENT_ROTATE: 'rotate',
     EVENT_CHANGE_BALL: 'change_ball_color',
+    EVENT_PAUSE: 'pause',
 
     // Collisions
     COLLISION_BALL: 1,
@@ -45,6 +48,7 @@ var util = new (Cocos2dJsHelper.extend({
 
     // Config
     CONFIG_MUSIC: 'music',
+    CONFIG_TUTORIAL: 'tutorial',
     configDefaults: {
         best_score : {
             invalid: null,
@@ -58,6 +62,9 @@ var util = new (Cocos2dJsHelper.extend({
 
     // Others
     ballColor: null,
+    tutorial: null,
+
+    // Methods
     init: function () {
         this._super();
 

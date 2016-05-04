@@ -42,6 +42,7 @@
         "src/layer/home.js",
         "src/layer/btn.js",
         "src/layer/score.js",
+        "src/layer/tutorial.js",
         "src/scene/splash.js",
         "src/scene/game.js"
     ]
