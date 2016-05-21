@@ -21,7 +21,7 @@ var ScaleSprite = cc.Sprite.extend({
                         cc.scaleTo(this.scaleTime, scaleX * this.scaleMax, scaleY * this.scaleMax)
                             .easing(cc.easeBackIn())
                     );
-                    if (callback) {
+                    if (callback && target.isVisible()) {
                         this.scheduleOnce(callback, this.scaleTime);
                     }
                     return true;
@@ -34,7 +34,7 @@ var ScaleSprite = cc.Sprite.extend({
                 this.runAction(
                     cc.scaleTo(this.scaleTime, this.oldScaleX, this.oldScaleY).easing(cc.easeBounceOut())
                 );
-                if (endCallback) {
+                if (endCallback && event.getCurrentTarget().isVisible()) {
                     this.scheduleOnce(endCallback, this.scaleTime);
                 }
             }.bind(this),

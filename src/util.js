@@ -30,6 +30,7 @@ var util = new (Cocos2dJsHelper.extend({
     // Events
     EVENT_ROTATE: 'rotate',
     EVENT_CHANGE_BALL: 'change_ball_color',
+    EVENT_TUTORIAL_DONE: 'tutorial_done',
     EVENT_PAUSE: 'pause',
 
     // Collisions

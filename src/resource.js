@@ -12,6 +12,8 @@ var res = {
     share: 'res/share.png',
     next: 'res/next.png',
     how_to_play: 'res/how_to_play.png',
+    rotate_hand: 'res/rotate_hand.png',
+    go: 'res/go.png',
     feedback: 'res/feedback.png',
     more_game: 'res/more_game.png',
     meteorite_blue: 'res/meteorite_blue.png',

@@ -36,6 +36,14 @@ var GameLayer = cc.Layer.extend({
                 this._obstacle.increaseDelta(this.getDeltaByRadian(angle));
             }.bind(this)
         }), this);
+
+        cc.eventManager.addListener(cc.EventListener.create({
+            event: cc.EventListener.CUSTOM,
+            eventName: util.EVENT_TUTORIAL_DONE,
+            callback: function () {
+                this.showMeteoriteTip();
+            }.bind(this)
+        }), this);
     },
     onEnter: function () {
         this._super();

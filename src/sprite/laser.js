@@ -7,7 +7,7 @@ var Laser = cc.DrawNode.extend({
     onEnterTransitionDidFinish: function () {
         this._super();
 
-        var duration = util.tutorial ? 100 : 0.2,
+        var duration = util.tutorial ? 1000000 : 0.2,
             times = util.tutorial ? duration * 2 : 1;
         this.runAction(cc.sequence([
             cc.blink(duration, times),
