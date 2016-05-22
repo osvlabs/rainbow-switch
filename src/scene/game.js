@@ -52,6 +52,24 @@ var GameScene = cc.Scene.extend({
             eventName: util.EVENT_GAME_OVER,
             callback: this.gameOver.bind(this)
         }), this);
+
+        cc.eventManager.addListener(cc.EventListener.create({
+            event: cc.EventListener.CUSTOM,
+            eventName: util.EVENT_PAUSE,
+            callback: function () {
+                if (this.gameOverShapes.length) {
+                    return;
+                }
+                this.gameLayer.removeFromParent();
+                this.gameLayer = null;
+
+                this.uiLayer.removeFromParent();
+                this.uiLayer = null;
+
+                this.scoreLayer.moveIn();
+                this.btnLayer.moveIn();
+            }.bind(this)
+        }), this);
     },
     update: function (dt) {
         this._super(dt);

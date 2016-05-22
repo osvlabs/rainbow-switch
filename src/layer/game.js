@@ -44,6 +44,21 @@ var GameLayer = cc.Layer.extend({
                 this.showMeteoriteTip();
             }.bind(this)
         }), this);
+
+        cc.eventManager.addListener(cc.EventListener.create({
+            event: cc.EventListener.CUSTOM,
+            eventName: util.EVENT_PAUSE,
+            callback: function () {
+                if (this._obstacle && this._obstacle.isVisible()) {
+                    this._collisionDetected = true;
+                    if (this._meteorite) {
+                        this._meteorite.removeFromParent(true);
+                        this._meteorite = null;
+                    }
+                    this.unschedule(this.launchMeteorite);
+                }
+            }.bind(this)
+        }), this);
     },
     onEnter: function () {
         this._super();
