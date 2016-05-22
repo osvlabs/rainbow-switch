@@ -70,6 +70,14 @@ var GameScene = cc.Scene.extend({
                 this.btnLayer.moveIn();
             }.bind(this)
         }), this);
+
+        cc.eventManager.addListener(cc.EventListener.create({
+            event: cc.EventListener.CUSTOM,
+            eventName: util.EVENT_TUTORIAL_PLAY,
+            callback: function () {
+                this.play();
+            }.bind(this)
+        }), this);
     },
     update: function (dt) {
         this._super(dt);
@@ -111,7 +119,9 @@ var GameScene = cc.Scene.extend({
             this.uiLayer.removeFromParent(true);
             this.uiLayer = null;
 
-            this.scoreLayer.moveIn();
+            this.scoreLayer.moveIn(function () {
+                util.score = 0;
+            });
             this.btnLayer.moveIn();
         }.bind(this), 2);
     },

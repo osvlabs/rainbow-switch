@@ -101,7 +101,11 @@ var AboutLayer = cc.Layer.extend({
         }.bind(this), 0.3);
     },
     howToPlay: function () {
-
+        this.hide();
+        this.scheduleOnce(function () {
+            util.config(util.CONFIG_TUTORIAL, null);
+            cc.eventManager.dispatchCustomEvent(util.EVENT_TUTORIAL_PLAY);
+        }.bind(this), 0.25);
     },
     moreGame: function () {
         if (cc.sys.isNative) {

@@ -35,7 +35,7 @@ var ScoreLayer = TopLayer.extend({
         this.scoreLabel.setString(util.score);
         this.bestScoreLabel.setString(util.config(util.CONFIG_BEST_SCORE));
     },
-    moveIn: function () {
+    moveIn: function (callback) {
         this.updateScore();
 
         this._super();
@@ -56,5 +56,9 @@ var ScoreLayer = TopLayer.extend({
                 }, 1.5);
             }
         }.bind(this), util.LAYER_MOVE_TIME);
+
+        if (callback) {
+            callback(this);
+        }
     }
 });
