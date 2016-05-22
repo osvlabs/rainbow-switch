@@ -48,7 +48,7 @@ var AboutLayer = cc.Layer.extend({
 
         this.startPoint = cc.p(util.center.x, -popup.height * 0.5);
 
-        var sprite = new cc.Sprite(res.rh);
+        var sprite = new cc.Sprite('#rh.png');
         sprite.attr({
             x: popup.width / 2,
             y: popup.height - 120,
@@ -56,15 +56,15 @@ var AboutLayer = cc.Layer.extend({
         });
         popup.addChild(sprite);
 
-        sprite = new ScaleSprite(res.how_to_play, null, this.howToPlay.bind(this));
+        sprite = new ScaleSprite('#how_to_play.png', null, this.howToPlay.bind(this));
         sprite.setPosition(popup.width / 2, 360);
         popup.addChild(sprite);
 
-        sprite = new ScaleSprite(res.more_game, null, this.moreGame.bind(this));
+        sprite = new ScaleSprite('#more_game.png', null, this.moreGame.bind(this));
         sprite.setPosition(popup.width / 2, 280);
         popup.addChild(sprite);
 
-        sprite = new ScaleSprite(res.feedback, null, this.feedback.bind(this));
+        sprite = new ScaleSprite('#feedback.png', null, this.feedback.bind(this));
         sprite.setPosition(popup.width / 2, 200);
         popup.addChild(sprite);
         

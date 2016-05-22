@@ -27,7 +27,7 @@ var Meteorite = PhysicsSprite.extend({
                 }
             });
         }
-        this.image = new cc.Sprite(res['meteorite_' + imageType.name]);
+        this.image = new cc.Sprite('#meteorite_' + imageType.name + '.png');
         this.image.setScale(scale);
         this.addChild(this.image);
 

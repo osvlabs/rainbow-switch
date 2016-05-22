@@ -3,12 +3,12 @@ var TopLayer = BaseLayer.extend({
     ctor: function () {
         this._super();
 
-        var about = new ScaleSprite(res.about, null, this.showAboutPopup.bind(this));
+        var about = new ScaleSprite('#about.png', null, this.showAboutPopup.bind(this));
         var size = about.getContentSize();
         about.setPosition(cc.winSize.width - size.width / 2 - 25, cc.winSize.height - size.height / 2 - 25);
         this.addChild(about);
 
-        var music = new ScaleSprite(res.music, null, this.toggleAudio.bind(this));
+        var music = new ScaleSprite('#music.png', null, this.toggleAudio.bind(this));
         size = about.getContentSize();
         music.setPosition(size.width / 2 + 25, cc.winSize.height - size.height / 2 - 25);
         this.addChild(music);

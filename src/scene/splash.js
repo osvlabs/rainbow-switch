@@ -4,7 +4,7 @@ var SplashLayer = cc.LayerColor.extend({
         this._super(cc.color.BLACK);
         var size = cc.winSize;
 
-        var sprite = new cc.Sprite(res.rh);
+        var sprite = new cc.Sprite('#rh.png');
         sprite.attr({
             x: util.center.x,
             y: size.height * 0.5,

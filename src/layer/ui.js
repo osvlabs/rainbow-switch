@@ -9,7 +9,7 @@ var GameUILayer = cc.Layer.extend({
         this._scoreLabel.setPosition(50, cc.winSize.height - 50);
         this.addChild(this._scoreLabel);
 
-        this._pauseBtn = new ScaleSprite(res.pause, null, function () {
+        this._pauseBtn = new ScaleSprite('#pause.png', null, function () {
             if (util.tutorial) {
                 return;
             }

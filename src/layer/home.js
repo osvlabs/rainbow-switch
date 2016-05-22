@@ -3,7 +3,7 @@ var HomeLayer = TopLayer.extend({
     ctor: function () {
         this._super();
 
-        this.slogan = new cc.Sprite(res.slogan);
+        this.slogan = new cc.Sprite('#slogan.png');
         this.slogan.setPosition(util.center.x, cc.winSize.height * 0.7);
         this.addChild(this.slogan);
     },

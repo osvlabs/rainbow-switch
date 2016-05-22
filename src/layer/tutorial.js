@@ -13,7 +13,7 @@ var GameTutorialLayer = cc.LayerColor.extend({
         this._super();
         util.tutorial = this;
 
-        var next = new ScaleSprite(res.next, null, this.next.bind(this));
+        var next = new ScaleSprite('#next.png', null, this.next.bind(this));
         next.setPosition(util.center.x, util.center.y * 0.5);
         next.setVisible(false);
         this.addChild(next);
@@ -26,7 +26,7 @@ var GameTutorialLayer = cc.LayerColor.extend({
         this.addChild(label);
         this.label = label;
         
-        var hand = new cc.Sprite(res.rotate_hand);
+        var hand = new cc.Sprite('#rotate_hand.png');
         hand.setPosition(util.center);
         hand.setVisible(false);
         this.addChild(hand);
@@ -55,7 +55,7 @@ var GameTutorialLayer = cc.LayerColor.extend({
         this.label.setString('Guard is able to absorb the \nmeteorite with same color, \ngetting rid of attacking\n the Earth.');
         this.nextButton.removeFromParent();
 
-        var go = new ScaleSprite(res.go, null, this.go.bind(this));
+        var go = new ScaleSprite('#go.png', null, this.go.bind(this));
         go.setPosition(util.center.x, util.center.y * 0.5);
         this.addChild(go);
     },

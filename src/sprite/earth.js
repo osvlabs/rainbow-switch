@@ -5,7 +5,7 @@ var Earth = PhysicsSprite.extend({
     ctor: function () {
         this._super();
 
-        this.image = new cc.Sprite(res.earth);
+        this.image = new cc.Sprite('#earth.png');
         this.addChild(this.image);
 
         var size = this.image.getContentSize();

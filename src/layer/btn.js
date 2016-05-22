@@ -6,7 +6,7 @@ var BtnLayer = BaseLayer.extend({
         this._super();
         this.fromY = -util.center.y;
 
-        this.play = new ScaleSprite(res.play, null, this.onPlay.bind(this));
+        this.play = new ScaleSprite('#play.png', null, this.onPlay.bind(this));
         this.play.setPosition(util.center.x, cc.winSize.height * 0.3);
         this.addChild(this.play);
     },
