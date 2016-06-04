@@ -33,7 +33,8 @@ var ScoreLayer = TopLayer.extend({
     },
     updateScore: function () {
         this.scoreLabel.setString(util.score);
-        this.bestScoreLabel.setString(util.config(util.CONFIG_BEST_SCORE));
+        var bestScore = util.config(util.CONFIG_BEST_SCORE);
+        this.bestScoreLabel.setString(bestScore ? bestScore : '');
     },
     moveIn: function (callback) {
         this.updateScore();

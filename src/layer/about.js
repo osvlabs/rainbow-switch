@@ -20,16 +20,19 @@ var AboutLayer = cc.Layer.extend({
 
         var bg = new cc.DrawNode();
         var radius = 20;
-        bg.drawDots(
-            [
-                cc.p(radius, radius),
-                cc.p(popup.width - radius, radius),
-                cc.p(radius, popup.height - radius),
-                cc.p(popup.width - radius, popup.height - radius)
-            ],
-            radius,
-            util.COLOR_BLUE
-        );
+        var dots = [
+            cc.p(radius, radius),
+            cc.p(popup.width - radius, radius),
+            cc.p(radius, popup.height - radius),
+            cc.p(popup.width - radius, popup.height - radius)
+        ];
+        _.forEach(dots, function (v, k) {
+            bg.drawDot(
+                v,
+                radius,
+                util.COLOR_BLUE
+            );
+        });
         bg.drawRect(
             cc.p(radius, 0),
             cc.p(popup.width - radius, popup.height),

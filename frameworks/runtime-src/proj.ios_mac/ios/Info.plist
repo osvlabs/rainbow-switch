@@ -5,13 +5,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
-	<string>彩虹开关</string>
+	<string>彩虹守卫</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
 	<string>Icon-57.png</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.wuruihong.rainbow-switch</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -28,6 +28,8 @@
 	<array>
 		<string>fontawesome.ttf</string>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>Launch Screen</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>

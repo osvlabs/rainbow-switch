@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wuruihong.rainbow-switch"
+    package="com.wuruihong.rainbowswitch"
     android:installLocation="auto">
 
     <uses-feature android:glEsVersion="0x00020000" />
@@ -12,6 +12,16 @@
         <!-- Tell Cocos2dxActivity the name of our .so -->
 		<meta-data android:name="android.app.lib_name"
 				   android:value="cocos2djs" />
+
+        <!--Umeng push-->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5741d4f3e0f55a8710000161" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="55b0cf118d9c171135c10bcbbb6088a0" >
+        </meta-data>
 		
         <activity
             android:name="org.cocos2dx.javascript.AppActivity"
