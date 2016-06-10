@@ -42,8 +42,6 @@ static AppDelegate s_sharedApplication;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
-    // Override point for customization after application launch.
-
     // Add the view controller's view to the window and display.
     window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
     CCEAGLView *eaglView = [CCEAGLView viewWithFrame: [window bounds]
@@ -57,7 +55,7 @@ static AppDelegate s_sharedApplication;
     [eaglView setMultipleTouchEnabled:YES];
     
     // Use RootViewController manage CCEAGLView
-    viewController = [[RootViewController alloc] initWithNibName:nil bundle:nil];
+    viewController = [RootViewController instance];
     viewController.wantsFullScreenLayout = YES;
     viewController.view = eaglView;
 
@@ -82,6 +80,7 @@ static AppDelegate s_sharedApplication;
     cocos2d::Director::getInstance()->setOpenGLView(glview);
 
     cocos2d::Application::getInstance()->run();
+    
     return YES;
 }
 

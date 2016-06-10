@@ -30,6 +30,7 @@
     UIWindow *window;
     RootViewController    *viewController;
 }
++ (void)showFeedbackWindow;
 
 @end
 

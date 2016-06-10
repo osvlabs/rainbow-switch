@@ -64,7 +64,7 @@ var GameLayer = cc.Layer.extend({
         this._super();
 
         this._earth = new Earth();
-        this._earth.setPosition(util.center.x, util.center.y);
+        this._earth.setPosition(util.center);
         this.addChild(this._earth, 10);
 
         this.generateGuard();

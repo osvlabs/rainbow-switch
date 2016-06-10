@@ -2,6 +2,7 @@ var BtnLayer = BaseLayer.extend({
     fromY: 0,
     toY: 0,
     play: null,
+    playing: false,
     ctor: function () {
         this._super();
         this.fromY = -util.center.y;
@@ -19,6 +20,7 @@ var BtnLayer = BaseLayer.extend({
         this.play.setScale(0.8);
 
         this._super();
+        this.playing = false;
 
         this.scheduleOnce(function () {
             this.play.runAction(cc.sequence([
@@ -34,6 +36,10 @@ var BtnLayer = BaseLayer.extend({
         this._super();
     },
     onPlay: function () {
+        if (this.playing) {
+            return;
+        }
+        this.playing = true;
         cc.eventManager.dispatchCustomEvent(util.EVENT_PLAY);
     }
 });

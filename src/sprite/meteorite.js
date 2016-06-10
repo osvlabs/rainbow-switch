@@ -1,4 +1,4 @@
-var Meteorite = PhysicsSprite.extend({
+var Meteorite = cc.PhysicsSprite.extend({
     image: null,
     mColor: null,
     ctor: function (color) {
