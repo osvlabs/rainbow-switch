@@ -1,4 +1,4 @@
-var Debris = PhysicsSprite.extend({
+var Debris = cc.PhysicsSprite.extend({
     ctor: function (pos) {
         this._super();
         this.setAnchorPoint(0.5, 0.5);

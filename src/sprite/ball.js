@@ -1,4 +1,4 @@
-var Ball = PhysicsSprite.extend({
+var Ball = cc.PhysicsSprite.extend({
     _circle: null,
     _radius: 15,
     _active: true,

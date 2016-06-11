@@ -1,4 +1,4 @@
-var Earth = PhysicsSprite.extend({
+var Earth = cc.PhysicsSprite.extend({
     image: null,
     mask: null,
     lifeCount: 3,
